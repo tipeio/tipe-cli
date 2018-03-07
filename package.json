@@ -1,0 +1,33 @@
+{
+  "name": "@tipe/cli",
+  "version": "1.0.0",
+  "description": "Tipe CLI",
+  "main": "src/index.js",
+  "bin": {
+    "tipe": "./src/index.js"
+  },
+  "scripts": {
+    "test": "node ./src/index.js tipe test.tipe dist",
+    "test:doc": "node ./src/index.js document id templateName",
+    "test:debug": "node --inspect-brk ./src/index.js folder id"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tipeio/tipe-cli.git"
+  },
+  "author": "PatrickJS <patrick@tipe.io>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tipeio/tipe-cli/issues"
+  },
+  "homepage": "https://github.com/tipeio/tipe-cli#readme",
+  "dependencies": {
+    "change-case": "^3.0.2",
+    "commander": "^2.14.1",
+    "configstore": "^3.1.1",
+    "inquirer": "^5.1.0",
+    "json-stable-stringify": "^1.0.1",
+    "node-fetch": "^2.0.0",
+    "write-file-atomic": "^2.3.0"
+  }
+}
