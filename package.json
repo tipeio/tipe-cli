@@ -4,7 +4,7 @@
   "description": "Tipe CLI",
   "main": "src/index.js",
   "bin": {
-    "tipe": "./src/index.js"
+    "tipe": "./bin/tipe"
   },
   "scripts": {
     "ci": ""
