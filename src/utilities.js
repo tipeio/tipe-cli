@@ -6,7 +6,6 @@ const changeCase = require('change-case')
 const Configstore = require('configstore')
 
 const {
-  TEMPLATES_DEFAULT_PATH,
   ACTION_PATH,
   TEMPLATES_PATH,
   STORE_NAME
@@ -51,7 +50,7 @@ async function recursiveStat(currentPath, visitor, tempPath, ignorePaths) {
       const currentFile = path.join(currentPath, fileName)
       const stat = await fs.stat(currentFile)
       const relativePath = path.relative(
-        tempPath || TEMPLATES_DEFAULT_PATH,
+        tempPath || TEMPLATES_PATH,
         currentPath
       )
 
