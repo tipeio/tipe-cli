@@ -5,11 +5,7 @@ const shell = require('shelljs')
 const changeCase = require('change-case')
 const Configstore = require('configstore')
 
-const {
-  ACTION_PATH,
-  TEMPLATES_PATH,
-  STORE_NAME
-} = require('./constants')
+const { ACTION_PATH, TEMPLATES_PATH, STORE_NAME } = require('./constants')
 
 const store = new Configstore(STORE_NAME, { token: null })
 
