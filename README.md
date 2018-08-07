@@ -12,6 +12,6 @@ yarn link
 tipe login
 ```
 ## Create an Action
-copy `src/actions/_example_.js`
-and rename `_example_` to your action
-make sure to add your command `.command('') // <-- your command`
+1. copy `src/actions/_example_.js`
+1. and rename `_example_` to your action
+1. make sure to add your command `.command('') // <-- your command`
