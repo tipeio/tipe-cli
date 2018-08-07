@@ -1,14 +1,36 @@
+const os = require('os')
 const fs = require('fs.promised')
 const ejs = require('ejs')
 const path = require('path')
 const shell = require('shelljs')
 const changeCase = require('change-case')
+const Configstore = require('configstore')
 
 const {
   TEMPLATES_DEFAULT_PATH,
   ACTION_PATH,
-  TEMPLATES_PATH
+  TEMPLATES_PATH,
+  STORE_NAME
 } = require('./constants')
+
+const store = new Configstore(STORE_NAME, {token: null});
+
+
+function getToken(noError) {
+  let token = process.env.TIPE_TOKEN
+  if (!token) {
+    try {
+      const conf = store.get('token')
+      token = conf.token
+    } catch (e) {
+      token = null
+    }
+  }
+  if (!noError && !token) {
+    throw new Error('use "tipe login" or environment variable TIPE_TOKEN needs to be set.')
+  }
+  return token
+}
 
 async function renderFile(fileName, ctx) {
   const file = await fs.readFile(fileName)
@@ -149,6 +171,8 @@ function createBoilerplateFactory(directory, fileName) {
 }
 
 module.exports = {
+  store,
+  getToken,
   renderFile,
   writeFile,
   recursiveStat,
