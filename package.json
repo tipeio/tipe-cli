@@ -29,6 +29,7 @@
     "inquirer": "^5.1.0",
     "json-stable-stringify": "^1.0.1",
     "node-fetch": "^2.0.0",
+    "prompt": "^1.0.0",
     "shelljs": "^0.8.2",
     "write-file-atomic": "^2.3.0"
   },
