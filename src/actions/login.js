@@ -3,7 +3,7 @@
 const program = require('commander')
 const prompt = require('../prompt')
 
-const { store } = require('../utilities')
+// const { store } = require('../utilities')
 // const {} = require('../constants')
 
 program
@@ -12,7 +12,7 @@ program
   .action(action)
 
 async function action(name) {
-  const CURRENT_DIR = process.cwd()
+  // const CURRENT_DIR = process.cwd()
   // const token = getToken(true)
 
   const [err, result] = await prompt.get({
@@ -27,6 +27,9 @@ async function action(name) {
       }
     }
   })
+  if (err) {
+    process.exit(1)
+  }
 
   console.log('Logging in...', result.email, result.password)
 }

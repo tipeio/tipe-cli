@@ -1,6 +1,6 @@
 const program = require('commander')
 const { getActionFilePaths } = require('./utilities')
-const {VERSION, DESCRIPTION} = require('./constants')
+const { VERSION, DESCRIPTION } = require('./constants')
 ;(async () => {
   const actions = await getActionFilePaths()
 

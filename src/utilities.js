@@ -1,4 +1,3 @@
-const os = require('os')
 const fs = require('fs.promised')
 const ejs = require('ejs')
 const path = require('path')
@@ -13,8 +12,7 @@ const {
   STORE_NAME
 } = require('./constants')
 
-const store = new Configstore(STORE_NAME, {token: null});
-
+const store = new Configstore(STORE_NAME, { token: null })
 
 function getToken(noError) {
   let token = process.env.TIPE_TOKEN
@@ -27,7 +25,9 @@ function getToken(noError) {
     }
   }
   if (!noError && !token) {
-    throw new Error('use "tipe login" or environment variable TIPE_TOKEN needs to be set.')
+    throw new Error(
+      'use "tipe login" or environment variable TIPE_TOKEN needs to be set.'
+    )
   }
   return token
 }
@@ -68,7 +68,7 @@ async function recursiveStat(currentPath, visitor, tempPath, ignorePaths) {
 
 async function getActionFilePaths() {
   const actions = await fs.readdir(ACTION_PATH)
-  const ignorePaths = /node_modules|\.nuxt|dist|\.DS_Store|\.env|\.md/
+  const ignorePaths = /node_modules|\.nuxt|dist|\.DS_Store|\.env|\.md|_example_/
   return actions
     .filter(fileName => ignorePaths.test(fileName) === false)
     .map(filename => path.join(ACTION_PATH, filename))
