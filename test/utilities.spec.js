@@ -16,11 +16,26 @@ const { ACTION_PATH } = require('../src/constants')
 // const mockWrite = jest.fn()
 
 jest.mock('fs.promised', () => ({
+  stat: () => {
+    return Promise.resolve({
+      isFile: () => true
+    })
+  },
+  existsSync: _path => {
+    if (_path === 'error path') {
+      throw new Error('No Path')
+    }
+    return true
+  },
   readFile: fileName =>
     Promise.resolve(
       Buffer.from(`I am a ${fileName} buffer <%= name %> <%= age %>`)
     ),
   readdir: () => ['dev.js', 'prod.js', 'build.js']
+}))
+
+jest.mock('shelljs', () => ({
+  mkdir: () => {}
 }))
 
 describe('utilities', () => {
@@ -99,14 +114,14 @@ describe('utilities', () => {
 
   describe('ensureDir', () => {
     it('should return true for dir that exists', () => {
-      expect(ensureDir('somepath')).toBe(true)
+      expect(ensureDir('/example/path')).toBe(true)
     })
     it('should return true for dir that does not exist', () => {
-      expect(ensureDir('somepath')).toBe(true)
+      expect(ensureDir('/example/path')).toBe(true)
     })
     // make it error on purpose?
     it('should return false', () => {
-      expect(ensureDir('somepath')).toBe(false)
+      expect(ensureDir('error path')).toBe(false)
     })
   })
 
