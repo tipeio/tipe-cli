@@ -7,16 +7,14 @@
     "tipe": "./src/index.js"
   },
   "scripts": {
-    "test": "node ./src/index.js tipe test.tipe dist",
-    "test:doc": "node ./src/index.js document id templateName",
-    "test:debug": "node --inspect-brk ./src/index.js folder id"
+    "ci": ""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tipeio/tipe-cli.git"
   },
   "author": "PatrickJS <patrick@tipe.io>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/tipeio/tipe-cli/issues"
   },
