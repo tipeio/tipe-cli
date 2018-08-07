@@ -1,10 +1,10 @@
 const program = require('commander')
 const { getActionFilePaths } = require('./utilities')
-const pkg = require('../package.json')
+const {VERSION, DESCRIPTION} = require('./constants')
 ;(async () => {
   const actions = await getActionFilePaths()
 
-  program.version(pkg.version).description(pkg.description)
+  program.version(VERSION).description(DESCRIPTION)
 
   actions.forEach(actionPath => require(actionPath))
 
