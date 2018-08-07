@@ -7,6 +7,7 @@ const {  } = require('../constants');
 
 program
   .command('login')
+  .alias('l')
   .action(action);
 
 async function action(name) {
