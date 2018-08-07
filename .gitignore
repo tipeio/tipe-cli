@@ -5,6 +5,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .DS_Store
+src/actions/_example_.js
 
 # Runtime data
 pids
