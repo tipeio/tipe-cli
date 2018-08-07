@@ -28,17 +28,17 @@ const resolvers = {
 const server = new ApolloServer({ typeDefs, resolvers });
 server.applyMiddleware({ app });
 
+const defaultPort = 4000
+
 program
   .command('server') // <-- your command
-  .options('--port', 'Port server to run')
+  .option('-p, --port <n>', 'Port server to run', port => parseInt(port, 10), defaultPort)
   .action(action)
 
   
-async function action(name) {
-  const defaultPort = 4000
-  const PORT = program.port || defaultPort
-  app.listen({ port: PORT }, () =>
-    console.log(`🚀 Server ready at http://localhost:${PORT}`)
+async function action(options) {
+  app.listen({ port: options.port }, () =>
+    console.log(`🚀 Server ready at http://localhost:${options.port}`)
   )
   // const CURRENT_DIR = process.cwd()
 }
