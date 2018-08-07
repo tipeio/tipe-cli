@@ -25,9 +25,12 @@
     "change-case": "^3.0.2",
     "commander": "^2.14.1",
     "configstore": "^3.1.1",
+    "ejs": "^2.6.1",
+    "fs.promised": "^3.0.0",
     "inquirer": "^5.1.0",
     "json-stable-stringify": "^1.0.1",
     "node-fetch": "^2.0.0",
+    "shelljs": "^0.8.2",
     "write-file-atomic": "^2.3.0"
   }
 }
