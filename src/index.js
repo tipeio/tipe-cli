@@ -10,7 +10,8 @@ const pkg = require('../package.json');
   const actions = await getActionFilePaths();
 
   program
-  .version(pkg.version);
+  .version(pkg.version)
+  .description(pkg.description)
 
   actions.forEach(actionPath => require(actionPath))
 
