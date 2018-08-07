@@ -1,5 +1,6 @@
 module.exports = {
   parserOptions: {
+    ecmaVersion: 6,
     sourceType: 'module',
     parser: 'babel-eslint'
   },
@@ -14,7 +15,14 @@ module.exports = {
   ],
   plugins: ['prettier', 'jest'],
   rules: {
-    'prettier/prettier': 'error',
+    'semi': [2, 'never'],
+    'prettier/prettier': [
+      'error',
+      {
+        'singleQuote': true,
+        'semi': false
+      }
+    ],
     'promise/catch-or-return': 'error',
     'max-lines': [
       'error',
