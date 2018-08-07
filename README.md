@@ -8,6 +8,6 @@
 # Development
 ```
 yarn install
-npm link
-tipe
+yarn link
+tipe login
 ```
