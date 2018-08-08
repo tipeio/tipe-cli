@@ -39,6 +39,7 @@
     "write-file-atomic": "^2.3.0"
   },
   "devDependencies": {
+    "@tipe/eslint-config-tipe": "^1.0.1",
     "eslint": "^5.3.0",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^11.0.0",
