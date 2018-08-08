@@ -164,9 +164,9 @@
     eslint-plugin-vue "^4.0.0"
     prettier "^1.12.1"
 
-"@tipe/schema-tools@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.npmjs.org/@tipe/schema-tools/-/schema-tools-0.0.2.tgz#d9ba70261384c6509dcff201ded8e03f3df78702"
+"@tipe/schema-tools@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.npmjs.org/@tipe/schema-tools/-/schema-tools-0.0.3.tgz#8a3c4a7b4603fa5820640a4d1f7121b193f21082"
   dependencies:
     camel-case "^3.0.0"
     chance "^1.0.16"
