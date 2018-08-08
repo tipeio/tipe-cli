@@ -1,6 +1,7 @@
 // const fs = require('fs.promised')
 // const path = require('path')
 const program = require('commander')
+
 // const prompt = require('../prompt')
 
 // const { store } = require('../utilities')
@@ -21,22 +22,10 @@ program
 
 async function action(options) {
   const app = express()
-
-  const typeDefs = gql`
-    type Query {
-      hello: String
-    }
-  `
-
-  const resolvers = {
-    Query: {
-      hello: () => 'Hello world!'
-    }
-  }
-
+  // read graphql file
+  // take file and give to schema tools with resolvers
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema: '', // comes from schematools
     introspection: true,
     playground: true
   })
