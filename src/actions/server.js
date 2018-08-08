@@ -6,16 +6,18 @@ const program = require('commander')
 // const { store } = require('../utilities')
 // const {} = require('../constants')
 
-const express = require('express');
-const { ApolloServer, gql } = require('apollo-server-express');
-
-const defaultPort = 4000
+const express = require('express')
+const { ApolloServer, gql } = require('apollo-server-express')
 
 program
   .command('server') // <-- your command
-  .option('-p, --port <n>', 'Port server to run', port => parseInt(port, 10), defaultPort)
+  .option(
+    '-p, --port <n>',
+    'Port server to run',
+    port => parseInt(port, 10),
+    4000
+  )
   .action(action)
-
   
 async function action(options) {
   const app = express()
@@ -40,7 +42,11 @@ async function action(options) {
   })
   server.applyMiddleware({ app })
   app.listen({ port: options.port }, () => {
-    console.log(`🚀 Server ready at http://localhost:${options.port}`)
-    console.log(`⚽️ Playground ready at http://localhost:${options.port}/graphql`)
+    console.log(
+      `🚀 Server ready at http://localhost:${options.port}`
+    )
+    console.log(
+      `⚽️ Playground ready at http://localhost:${options.port}/graphql`
+    )
   })
 }
