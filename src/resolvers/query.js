@@ -1,9 +1,14 @@
-import { createWhereArgs } from './args'
-import { parseResolveInfo, simplify } from 'graphql-parse-resolve-info'
-import { GraphQLNonNull, GraphQLList, GraphQLString, GraphQLInt } from 'graphql'
-import { genFakeContent } from './fake'
+const { createWhereArgs } = require('./args')
+const { parseResolveInfo, simplify } = require('graphql-parse-resolve-info')
+const {
+  GraphQLNonNull,
+  GraphQLList,
+  GraphQLString,
+  GraphQLInt
+} = require('graphql')
+const { genFakeContent } = require('./fake')
 
-export const getOne = (type, schemaTemplateData, userSchema) => {
+const getOne = (type, schemaTemplateData, userSchema) => {
   return {
     resolve(_, args, ctx, info) {
       const parsedInfo = parseResolveInfo(info)
@@ -14,7 +19,7 @@ export const getOne = (type, schemaTemplateData, userSchema) => {
   }
 }
 
-export const getMany = (type, schemaTemplateData, userSchema) => {
+const getMany = (type, schemaTemplateData, userSchema) => {
   return {
     resolve(_, args, ctx, info) {
       const parsedInfo = parseResolveInfo(info)
@@ -50,7 +55,7 @@ export const getMany = (type, schemaTemplateData, userSchema) => {
   }
 }
 
-export const getPage = (type, schemaTemplateData, userSchema) => {
+const getPage = (type, schemaTemplateData, userSchema) => {
   return {
     resolve(_, args, ctx, info) {
       const parsedInfo = parseResolveInfo(info)
@@ -60,3 +65,5 @@ export const getPage = (type, schemaTemplateData, userSchema) => {
     type: new GraphQLNonNull(userSchema.getType(type.name))
   }
 }
+
+module.exports = { getOne, getMany, getPage }
