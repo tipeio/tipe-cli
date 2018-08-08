@@ -1,5 +1,5 @@
-import _ from 'lodash'
-import { mixDefaults } from './utils'
+const _ = require('lodash')
+const { mixDefaults } = require('./utils')
 const Chance = require('chance')
 
 const getField = (fields, field, typeName, schemaContext) => {
@@ -82,12 +82,7 @@ const getConentForType = (component, isArray) => {
 
 const chance = new Chance()
 
-export const genFakeContent = (
-  infoObject,
-  fields,
-  schemaContext,
-  result = {}
-) => {
+const genFakeContent = (infoObject, fields, schemaContext, result = {}) => {
   return _.reduce(
     infoObject.fieldsByTypeName,
     (_result, type, typeName) => {
@@ -112,3 +107,5 @@ export const genFakeContent = (
     result
   )
 }
+
+module.exports = genFakeContent

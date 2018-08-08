@@ -1,7 +1,8 @@
 // const fs = require('fs.promised')
 // const path = require('path')
 const program = require('commander')
-
+const schemaTools = require('@tipe/schema-tools')
+const resolvers = require('../resolvers')
 // const prompt = require('../prompt')
 
 // const { store } = require('../utilities')
@@ -11,7 +12,7 @@ const express = require('express')
 const { ApolloServer, gql } = require('apollo-server-express')
 
 program
-  .command('server') // <-- your command
+  .command('server <schema>') // <-- your command
   .option(
     '-p, --port <n>',
     'Port server to run',
@@ -22,8 +23,6 @@ program
 
 async function action(options) {
   const app = express()
-  // read graphql file
-  // take file and give to schema tools with resolvers
   const server = new ApolloServer({
     schema: '', // comes from schematools
     introspection: true,
