@@ -17,5 +17,5 @@ tipe login
 1. make sure to add your command `.command('') // <-- your command`
 
 
-## Updating `_example.js`
+## Updating `_example_.js`
 You must edit the file on github since the file is not tracked locally
