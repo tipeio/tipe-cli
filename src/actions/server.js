@@ -40,7 +40,10 @@ async function action(options) {
     introspection: true,
     playground: true
   })
-  server.applyMiddleware({ app })
+  server.applyMiddleware({
+    app
+  })
+
   app.listen({ port: options.port }, () => {
     console.log(`🚀 Server ready at http://localhost:${options.port}`)
     console.log(
