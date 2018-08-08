@@ -1,15 +1,12 @@
-// const fs = require('fs.promised')
-// const path = require('path')
+const fs = require('fs.promised')
 const program = require('commander')
 const schemaTools = require('@tipe/schema-tools')
 const resolvers = require('../resolvers')
+
 // const prompt = require('../prompt')
 
-// const { store } = require('../utilities')
-// const {} = require('../constants')
-
 const express = require('express')
-const { ApolloServer, gql } = require('apollo-server-express')
+const { ApolloServer } = require('apollo-server-express')
 
 program
   .command('server <schema>') // <-- your command
@@ -21,7 +18,9 @@ program
   )
   .action(action)
 
-async function action(options) {
+async function action(schemaFilePath, options) {
+  const schemaFile = fs.readfile(schemaFilePath)
+  console.log(schemaFile)
   const app = express()
   const server = new ApolloServer({
     schema: '', // comes from schematools
