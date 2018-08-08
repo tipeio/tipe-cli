@@ -1,6 +1,6 @@
 const fs = require('fs.promised')
 const program = require('commander')
-const schemaTools = require('@tipe/schema-tools')
+const { createSchema } = require('@tipe/schema-tools')
 const resolvers = require('../resolvers')
 
 // const prompt = require('../prompt')
@@ -18,12 +18,21 @@ program
   )
   .action(action)
 
-async function action(schemaFilePath, options) {
-  const schemaFile = fs.readfile(schemaFilePath)
-  console.log(schemaFile)
+function action(schemaFilePath, options) {
+  const schemaFile = fs.readFileSync(schemaFilePath).toString()
+  let resultSchema
+
+  try {
+    resultSchema = createSchema(schemaFile, { ...resolvers })
+  } catch (e) {
+    console.log(
+      "Error: Double check to make sure you're passing a correct graphql shcema"
+    )
+  }
+
   const app = express()
   const server = new ApolloServer({
-    schema: '', // comes from schematools
+    schema: resultSchema, // comes from schematools
     introspection: true,
     playground: true
   })
