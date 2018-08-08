@@ -32,9 +32,15 @@ async function action(options) {
     }
   }
 
-  const server = new ApolloServer({ typeDefs, resolvers })
+  const server = new ApolloServer({ 
+    typeDefs,
+    resolvers,
+    introspection: true,
+    playground: true
+  })
   server.applyMiddleware({ app })
-  app.listen({ port: options.port }, () =>
+  app.listen({ port: options.port }, () => {
     console.log(`🚀 Server ready at http://localhost:${options.port}`)
-  )
+    console.log(`⚽️ Playground ready at http://localhost:${options.port}/graphql`)
+  })
 }
