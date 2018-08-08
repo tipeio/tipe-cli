@@ -18,7 +18,7 @@ program
     4000
   )
   .action(action)
-  
+
 async function action(options) {
   const app = express()
 
@@ -34,7 +34,7 @@ async function action(options) {
     }
   }
 
-  const server = new ApolloServer({ 
+  const server = new ApolloServer({
     typeDefs,
     resolvers,
     introspection: true,
@@ -42,9 +42,7 @@ async function action(options) {
   })
   server.applyMiddleware({ app })
   app.listen({ port: options.port }, () => {
-    console.log(
-      `🚀 Server ready at http://localhost:${options.port}`
-    )
+    console.log(`🚀 Server ready at http://localhost:${options.port}`)
     console.log(
       `⚽️ Playground ready at http://localhost:${options.port}/graphql`
     )
