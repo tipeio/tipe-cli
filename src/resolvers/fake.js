@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const { mixDefaults } = require('./utils')
 const Chance = require('chance')
+const chance = new Chance()
 
 const getField = (fields, field, typeName, schemaContext) => {
   let result = _.find(fields, _field => _field.name === field.name)
@@ -61,7 +62,7 @@ const makeAsset = isArray => {
   return isArray ? [asset, asset] : asset
 }
 
-const getConentForType = (component, isArray) => {
+const getContentForType = (component, isArray) => {
   switch (component) {
     case 'MARKDOWN':
       return makeMarkdown(isArray)
@@ -77,10 +78,10 @@ const getConentForType = (component, isArray) => {
       return makeUrl(isArray)
     case 'ASSET_PICKER':
       return makeAsset(isArray)
+    case 'TEXT_BOX': 
+      return makeSingleLineText(isArray)
   }
 }
-
-const chance = new Chance()
 
 const genFakeContent = (infoObject, fields, schemaContext, result = {}) => {
   return _.reduce(
@@ -89,7 +90,7 @@ const genFakeContent = (infoObject, fields, schemaContext, result = {}) => {
       _.forEach(type, field => {
         if (_.isEmpty(field.fieldsByTypeName)) {
           const fieldInfo = getField(fields, field, typeName, schemaContext)
-          _result[field.name] = getConentForType(
+          _result[field.name] = getContentForType(
             fieldInfo.directives.ui.component,
             fieldInfo.isArray
           )
