@@ -1,4 +1,8 @@
-const { GraphQLInputObjectType, GraphQLList, GraphQLNonNull } = require('graphql')
+const {
+  GraphQLInputObjectType,
+  GraphQLList,
+  GraphQLNonNull
+} = require('graphql')
 
 const createArgForField = (field, schema) => {
   switch (field.type) {

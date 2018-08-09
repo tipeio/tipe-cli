@@ -78,7 +78,7 @@ const getContentForType = (component, isArray) => {
       return makeUrl(isArray)
     case 'ASSET_PICKER':
       return makeAsset(isArray)
-    case 'TEXT_BOX': 
+    case 'TEXT_BOX':
       return makeSingleLineText(isArray)
   }
 }
