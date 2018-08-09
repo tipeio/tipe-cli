@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/tipeio/tipe-cli#readme",
   "dependencies": {
-    "@tipe/schema-tools": "^0.0.3",
-    "apollo-server-express": "^2.0.0",
+    "@tipe/schema-tools": "^0.0.4",
+    "apollo-server": "^2.0.0",
     "camel-case": "^3.0.0",
     "chance": "^1.0.16",
     "change-case": "^3.0.2",

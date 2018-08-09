@@ -4,9 +4,7 @@ const { createSchema } = require('@tipe/schema-tools')
 const resolvers = require('../resolvers')
 
 // const prompt = require('../prompt')
-
-const express = require('express')
-const { ApolloServer } = require('apollo-server-express')
+const { ApolloServer } = require('apollo-server')
 
 program
   .command('server <schema>') // <-- your command
@@ -30,20 +28,20 @@ function action(schemaFilePath, options) {
     )
   }
 
-  const app = express()
   const server = new ApolloServer({
     schema: resultSchema, // comes from schematools
-    introspection: true,
     playground: true
   })
-  server.applyMiddleware({
-    app
-  })
 
-  app.listen({ port: options.port }, () => {
-    console.log(`🚀 Server ready at http://localhost:${options.port}`)
-    console.log(
-      `⚽️ Playground ready at http://localhost:${options.port}/graphql`
-    )
-  })
+  server
+    .listen({ port: options.port })
+    .then(() => {
+      console.log(`🚀 Server ready at http://localhost:${options.port}`)
+      console.log(
+        `⚽️ Playground ready at http://localhost:${options.port}/graphql`
+      )
+    })
+    .catch(e => {
+      console.log('Error: ', e)
+    })
 }

@@ -6,7 +6,7 @@ const {
   GraphQLString,
   GraphQLInt
 } = require('graphql')
-const { genFakeContent } = require('./fake')
+const genFakeContent = require('./fake')
 
 const getOne = (type, schemaTemplateData, userSchema) => {
   return {
