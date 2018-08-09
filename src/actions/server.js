@@ -24,7 +24,7 @@ function action(schemaFilePath, options) {
     resultSchema = createSchema(schemaFile, { ...resolvers })
   } catch (e) {
     console.log(
-      "Error: Double check to make sure you're passing a correct graphql shcema"
+      "Error: Double check to make sure you're passing a correct graphql schema"
     )
   }
 
