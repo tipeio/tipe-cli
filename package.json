@@ -37,6 +37,7 @@
     "graphql-parse-resolve-info": "^4.0.0-rc.4",
     "inquirer": "^5.1.0",
     "json-stable-stringify": "^1.0.1",
+    "lodash": "^4.17.10",
     "node-fetch": "^2.2.0",
     "pascal-case": "^2.0.1",
     "pluralize": "^7.0.0",
