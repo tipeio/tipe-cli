@@ -3,7 +3,8 @@
 const program = require('commander')
 const prompt = require('../prompt')
 
-// const { store } = require('../utilities')
+const { store } = require('../utilities')
+const { emailSignin } = require('../auth')
 // const {} = require('../constants')
 
 program
@@ -15,7 +16,7 @@ async function action(name) {
   // const CURRENT_DIR = process.cwd()
   // const token = getToken(true)
 
-  const [err, result] = await prompt.get({
+  const [perr, result] = await prompt.get({
     properties: {
       email: {
         pattern: /.+@.+/,
@@ -27,9 +28,17 @@ async function action(name) {
       }
     }
   })
-  if (err) {
+  if (perr) {
     process.exit(1)
   }
-
-  console.log('Logging in...', result.email, result.password)
+  console.log('Logging in...')
+  const [lerr, data] = await emailSignin(result.email, result.password)
+  if (lerr) {
+    console.log('Error', lerr)
+    process.exit(1)
+  }
+  console.log('User', JSON.stringify(data, null, 2))
+  const { token, ...user } = data
+  store.set('user', user)
+  store.set('token', token)
 }
