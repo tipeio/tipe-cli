@@ -1,7 +1,6 @@
 // const fs = require('fs.promised')
 // const path = require('path')
 const program = require('commander')
-const fetch = require('node-fetch')
 const prompt = require('../prompt')
 
 const { store } = require('../utilities')
