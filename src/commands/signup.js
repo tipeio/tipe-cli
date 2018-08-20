@@ -1,41 +1,35 @@
-// const fs = require('fs.promised')
-// const path = require('path')
-const program = require('commander')
-const prompt = require('../prompt')
+const { Command } = require('@oclif/command')
+const cli = require('cli-ux')
 
-const { store } = require('../utilities')
+const { store, validateEmail } = require('../utilities')
 const { emailSignup } = require('../auth')
-// const {} = require('../constants')
 
-program.command('signup').action(action)
+class SignupCommand extends Command {
+  async run() {
+    const email = await cli.prompt('What is your email?', {
+      required: true
+    })
+    const password = await cli.prompt('What is your password?', {
+      type: 'hide',
+      required: true
+    })
 
-async function action(name) {
-  // const CURRENT_DIR = process.cwd()
-  // const token = getToken(true)
-
-  const [perr, result] = await prompt.get({
-    properties: {
-      email: {
-        pattern: /.+@.+/,
-        message: 'Email must be a valid email',
-        required: true
-      },
-      password: {
-        hidden: true
-      }
+    if (validateEmail(email)) {
+      this.log('Email must be valid, try again.')
+      process.exit(1)
     }
-  })
-  if (perr) {
-    process.exit(1)
+
+    cli.action.start('Signing up...')
+    const [error, data] = await emailSignup(email, password)
+    if (error) {
+      this.log(`Error: ${error}`)
+      process.exit(1)
+    }
+    cli.action.stop(`User: ${JSON.stringify(data, null, 2)}`)
+    const { token, ...user } = data
+    store.set('user', user)
+    store.set('token', token)
   }
-  console.log('Signing up...')
-  const [lerr, data] = await emailSignup(result.email, result.password)
-  if (lerr) {
-    console.log('Error', lerr)
-    process.exit(1)
-  }
-  console.log('User', JSON.stringify(data, null, 2))
-  const { token, ...user } = data
-  store.set('user', user)
-  store.set('token', token)
 }
+
+module.exports = SignupCommand
