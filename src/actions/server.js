@@ -21,8 +21,12 @@ function action(schemaFilePath, options) {
   let resultSchema
 
   try {
-    resultSchema = createSchema(schemaFile, { ...resolvers })
+    resultSchema = createSchema({
+      typeDefs: schemaFile,
+      crudResolvers: { ...resolvers }
+    })
   } catch (e) {
+    console.log(e)
     console.log(
       "Error: Double check to make sure you're passing a correct graphql schema"
     )
@@ -30,7 +34,12 @@ function action(schemaFilePath, options) {
 
   const server = new ApolloServer({
     schema: resultSchema, // comes from schematools
-    playground: true
+    playground: {
+      settings: {
+        'editor.theme': 'light',
+        'editor.cursorShape': 'block',
+      }
+    }
   })
 
   server
