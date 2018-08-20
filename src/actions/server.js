@@ -37,7 +37,7 @@ function action(schemaFilePath, options) {
     playground: {
       settings: {
         'editor.theme': 'light',
-        'editor.cursorShape': 'block',
+        'editor.cursorShape': 'block'
       }
     }
   })
