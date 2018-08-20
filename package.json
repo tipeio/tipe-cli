@@ -15,7 +15,7 @@
     "type": "git",
     "url": "git+https://github.com/tipeio/tipe-cli.git"
   },
-  "author": "PatrickJS <patrick@tipe.io>",
+  "author": "@tipe",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/tipeio/tipe-cli/issues"
