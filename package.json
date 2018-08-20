@@ -24,6 +24,12 @@
       "@oclif/plugin-help"
     ]
   },
+  "files": [
+    "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
   "bugs": {
     "url": "https://github.com/tipeio/tipe-cli/issues"
   },

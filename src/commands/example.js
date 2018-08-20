@@ -3,7 +3,7 @@
  */
 
 const { Command } = require('@oclif/command')
-// const cli = require('cli-ux')
+// const { cli } = require('cli-ux')
 
 class ExampleCommnd extends Command {
   async run() {

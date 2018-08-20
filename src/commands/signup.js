@@ -1,5 +1,5 @@
 const { Command } = require('@oclif/command')
-const cli = require('cli-ux')
+const { cli } = require('cli-ux')
 
 const { store, validateEmail } = require('../utilities')
 const { emailSignup } = require('../auth')
@@ -14,11 +14,8 @@ class SignupCommand extends Command {
       required: true
     })
 
-    if (validateEmail(email)) {
+    if (!validateEmail(email)) {
       this.log('Email must be valid, try again.')
-      process.exit(1)
-    } else if (!password) {
-      this.log('Password can not be empty, try again.')
       process.exit(1)
     }
 
