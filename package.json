@@ -4,7 +4,7 @@
   "description": "Tipe CLI",
   "main": "src/index.js",
   "bin": {
-    "tipe": "./bin/tipe"
+    "tipe": "./bin/run"
   },
   "scripts": {
     "lint": "eslint src/**",
@@ -17,11 +17,21 @@
   },
   "author": "@tipe",
   "license": "Apache-2.0",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "tipe",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/tipeio/tipe-cli/issues"
   },
   "homepage": "https://github.com/tipeio/tipe-cli#readme",
   "dependencies": {
+    "@oclif/command": "^1",
+    "@oclif/config": "^1",
+    "@oclif/plugin-help": "^2",
     "@tipe/schema-tools": "^1.0.1",
     "apollo-server": "^2.0.0",
     "camel-case": "^3.0.0",
@@ -46,6 +56,8 @@
     "write-file-atomic": "^2.3.0"
   },
   "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@oclif/test": "^1",
     "@tipe/eslint-config-tipe": "^1.0.1",
     "eslint": "^5.3.0",
     "eslint-config-prettier": "^2.9.0",
