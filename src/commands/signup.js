@@ -17,6 +17,9 @@ class SignupCommand extends Command {
     if (validateEmail(email)) {
       this.log('Email must be valid, try again.')
       process.exit(1)
+    } else if (!password) {
+      this.log('Password can not be empty, try again.')
+      process.exit(1)
     }
 
     cli.action.start('Signing up...')
