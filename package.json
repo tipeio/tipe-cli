@@ -12,7 +12,7 @@
     "prepack": "oclif-dev manifest && oclif-dev readme && npm shrinkwrap",
     "version": "oclif-dev readme && git add README.md",
     "lint": "eslint src/**",
-    "test": "jest --detectOpenHandles --forceExit test/**",
+    "test": "jest --detectOpenHandles --forceExit test/.*/*.spec.js",
     "ci": "npm run lint && npm run test && npm run"
   },
   "repository": {
