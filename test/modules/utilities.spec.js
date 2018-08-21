@@ -5,7 +5,8 @@ const {
   getActionFilePaths,
   ensureDir,
   filenameReplacer,
-  validatePort
+  validatePort,
+  validateEmail
 } = require('../../src/utilities')
 
 const { ACTION_PATH } = require('../../src/constants')
@@ -135,6 +136,21 @@ describe('utilities', () => {
       return recursiveStat('somepath', () => {}).then(fileContents => {
         expect(fileContents).toHaveLength(3)
       })
+    })
+  })
+
+  describe('validateEmail', () => {
+    it('should return false if given broken email', () => {
+      expect(validateEmail('')).toBeFalsy()
+      expect(validateEmail('test')).toBeFalsy()
+      expect(validateEmail('test@')).toBeFalsy()
+      expect(validateEmail('test@test')).toBeFalsy()
+    })
+    it('should return true if given email', () => {
+      expect(validateEmail('test+1@gmail.com')).toBeTruthy()
+      expect(validateEmail('test@test.com')).toBeTruthy()
+      expect(validateEmail('testing@hotmail.com')).toBeTruthy()
+      expect(validateEmail('test@yahoo.com')).toBeTruthy()
     })
   })
 })
