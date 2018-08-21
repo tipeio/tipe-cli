@@ -13,7 +13,7 @@
     "version": "oclif-dev readme && git add README.md",
     "lint": "eslint src/**",
     "test": "jest --detectOpenHandles --forceExit test/.*/*.spec.js",
-    "ci": "npm run lint && npm run test && npm run"
+    "ci": "npm run lint && npm run test"
   },
   "repository": {
     "type": "git",
