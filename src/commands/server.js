@@ -47,10 +47,7 @@ class ServerCommand extends Command {
   }
 }
 
-ServerCommand.description = `Describe the command here
-...
-Extra documentation goes here
-`
+ServerCommand.description = 'Local sever for testing schema'
 
 ServerCommand.flags = {
   port: flags.string({

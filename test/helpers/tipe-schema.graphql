@@ -1,0 +1,6 @@
+type Author implements Document {
+  _meta: Meta!
+  firstName: String!
+  lastName: String!
+  age: Int!
+}

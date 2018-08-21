@@ -10,11 +10,11 @@
     "postpack": "rm -f oclif.manifest.json npm-shrinkwrap.json",
     "posttest": "eslint .",
     "prepack": "oclif-dev manifest && oclif-dev readme && npm shrinkwrap",
-    "test:command": "nyc mocha --forbid-only \"test/command/*.test.js\"",
+    "test:mocha": "nyc mocha --forbid-only --exit \"test/commands/*.test.js\"",
     "version": "oclif-dev readme && git add README.md",
     "lint": "eslint src/**",
-    "test": "jest ./test/**",
-    "ci": "npm run lint && npm run test && npm run test:command"
+    "test:jest": "jest ./test/jest/**",
+    "ci": "npm run lint && npm run test:jest && npm run test:command"
   },
   "repository": {
     "type": "git",
