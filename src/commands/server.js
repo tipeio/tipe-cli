@@ -10,10 +10,10 @@ class ServerCommand extends Command {
     const { flags } = this.parse(ServerCommand)
     const port = flags.port || flags.p || 4000
     const schemaFilePath = args.filePath
-    const schemaFile = fs.readFileSync(schemaFilePath).toString()
     let resultSchema
 
     try {
+      const schemaFile = fs.readFileSync(schemaFilePath).toString()
       resultSchema = createSchema({
         spec: 'tipe',
         typeDefs: schemaFile,
