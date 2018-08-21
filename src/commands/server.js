@@ -15,6 +15,7 @@ class ServerCommand extends Command {
 
     try {
       resultSchema = createSchema({
+        type: 'tipe',
         typeDefs: schemaFile,
         crudResolvers: Object.assign({}, resolvers)
       })
