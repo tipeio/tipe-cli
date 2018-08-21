@@ -24,6 +24,7 @@ class ServerCommand extends Command {
         "Error: Double check to make sure you're passing a correct graphql schema"
       )
       this.log(e)
+      return
     }
 
     const server = new ApolloServer({
