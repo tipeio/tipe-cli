@@ -6,9 +6,9 @@ const {
   ensureDir,
   filenameReplacer,
   validatePort
-} = require('../src/utilities')
+} = require('../../src/utilities')
 
-const { ACTION_PATH } = require('../src/constants')
+const { ACTION_PATH } = require('../../src/constants')
 
 // TODO
 // mockWrite is undefined when added to the fs.promised mock
