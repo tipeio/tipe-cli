@@ -1,5 +1,6 @@
 const { Command, flags } = require('@oclif/command')
 const fs = require('fs.promised')
+const path = require('path')
 const { ApolloServer } = require('apollo-server')
 const { createSchema } = require('@tipe/schema-tools')
 const resolvers = require('../resolvers')
@@ -62,7 +63,10 @@ ServerCommand.args = [
   {
     name: 'filePath',
     required: true,
-    description: 'path to grapqh file'
+    description: 'path to grapqh file',
+    default: `${path.resolve(
+      path.join(__dirname, '../examples/tipe-schema-example.graphql')
+    )}`
   }
 ]
 
