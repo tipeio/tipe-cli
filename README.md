@@ -2,20 +2,16 @@
 > tipe in your command-line
 
 # Commands
-- `tipe login`: login to your Tipe account
-- `tipe schema`: upload your schema file to Tipe
+- `tipe login`: login to your Tipe account(WIP)
+- `tipe schema`: upload your schema file to Tipe(WIP)
+- `tipe server`: creates a local api based on your schema
 
 # Development
 ```
-yarn install
 yarn link
-tipe login
+yarn install
+tipe server PATH_TO_SCHEMA
 ```
-## Create an Action
-1. copy `src/actions/_example_.js`
-1. and rename `_example_` to your action
-1. make sure to add your command `.command('') // <-- your command`
-
-
-## Updating `_example_.js`
-You must edit the file on github since the file is not tracked locally
+## Create an Command
+1. copy `src/examples/example.js`
+1. and rename `example` to your command
