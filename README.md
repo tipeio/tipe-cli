@@ -1,5 +1,6 @@
+[![Build Status](https://travis-ci.com/tipeio/tipe-cli.svg?token=mE8qfws6qu8ishNcR5Zr&branch=master)](https://travis-ci.com/tipeio/tipe-cli)
 # Tipe CLI
-> tipe in your command-line
+> tipe in your command-line 
 
 # Commands
 - `tipe login`: login to your Tipe account(WIP)
