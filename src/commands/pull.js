@@ -11,26 +11,26 @@ class PullCommand extends Command {
     const fileName = flags.fileName
     const projectId = args.projectId
 
-    const schema = await fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
+    fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(res => {
+      .then(async res => {
         if (res.status === 200) {
-          return res.json()
+          const { data } = await res.json()
+          const error = fs.writeFileSync(`${fileName}.graphql`, data)
+          if (error) {
+            console.log(error)
+            return
+          }
+          console.log('Success!')
+          return
         }
         console.log('Error: Schema not found based on project ID')
       })
       .catch(() => {
         console.log('ERROR: Server Error!')
       })
-
-    const error = fs.writeFileSync(`${fileName}.graphql`, schema.data)
-    if (error) {
-      this.log(error)
-      return
-    }
-    this.log('Success!')
   }
 }
 
