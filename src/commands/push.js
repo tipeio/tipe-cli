@@ -5,10 +5,10 @@
 const { Command } = require('@oclif/command')
 // const { cli } = require('cli-ux')
 
-class ExampleCommand extends Command {
+class PushCommand extends Command {
   async run() {
     this.log('Hello World')
   }
 }
 
-module.exports = ExampleCommand
+module.exports = PushCommand
