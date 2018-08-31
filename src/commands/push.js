@@ -20,27 +20,24 @@ class PushCommand extends Command {
       this.log(err)
       return
     }
-    const result = await fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
+    fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         schema: schemaFile
       })
     })
-      .then(res => {
+      .then(async res => {
         if (res.status === 201) {
-          return res.json()
+          this.log('Success!')
+          return
         }
         console.log('Error: Schema not found based on project ID')
+        console.log('Error: Unable to push your local schema. Try again.')
       })
       .catch(() => {
         console.log('ERROR: Server Error!')
       })
-    if (result && result.ok) {
-      this.log('Success!')
-    } else {
-      this.log('Error: Unable to push your local schema. Try again.')
-    }
   }
 }
 
