@@ -12,7 +12,7 @@ class PullCommand extends Command {
     const projectId = args.projectId
 
     const schema = await fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
-      method: 'get',
+      method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => {

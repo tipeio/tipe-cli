@@ -62,8 +62,7 @@ ServerCommand.flags = {
 ServerCommand.args = [
   {
     name: 'filePath',
-    required: true,
-    description: 'path to grapqh file',
+    description: 'path to graphql file',
     default: `${path.resolve(
       path.join(__dirname, '../examples/tipe-schema-example.graphql')
     )}`
