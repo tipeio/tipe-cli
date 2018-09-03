@@ -11,8 +11,8 @@ function cleanResponse(data) {
 }
 
 async function emailSignup(email, password) {
-  const res = await fetch(`${AUTH_ENDPOINT}/local`, {
-    method: 'post',
+  const res = await fetch(`${AUTH_ENDPOINT}/local/signup`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -24,10 +24,14 @@ async function emailSignup(email, password) {
     .then(res => {
       if (res.status === 429) {
         console.log('Rate Limit')
-      }
-      if (res.status === 404) {
-        console.log('Error')
-        return Promise.reject(res)
+      } else if (res.status === 404) {
+        throw new Error('Error')
+      } else if (res.status === 204) {
+        throw new Error('Email not unique')
+      } else if (res.status === 500) {
+        throw new Error(
+          'There was an unexpected server error, please try again.'
+        )
       }
       return res.json()
     })
@@ -37,8 +41,8 @@ async function emailSignup(email, password) {
 }
 
 async function emailSignin(email, password) {
-  const res = await fetch(`${AUTH_ENDPOINT}/local`, {
-    method: 'put',
+  const res = await fetch(`${AUTH_ENDPOINT}/local/signin`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -50,10 +54,12 @@ async function emailSignin(email, password) {
     .then(res => {
       if (res.status === 429) {
         console.log('Rate Limit')
-      }
-      if (res.status === 404) {
-        console.log('Error')
-        return Promise.reject(res)
+      } else if (res.status === 404) {
+        throw new Error('Error')
+      } else if (res.status === 204) {
+        throw new Error(
+          'No user found with email and password. Passwords are case sensitive.'
+        )
       }
       return res.json()
     })
