@@ -27,7 +27,9 @@ async function emailSignup(email, password) {
       } else if (res.status === 404) {
         throw new Error('Error')
       } else if (res.status === 204) {
-        throw new Error('Email not unique')
+        throw new Error(
+          'Email not unique. Passwords must be atleast 8 chatacters long with no spaces'
+        )
       } else if (res.status === 500) {
         throw new Error(
           'There was an unexpected server error, please try again.'
