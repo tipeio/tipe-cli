@@ -1,7 +1,6 @@
 const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 
-const { store, validateEmail } = require('../utilities')
 const { emailSignup } = require('../auth')
 
 class SignupCommand extends Command {
@@ -14,21 +13,9 @@ class SignupCommand extends Command {
       required: true
     })
 
-    if (!validateEmail(email)) {
-      this.log('Email must be valid, try again.')
-      process.exit(1)
-    }
-
     cli.action.start('Signing up...')
-    const [error, data] = await emailSignup(email, password)
-    if (error) {
-      this.log(`${error}`)
-      process.exit(1)
-    }
-    cli.action.stop(`User: ${JSON.stringify(data, null, 2)}`)
-    const { token, ...user } = data
-    store.set('user', user)
-    store.set('token', token)
+    await emailSignup(email, password)
+    cli.action.stop()
   }
 }
 
