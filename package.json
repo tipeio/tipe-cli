@@ -24,6 +24,11 @@
   "oclif": {
     "commands": "./src/commands",
     "bin": "tipe",
+    "hooks": {
+      "prerun": [
+        "./src/hooks/auth"
+      ]
+    },
     "plugins": [
       "@oclif/plugin-help"
     ]
