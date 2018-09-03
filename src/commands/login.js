@@ -22,7 +22,7 @@ class LoginCommand extends Command {
     cli.action.start('Signing up...')
     const [error, data] = await emailSignin(email, password)
     if (error) {
-      this.log(`Error: ${error}`)
+      this.log(`${error}`)
       process.exit(1)
     }
     cli.action.stop(`User: ${JSON.stringify(data, null, 2)}`)
