@@ -1,6 +1,7 @@
 const _ = require('lodash')
 const fetch = require('node-fetch')
 const { AUTH_ENDPOINT } = require('./constants')
+const { store, validateEmail } = require('../utilities')
 
 function cleanResponse(data) {
   const password = _.has(data, 'user.providers.local.password')
@@ -11,6 +12,11 @@ function cleanResponse(data) {
 }
 
 async function emailSignup(email, password) {
+  if (!validateEmail(email)) {
+    console.log('Email must be valid, try again.')
+    process.exit(1)
+  }
+
   const res = await fetch(`${AUTH_ENDPOINT}/local/signup`, {
     method: 'POST',
     headers: {
@@ -23,7 +29,7 @@ async function emailSignup(email, password) {
   })
     .then(res => {
       if (res.status === 429) {
-        console.log('Rate Limit')
+        throw new Error('Rate Limit')
       } else if (res.status === 404) {
         throw new Error('Error')
       } else if (res.status === 204) {
@@ -37,12 +43,23 @@ async function emailSignup(email, password) {
       }
       return res.json()
     })
-    .then(data => [null, cleanResponse(data)])
-    .catch(err => [err])
+    .then(res => {
+      const { token, ...user } = cleanResponse(res)
+      store.set('user', user)
+      store.set('token', token)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   return res
 }
 
 async function emailSignin(email, password) {
+  if (!validateEmail(email)) {
+    console.log('Email must be valid, try again.')
+    process.exit(1)
+  }
+
   const res = await fetch(`${AUTH_ENDPOINT}/local/signin`, {
     method: 'POST',
     headers: {
@@ -55,7 +72,7 @@ async function emailSignin(email, password) {
   })
     .then(res => {
       if (res.status === 429) {
-        console.log('Rate Limit')
+        throw new Error('Rate Limit')
       } else if (res.status === 404) {
         throw new Error('Error')
       } else if (res.status === 204) {
@@ -65,8 +82,14 @@ async function emailSignin(email, password) {
       }
       return res.json()
     })
-    .then(data => [null, cleanResponse(data)])
-    .catch(err => [err])
+    .then(res => {
+      const { token, ...user } = cleanResponse(res)
+      store.set('user', user)
+      store.set('token', token)
+    })
+    .catch(err => {
+      console.log(err)
+    })
   return res
 }
 
