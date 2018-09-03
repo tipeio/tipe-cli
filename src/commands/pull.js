@@ -1,8 +1,6 @@
 const { Command, flags } = require('@oclif/command')
-const fetch = require('node-fetch')
-const fs = require('fs.promised')
-
-const { DEV_API_ENDPOINT } = require('../constants')
+const { cli } = require('cli-ux')
+const { pull } = require('../auth')
 
 class PullCommand extends Command {
   async run() {
@@ -11,28 +9,9 @@ class PullCommand extends Command {
     const fileName = flags.fileName
     const projectId = args.projectId
 
-    fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' }
-    })
-      .then(async res => {
-        if (res.status === 200) {
-          const { data } = await res.json()
-          const error = fs.writeFileSync(`${fileName}.graphql`, data)
-          if (error) {
-            console.log(error)
-            return
-          }
-          console.log('Success!')
-          return
-        }
-        console.log('Error: Schema not found based on project ID')
-      })
-      .catch(() => {
-        console.log(
-          'ERROR: There was a server error, please try again or contact us!'
-        )
-      })
+    cli.action.start('Fetching project shcema...')
+    await pull(projectId, fileName)
+    cli.action.stop()
   }
 }
 
