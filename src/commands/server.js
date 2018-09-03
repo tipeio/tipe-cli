@@ -41,11 +41,11 @@ class ServerCommand extends Command {
     server
       .listen({ port })
       .then(() => {
-        this.log(`🚀 Server ready at http://localhost:${port}`)
-        this.log(`⚽️ Playground ready at http://localhost:${port}/graphql`)
+        console.log(`🚀 Server ready at http://localhost:${port}`)
+        console.log(`⚽️ Playground ready at http://localhost:${port}/graphql`)
       })
       .catch(e => {
-        this.log('Error: ', e)
+        console.log('Error: ', e)
       })
   }
 }
