@@ -29,7 +29,9 @@ class PullCommand extends Command {
         console.log('Error: Schema not found based on project ID')
       })
       .catch(() => {
-        console.log('ERROR: Server Error!')
+        console.log(
+          'ERROR: There was a server error, please try again or contact us!'
+        )
       })
   }
 }

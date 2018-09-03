@@ -29,14 +29,16 @@ class PushCommand extends Command {
     })
       .then(async res => {
         if (res.status === 201) {
-          this.log('Success!')
+          console.log('Success!')
           return
         }
         console.log('Error: Schema not found based on project ID')
         console.log('Error: Unable to push your local schema. Try again.')
       })
       .catch(() => {
-        console.log('ERROR: Server Error!')
+        console.log(
+          'ERROR: There was a server error, please try again or contact us!'
+        )
       })
   }
 }
