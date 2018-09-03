@@ -1,7 +1,7 @@
 const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 
-const { emailSignin } = require('../auth')
+const { emailSignin } = require('../api')
 
 class LoginCommand extends Command {
   async run() {
