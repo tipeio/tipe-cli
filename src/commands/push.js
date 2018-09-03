@@ -2,7 +2,7 @@ const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const fs = require('fs.promised')
 
-const { push } = require('../auth')
+const { push } = require('../api')
 
 class PushCommand extends Command {
   async run() {
