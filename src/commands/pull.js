@@ -1,6 +1,6 @@
 const { Command, flags } = require('@oclif/command')
 const { cli } = require('cli-ux')
-const { pull } = require('../auth')
+const { pull } = require('../api')
 
 class PullCommand extends Command {
   async run() {
