@@ -6,7 +6,6 @@ const { emailSignin } = require('../auth')
 
 class LoginCommand extends Command {
   async run() {
-    this.log(cli)
     const email = await cli.prompt('What is your email?', {
       required: true
     })
