@@ -1,7 +1,7 @@
 const _ = require('lodash')
 const fetch = require('node-fetch')
 const { AUTH_ENDPOINT } = require('./constants')
-const { store, validateEmail } = require('../utilities')
+const { store, validateEmail } = require('./utilities')
 
 function cleanResponse(data) {
   const password = _.has(data, 'user.providers.local.password')

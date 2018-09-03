@@ -1,6 +1,5 @@
 const { expect, test } = require('@oclif/test')
 const path = require('path')
-var exec = require('child_process').exec
 
 describe('server', () => {
   test
@@ -23,6 +22,5 @@ describe('server', () => {
     ])
     .it('runs server --port 3000', ctx => {
       expect(ctx.stdout).contain('Server ready at http://localhost:3000')
-      exec('lsof -i :3000')
     })
 })
