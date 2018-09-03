@@ -1,7 +1,8 @@
 const _ = require('lodash')
 const fetch = require('node-fetch')
-const { AUTH_ENDPOINT } = require('./constants')
+const { AUTH_ENDPOINT, DEV_API_ENDPOINT } = require('./constants')
 const { store, validateEmail } = require('./utilities')
+const fs = require('fs.promised')
 
 function cleanResponse(data) {
   const password = _.has(data, 'user.providers.local.password')
@@ -93,7 +94,51 @@ async function emailSignin(email, password) {
   return res
 }
 
+async function pull(projectId, fileName) {
+  return fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(async res => {
+      if (res.status === 200) {
+        const { data } = await res.json()
+        const error = fs.writeFileSync(`${fileName}.graphql`, data)
+        if (error) {
+          throw new Error(error)
+        }
+        console.log('Success!')
+        return
+      }
+      throw new Error('Error: Schema not found based on project ID')
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+async function push(projectId, schemaFile) {
+  return fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      schema: schemaFile
+    })
+  })
+    .then(async res => {
+      if (res.status === 201) {
+        console.log('Success!')
+        return
+      }
+      throw new Error('Error: Unable to push your local schema. Try again.')
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
 module.exports = {
   emailSignin,
-  emailSignup
+  emailSignup,
+  pull,
+  push
 }
