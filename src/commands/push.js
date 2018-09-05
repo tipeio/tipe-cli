@@ -1,7 +1,6 @@
 const { Command } = require('@oclif/command')
-const path = require('path')
 const { cli } = require('cli-ux')
-const fs = require('fs.promised')
+const fs = require('fs')
 
 const { push } = require('../api')
 

@@ -55,7 +55,7 @@ describe('utilities', () => {
     })
   })
 
-  describe('renderFile', () => {
+  xdescribe('renderFile', () => {
     // values in the template must have corresponding values in the ctx object
     // do we want to set a default for missing values?
 
@@ -82,7 +82,7 @@ describe('utilities', () => {
     //   })
     // })
   })
-  describe('filenameReplacer', () => {
+  xdescribe('filenameReplacer', () => {
     it('should replace ghe filename with yolo', () => {
       expect(filenameReplacer('__name__.js', { name: 'yolo' })).toBe('yolo.js')
     })
@@ -92,7 +92,7 @@ describe('utilities', () => {
       )
     })
   })
-  describe('getActionFilePaths', () => {
+  xdescribe('getActionFilePaths', () => {
     it('should return an array of length 3', () => {
       return getActionFilePaths().then(paths => {
         expect(paths).toHaveLength(3)
@@ -113,7 +113,7 @@ describe('utilities', () => {
   // mock fs.existsSync
   // mock fs.tat
 
-  describe('ensureDir', () => {
+  xdescribe('ensureDir', () => {
     it('should return true for dir that exists', () => {
       expect(ensureDir('/example/path')).toBe(true)
     })
@@ -126,7 +126,7 @@ describe('utilities', () => {
     })
   })
 
-  describe('recursiveStat', () => {
+  xdescribe('recursiveStat', () => {
     it('should return all of the files in a flat file system', () => {
       return recursiveStat('somepath', () => {}).then(fileContents => {
         expect(fileContents).toHaveLength(3)
