@@ -1,10 +1,11 @@
+const { configFile } = require('./constants')
 const fs = require('fs')
 
 function getToken(noError) {
   let token = process.env.TIPE_TOKEN
   if (!token) {
     try {
-      token = fs.readFileSync('.tipe').toString()
+      token = fs.readFileSync(configFile).toString()
     } catch (e) {
       token = null
     }
