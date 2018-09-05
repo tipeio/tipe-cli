@@ -1,12 +1,16 @@
 const fetch = require('node-fetch')
-const { DEV_API_ENDPOINT } = require('./constants')
-const { store } = require('./utilities')
-const fs = require('fs.promised')
+const fs = require('fs')
 
-async function pull(projectId, fileName) {
-  return fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
+const { DEV_API_ENDPOINT } = require('./constants')
+const { getToken } = require('./utilities')
+
+async function pull(fileName) {
+  return fetch(`${DEV_API_ENDPOINT}/schema`, {
     method: 'GET',
-    headers: { 'Content-Type': 'application/json' }
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: getToken()
+    }
   })
     .then(async res => {
       if (res.status === 200) {
@@ -25,10 +29,13 @@ async function pull(projectId, fileName) {
     })
 }
 
-async function push(projectId, schemaFile) {
-  return fetch(`${DEV_API_ENDPOINT}/schema/${projectId}`, {
+async function push(schemaFile) {
+  return fetch(`${DEV_API_ENDPOINT}/schema`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: getToken()
+    },
     body: JSON.stringify({
       schema: schemaFile
     })

@@ -1,4 +1,5 @@
 const { Command } = require('@oclif/command')
+const path = require('path')
 const { cli } = require('cli-ux')
 const fs = require('fs.promised')
 
@@ -8,7 +9,6 @@ class PushCommand extends Command {
   async run() {
     const { args } = this.parse(PushCommand)
     const schemaFilePath = args.filePath
-    const projectId = args.projectId
     let schemaFile
 
     try {
@@ -22,7 +22,7 @@ class PushCommand extends Command {
     }
 
     cli.action.start('Saving project shcema...')
-    await push(projectId, schemaFile)
+    await push(schemaFile)
     cli.action.stop()
   }
 }
@@ -32,11 +32,6 @@ PushCommand.description = `
   `
 
 PushCommand.args = [
-  {
-    name: 'projectId',
-    required: true,
-    description: 'ID of the project to fetch schema'
-  },
   {
     name: 'filePath',
     require: true,
