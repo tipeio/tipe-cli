@@ -15,10 +15,7 @@ async function pull(fileName) {
     .then(async res => {
       if (res.status === 200) {
         const { data } = await res.json()
-        const error = fs.writeFileSync(`${fileName}.graphql`, data)
-        if (error) {
-          throw new Error(error)
-        }
+        fs.writeFileSync(`${fileName}.graphql`, data)
         console.log('Success!')
         return
       }
