@@ -7,8 +7,7 @@ const changeCase = require('change-case')
 const { ACTION_PATH, TEMPLATES_PATH } = require('./constants')
 
 function getToken(noError) {
-  let token = null
-  // let token = process.env.TIPE_TOKEN
+  let token = process.env.TIPE_TOKEN
   if (!token) {
     try {
       token = fs.readFileSync('.tipe').toString()

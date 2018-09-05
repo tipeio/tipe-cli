@@ -19,7 +19,7 @@ PullCommand.flags = {
   fileName: flags.string({
     char: 'n',
     description: 'name of new file',
-    default: 'tipe.graphql'
+    default: 'tipe'
   })
 }
 
