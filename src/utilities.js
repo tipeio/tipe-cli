@@ -3,11 +3,8 @@ const ejs = require('ejs')
 const path = require('path')
 const shell = require('shelljs')
 const changeCase = require('change-case')
-const Configstore = require('configstore')
 
-const { ACTION_PATH, TEMPLATES_PATH, STORE_NAME } = require('./constants')
-
-const store = new Configstore(STORE_NAME, { token: null })
+const { ACTION_PATH, TEMPLATES_PATH } = require('./constants')
 
 function getToken(noError) {
   let token = process.env.TIPE_TOKEN
@@ -171,7 +168,6 @@ function validateEmail(email) {
 }
 
 module.exports = {
-  store,
   getToken,
   renderFile,
   writeFile,
