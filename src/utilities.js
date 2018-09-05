@@ -1,4 +1,4 @@
-const fs = require('fs.promised')
+const fs = require('fs')
 const ejs = require('ejs')
 const path = require('path')
 const shell = require('shelljs')
@@ -7,41 +7,45 @@ const changeCase = require('change-case')
 const { ACTION_PATH, TEMPLATES_PATH } = require('./constants')
 
 function getToken(noError) {
-  let token = process.env.TIPE_TOKEN
+  let token = null
+  // let token = process.env.TIPE_TOKEN
   if (!token) {
     try {
-      const conf = store.get('token')
-      token = conf.token
+      token = fs.readFileSync('.tipe').toString()
     } catch (e) {
       token = null
     }
   }
   if (!noError && !token) {
     throw new Error(
-      'use "tipe login" or environment variable TIPE_TOKEN needs to be set.'
+      'Environment variable TIPE_TOKEN needs to be set or set in your .tipe config file.'
     )
   }
   return token
 }
 
-async function renderFile(fileName, ctx) {
-  const file = await fs.readFile(fileName)
+function renderFile(fileName, ctx) {
+  const file = fs.readFileSync(fileName)
   return ejs.render(file.toString(), ctx)
 }
 
-async function writeFile(path, file) {
-  await fs.writeFile(path, file)
+function writeFile(path, file) {
+  try {
+    fs.writeFileSync(path, file)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 async function recursiveStat(currentPath, visitor, tempPath, ignorePaths) {
   ignorePaths = ignorePaths || /node_modules|\.nuxt|dist|\.DS_Store|\.env/
-  const files = await fs.readdir(currentPath)
+  const files = fs.readdirSync(currentPath)
   // visit each file in a directory
   const recursiveResolve = files
     .filter(fileName => ignorePaths.test(fileName) === false)
     .map(async fileName => {
       const currentFile = path.join(currentPath, fileName)
-      const stat = await fs.stat(currentFile)
+      const stat = fs.statSync(currentFile)
       const relativePath = path.relative(
         tempPath || TEMPLATES_PATH,
         currentPath
@@ -59,7 +63,7 @@ async function recursiveStat(currentPath, visitor, tempPath, ignorePaths) {
 }
 
 async function getActionFilePaths() {
-  const actions = await fs.readdir(ACTION_PATH)
+  const actions = fs.readdirSync(ACTION_PATH)
   const ignorePaths = /node_modules|\.nuxt|dist|\.DS_Store|\.env|\.md|_example_/
   return actions
     .filter(fileName => ignorePaths.test(fileName) === false)
