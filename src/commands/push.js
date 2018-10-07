@@ -1,5 +1,6 @@
-const { Command } = require('@oclif/command')
+const { Command, flags } = require('@oclif/command')
 const { cli } = require('cli-ux')
+const config = require('../constants')
 const fs = require('fs')
 
 const { push } = require('../api')
@@ -7,35 +8,50 @@ const { push } = require('../api')
 class PushCommand extends Command {
   async run() {
     const { args } = this.parse(PushCommand)
-    const schemaFilePath = args.filePath
-    let schemaFile
+    let schemaPath = args.schema
 
-    try {
-      schemaFile = fs.readFileSync(schemaFilePath).toString()
-    } catch (err) {
-      this.log(
-        "Error: Double check to make sure you're passing a correct graphql schema"
-      )
-      this.log(err)
-      return
+    if (!schemaPath) {
+      this.warn('No schema given, defaulting to "tipe.graphql"')
+      schemaPath = config.schemaPath
     }
 
-    cli.action.start('Saving project shcema...')
-    await push(schemaFile)
-    cli.action.stop()
+    let schema
+
+    try {
+      schema = fs.readFileSync(schemaPath, { encoding: 'utf-8' }).toString()
+    } catch (e) {
+      this.error(`Could not find schema at ${schemaPath}`)
+      return this.exit(1)
+    }
+
+    cli.action.start('Pushing schema to Tipe...')
+    await push(schema, args.projectId, args.apiKey)
+    cli.action.stop('Schema has been updated! 🎉')
   }
 }
 
-PushCommand.description = `
-    Save project schema on Tipe for usage on Tipe dashboard and API
-  `
+PushCommand.flags = {
+  projectId: flags.string({
+    char: 'p',
+    description: 'Tipe project id that this schema belongs to.',
+    multiple: false,
+    requried: false
+  }),
+  apiKey: flags.string({
+    char: 'a',
+    description: 'Tipe API key with write permission.',
+    multiple: false,
+    requried: false
+  }),
+  schema: flags.string({
+    char: 's',
+    description: 'Path to your schema file',
+    multiple: false,
+    default: config.schemaPath,
+    requried: true
+  })
+}
 
-PushCommand.args = [
-  {
-    name: 'filePath',
-    require: true,
-    description: 'Path to graphql file to save'
-  }
-]
+PushCommand.description = `Push your project's schema to Tipe which will update your API and Content dashboard`
 
 module.exports = PushCommand

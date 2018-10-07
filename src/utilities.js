@@ -2,7 +2,7 @@ const { configFile } = require('./constants')
 const fs = require('fs')
 
 function getToken(noError) {
-  let token = process.env.TIPE_TOKEN
+  let token = process.env.TIPE_API_KEY
   if (!token) {
     try {
       token = fs.readFileSync(configFile).toString()
@@ -12,7 +12,7 @@ function getToken(noError) {
   }
   if (!noError && !token) {
     throw new Error(
-      'Environment variable TIPE_TOKEN needs to be set or set in your .tipe config file.'
+      'Environment variable TIPE_API_KEY needs to be set or in your .tipe config file.'
     )
   }
   return token

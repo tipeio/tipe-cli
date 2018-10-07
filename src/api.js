@@ -1,11 +1,11 @@
 const fetch = require('node-fetch')
 const fs = require('fs')
 
-const { DEV_API_ENDPOINT } = require('./constants')
+const { API_ENDPOINT } = require('./constants')
 const { getToken } = require('./utilities')
 
 async function pull(fileName) {
-  return fetch(`${DEV_API_ENDPOINT}/schema`, {
+  return fetch(`${API_ENDPOINT}/schema`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +16,6 @@ async function pull(fileName) {
       if (res.status === 200) {
         const { data } = await res.json()
         fs.writeFileSync(`${fileName}.graphql`, data)
-        console.log('Success!')
         return
       }
       throw new Error('Error: Schema not found based on project ID')
@@ -27,7 +26,7 @@ async function pull(fileName) {
 }
 
 async function push(schemaFile) {
-  return fetch(`${DEV_API_ENDPOINT}/schema`, {
+  return fetch(`${API_ENDPOINT}/schema`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
