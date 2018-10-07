@@ -1,12 +1,12 @@
 import { getUserArgs } from '../utilities'
-const { Command, flags } = require('@oclif/command')
-const { cli } = require('cli-ux')
-const config = require('../constants')
-const fs = require('fs')
+import { schemaFlag } from '../flags'
+import { Command, flags } from '@oclif/command'
+import { cli } from 'cli-ux'
+import fs from 'fs'
 
 const { push } = require('../api')
 
-class PushCommand extends Command {
+export default class PushCommand extends Command {
   async run() {
     const { flags } = this.parse(PushCommand)
     const args = getUserArgs.call(this, flags)
@@ -26,6 +26,7 @@ class PushCommand extends Command {
 }
 
 PushCommand.flags = {
+  schema: schemaFlag(),
   projectId: flags.string({
     char: 'p',
     description: 'Tipe project id that this schema belongs to.',
@@ -37,16 +38,7 @@ PushCommand.flags = {
     description: 'Tipe API key with write permission.',
     multiple: false,
     requried: false
-  }),
-  schema: flags.string({
-    char: 's',
-    description: 'Path to your schema file',
-    multiple: false,
-    default: config.schemaPath,
-    requried: true
   })
 }
 
 PushCommand.description = `Push your project's schema to Tipe which will update your API and Content dashboard`
-
-module.exports = PushCommand

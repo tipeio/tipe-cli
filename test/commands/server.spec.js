@@ -1,13 +1,9 @@
-const { expect, test } = require('@oclif/test')
-const path = require('path')
+import { expect, test } from '@oclif/test'
 
 describe('server', () => {
   test
     .stdout()
-    .command([
-      'server',
-      `${path.join(__dirname, './../helpers/tipe-schema.graphql')}`
-    ])
+    .command(['server', '-s', './test/helpers/tipe-schema.graphql'])
     .it('runs server', ctx => {
       expect(ctx.stdout).contain('Server ready at http://localhost:4000')
     })
@@ -16,8 +12,9 @@ describe('server', () => {
     .stdout()
     .command([
       'server',
-      `${path.join(__dirname, './../helpers/tipe-schema.graphql')}`,
-      '--port',
+      '-s',
+      './test/helpers/tipe-schema.graphql',
+      '-P',
       '3000'
     ])
     .it('runs server --port 3000', ctx => {

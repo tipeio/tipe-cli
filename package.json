@@ -60,6 +60,7 @@
     "cli-ux": "^4.8.0",
     "commander": "^2.14.1",
     "express": "^4.16.3",
+    "got": "^9.2.2",
     "graphql": "^0.13.2",
     "lodash": "^4.17.10",
     "node-fetch": "^2.2.0"

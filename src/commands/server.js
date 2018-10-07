@@ -1,35 +1,30 @@
-const { Command, flags } = require('@oclif/command')
-const fs = require('fs')
-const path = require('path')
-const { ApolloServer } = require('apollo-server')
-const { createSchema } = require('@tipe/schema-tools')
-const resolvers = require('../resolvers')
+import fs from 'fs'
+import { schemaFlag } from '../flags'
+import { Command, flags } from '@oclif/command'
+import { ApolloServer } from 'apollo-server'
+import { createSchema } from '@tipe/schema-tools'
+import crudResolvers from '../resolvers'
+import { getUserArgs } from '../utilities'
 
-class ServerCommand extends Command {
+export default class ServerCommand extends Command {
   async run() {
-    const { args } = this.parse(ServerCommand)
     const { flags } = this.parse(ServerCommand)
-    const port = flags.port || flags.p || 4000
-    const schemaFilePath = args.filePath
-    let resultSchema
+    const args = getUserArgs.call(this, flags)
+    let typeDefs
 
     try {
-      const schemaFile = fs.readFileSync(schemaFilePath).toString()
-      resultSchema = createSchema({
-        spec: 'tipe',
-        typeDefs: schemaFile,
-        crudResolvers: Object.assign({}, resolvers)
-      })
+      typeDefs = fs.readFileSync(args.schema, { encoding: 'utf-8' }).toString()
     } catch (e) {
-      this.log(
-        "Error: Double check to make sure you're passing a correct graphql schema"
-      )
-      this.log(e)
-      return
+      this.error(`Could not find schema at: "${args.schema}"`)
+      return this.exit(1)
     }
 
     const server = new ApolloServer({
-      schema: resultSchema, // comes from schematools
+      schema: createSchema({
+        typeDefs,
+        crudResolvers,
+        spec: 'tipe'
+      }),
       playground: {
         settings: {
           'editor.theme': 'light',
@@ -39,13 +34,16 @@ class ServerCommand extends Command {
     })
 
     server
-      .listen({ port })
+      .listen({ port: args.port })
       .then(() => {
-        console.log(`🚀 Server ready at http://localhost:${port}`)
-        console.log(`⚽️ Playground ready at http://localhost:${port}/graphql`)
+        this.log(`🚀 Server ready at http://localhost:${args.port}`)
+        this.log(
+          `⚽️ Playground ready at http://localhost:${args.port}/graphql`
+        )
       })
       .catch(e => {
-        console.log('Error: ', e)
+        this.error(e)
+        this.exit(1)
       })
   }
 }
@@ -53,20 +51,19 @@ class ServerCommand extends Command {
 ServerCommand.description = 'Local sever for testing schema'
 
 ServerCommand.flags = {
-  port: flags.string({
-    char: 'p',
-    description: 'port of server, defaults to 4000'
+  schema: schemaFlag(),
+  port: flags.integer({
+    char: 'P',
+    description: 'port to serve the local API, defaults to 4000',
+    default: 4000,
+    multiple: false,
+    required: false,
+    parse: port => parseInt(port)
+  }),
+  watch: flags.boolean({
+    char: 'w',
+    description: 'Watch schema file and reload server when its changed',
+    required: false,
+    default: false
   })
 }
-
-ServerCommand.args = [
-  {
-    name: 'filePath',
-    description: 'path to graphql file',
-    default: `${path.resolve(
-      path.join(__dirname, '../examples/tipe-schema-example.graphql')
-    )}`
-  }
-]
-
-module.exports = ServerCommand

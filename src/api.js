@@ -1,54 +1,22 @@
-const fetch = require('node-fetch')
-const fs = require('fs')
+import got from 'got'
+import { asyncWrap } from './utilities'
 
 const { API_ENDPOINT } = require('./constants')
-const { getToken } = require('./utilities')
 
-async function pull(fileName) {
-  return fetch(`${API_ENDPOINT}/schema`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: getToken()
-    }
-  })
-    .then(async res => {
-      if (res.status === 200) {
-        const { data } = await res.json()
-        fs.writeFileSync(`${fileName}.graphql`, data)
-        return
+export const pull = fileName => {}
+
+export const push = (schema, project, apiKey) => {
+  return asyncWrap(
+    got(`/${project}/schema`, {
+      baseUrl: API_ENDPOINT,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: apiKey
+      },
+      body: {
+        schema
       }
-      throw new Error('Error: Schema not found based on project ID')
     })
-    .catch(err => {
-      console.log(err)
-    })
-}
-
-async function push(schemaFile) {
-  return fetch(`${API_ENDPOINT}/schema`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: getToken()
-    },
-    body: JSON.stringify({
-      schema: schemaFile
-    })
-  })
-    .then(async res => {
-      if (res.status === 201) {
-        console.log('Success!')
-        return
-      }
-      throw new Error('Error: Unable to push your local schema. Try again.')
-    })
-    .catch(err => {
-      console.log(err)
-    })
-}
-
-module.exports = {
-  pull,
-  push
+  )
 }
