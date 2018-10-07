@@ -6,6 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 .DS_Store
 src/actions/_example_.js
+dist
 
 # Runtime data
 pids

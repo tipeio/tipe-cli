@@ -1,3 +1,4 @@
+import { getUserArgs } from '../utilities'
 const { Command, flags } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const config = require('../constants')
@@ -7,20 +8,14 @@ const { push } = require('../api')
 
 class PushCommand extends Command {
   async run() {
-    const { args } = this.parse(PushCommand)
-    let schemaPath = args.schema
-
-    if (!schemaPath) {
-      this.warn('No schema given, defaulting to "tipe.graphql"')
-      schemaPath = config.schemaPath
-    }
-
+    const { flags } = this.parse(PushCommand)
+    const args = getUserArgs.call(this, flags)
     let schema
 
     try {
-      schema = fs.readFileSync(schemaPath, { encoding: 'utf-8' }).toString()
+      schema = fs.readFileSync(args.schema, { encoding: 'utf-8' }).toString()
     } catch (e) {
-      this.error(`Could not find schema at ${schemaPath}`)
+      this.error(`Could not find schema at: "${args.schema}"`)
       return this.exit(1)
     }
 
