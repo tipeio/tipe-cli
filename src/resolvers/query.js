@@ -1,39 +1,28 @@
-const { parseResolveInfo, simplify } = require('graphql-parse-resolve-info')
+const { simplify } = require('graphql-parse-resolve-info')
 const genFakeContent = require('./fake')
 
-const getOne = (type, schemaTemplateData, userSchema) => {
-  return {
-    resolve(_, args, ctx, info) {
-      const parsedInfo = parseResolveInfo(info)
-      const queryInfo = simplify(parsedInfo, userSchema.getType(type.name))
-      return genFakeContent(queryInfo, type.fields, schemaTemplateData)
-    }
-  }
+export const getOne = (_, args, { parsedInfo, schemaContext, type }, info) => {
+  const queryInfo = simplify(
+    parsedInfo,
+    schemaContext.rawSchema.getType(type.name)
+  )
+  return genFakeContent(queryInfo, type.fields, schemaContext)
 }
 
-const getMany = (type, schemaTemplateData, userSchema) => {
-  return {
-    resolve(_, args, ctx, info) {
-      const parsedInfo = parseResolveInfo(info)
-      const queryInfo = simplify(parsedInfo, userSchema.getType(type.name))
+export const getMany = (_, args, { parsedInfo, schemaContext, type }, info) => {
+  const queryInfo = simplify(
+    parsedInfo,
+    schemaContext.rawSchema.getType(type.name)
+  )
+  console.log(JSON.stringify(queryInfo, null, 2))
 
-      return [
-        genFakeContent(queryInfo, type.fields, schemaTemplateData),
-        genFakeContent(queryInfo, type.fields, schemaTemplateData),
-        genFakeContent(queryInfo, type.fields, schemaTemplateData)
-      ]
-    }
-  }
+  return [3].map(() => genFakeContent(queryInfo, type.fields, schemaContext))
 }
 
-const getPage = (type, schemaTemplateData, userSchema) => {
-  return {
-    resolve(_, args, ctx, info) {
-      const parsedInfo = parseResolveInfo(info)
-      const queryInfo = simplify(parsedInfo, userSchema.getType(type.name))
-      return genFakeContent(queryInfo, type.fields, schemaTemplateData)
-    }
-  }
+export const getPage = (_, args, { parsedInfo, schemaContext, type }, info) => {
+  const queryInfo = simplify(
+    parsedInfo,
+    schemaContext.rawSchema.getType(type.name)
+  )
+  return genFakeContent(queryInfo, type.fields, schemaContext)
 }
-
-module.exports = { getOne, getMany, getPage }

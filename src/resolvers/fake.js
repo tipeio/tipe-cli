@@ -88,7 +88,7 @@ const genFakeContent = (infoObject, fields, schemaContext, result = {}) => {
         if (_.isEmpty(field.fieldsByTypeName)) {
           const fieldInfo = getField(fields, field, typeName, schemaContext)
           _result[field.name] = getContentForType(
-            fieldInfo.directives.ui.component,
+            fieldInfo.ui.component,
             fieldInfo.isArray
           )
         } else {
