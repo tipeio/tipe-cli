@@ -1,6 +1,3 @@
 {
-  "extends": "@tipe/eslint-config-tipe/server",
-  "ecmaFeatures": {
-    "classes": true
-  }
+  "extends": "@tipe/eslint-config-tipe/server"
 }

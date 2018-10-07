@@ -1,11 +1,10 @@
-// jest.config.js
 module.exports = {
-  testEnvironment: 'node',
   automock: false,
   bail: true,
   verbose: true,
-  collectCoverage: true,
-  collectCoverageFrom: ['src/**', '!**/node_modules/**'],
-  notify: true,
-  notifyMode: 'always'
+  testURL: 'http://localhost/',
+  testEnvironment: 'node',
+  restoreMocks: true,
+  setupTestFrameworkScriptFile: '<rootDir>/setupTest.js',
+  testPathIgnorePatterns: ['dist/']
 }
