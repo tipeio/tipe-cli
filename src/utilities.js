@@ -1,11 +1,12 @@
-const { configFile } = require('./constants')
-const fs = require('fs')
+import config from './constants'
+import fs from 'fs'
+import path from 'path'
 
-function getToken(noError) {
+export const getToken = noError => {
   let token = process.env.TIPE_API_KEY
   if (!token) {
     try {
-      token = fs.readFileSync(configFile).toString()
+      token = fs.readFileSync(config.configFile).toString()
     } catch (e) {
       token = null
     }
@@ -18,12 +19,32 @@ function getToken(noError) {
   return token
 }
 
-function validateEmail(email) {
-  var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  return re.test(String(email).toLowerCase())
-}
-
-module.exports = {
-  getToken,
-  validateEmail
+/**
+ * Given CLi args, will create final user args with specific priority, 1 being the highest:
+ * 1. cli args
+ * 2. config file args
+ * 3. env vars
+ * @param {Object} cliArgs cli args parsed from command
+ */
+export const getUserArgs = function(cliArgs) {
+  const envs = {
+    projectId: process.env.TIPE_PROJECT_ID,
+    apiKey: process.env.TIPE_API_KEY
+  }
+  try {
+    const tipeConfig = fs
+      .readFileSync(path.join(process.cwd(), config.configFile))
+      .toString()
+    return {
+      ...envs,
+      ...JSON.parse(tipeConfig),
+      ...cliArgs
+    }
+  } catch (e) {
+    this.log('no .tipe config')
+    return {
+      ...envs,
+      ...cliArgs
+    }
+  }
 }

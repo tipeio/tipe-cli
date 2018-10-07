@@ -7,7 +7,7 @@
     "tipe": "./bin/run"
   },
   "scripts": {
-    "build": "babel src --out-dir dist",
+    "build": "rm -rf dist && babel src --out-dir dist",
     "test": "NODE_ENV=testing jest --detectOpenHandles --forceExit",
     "lint": "eslint --ext .js, src",
     "lint-autofix": "yarn lint --fix",
@@ -35,7 +35,10 @@
     "bin": "tipe",
     "plugins": [
       "@oclif/plugin-help"
-    ]
+    ],
+    "hooks": {
+      "track": "./dist/hooks/track"
+    }
   },
   "files": [
     "/bin",
