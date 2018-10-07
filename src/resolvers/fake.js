@@ -1,5 +1,4 @@
 const _ = require('lodash')
-const { mixDefaults } = require('./utils')
 const Chance = require('chance')
 const chance = new Chance()
 
@@ -7,9 +6,7 @@ const getField = (fields, field, typeName, schemaContext) => {
   let result = _.find(fields, _field => _field.name === field.name)
   if (!result) {
     const type = _.find(schemaContext.types, t => t.name === typeName)
-    result = mixDefaults(
-      _.find(type.fields, _field => _field.name === field.name)
-    )
+    result = _.find(type.fields, _field => _field.name === field.name)
   }
   return result
 }

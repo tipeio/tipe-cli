@@ -1,43 +1,51 @@
 {
   "name": "@tipe/cli",
-  "version": "0.0.3",
+  "version": "0.0.0-development",
   "description": "Tipe CLI",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "bin": {
     "tipe": "./bin/run"
   },
   "scripts": {
-    "postpack": "rm -f oclif.manifest.json npm-shrinkwrap.json",
-    "posttest": "eslint .",
-    "prepack": "oclif-dev manifest && oclif-dev readme && npm shrinkwrap",
-    "version": "oclif-dev readme && git add README.md",
-    "lint": "eslint src/**",
-    "test": "jest --detectOpenHandles --forceExit test/.*/*.spec.js",
-    "ci": "npm run lint && npm run test"
+    "build": "babel src --out-dir dist",
+    "test": "NODE_ENV=testing jest --detectOpenHandles",
+    "lint": "eslint --ext .js, src",
+    "lint-autofix": "yarn lint --fix",
+    "precommit": "lint-staged && yarn test",
+    "ci": "npm run lint && npm run test",
+    "travis-deploy-once": "travis-deploy-once --pro",
+    "semantic-release": "semantic-release"
+  },
+  "lint-staged": {
+    "linters": {
+      "*.js": [
+        "eslint --fix",
+        "git add"
+      ],
+      "src/commands/*.js": [
+        "oclif-dev readme",
+        "git add README.md"
+      ]
+    }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tipeio/tipe-cli.git"
+    "url": "https://github.com/tipeio/tipe-cli.git"
   },
   "author": "@tipe",
   "license": "Apache-2.0",
   "oclif": {
-    "commands": "./src/commands",
+    "commands": "./dist/commands",
     "bin": "tipe",
-    "hooks": {
-      "prerun": [
-        "./src/hooks/auth"
-      ]
-    },
     "plugins": [
       "@oclif/plugin-help"
     ]
   },
   "files": [
     "/bin",
-    "/npm-shrinkwrap.json",
-    "/oclif.manifest.json",
-    "/src"
+    "/dist",
+    "README.md",
+    "CHANGELOG.md"
   ],
   "bugs": {
     "url": "https://github.com/tipeio/tipe-cli/issues"
@@ -47,33 +55,26 @@
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
-    "@tipe/schema-tools": "^1.0.1",
+    "@tipe/schema-tools": "^2.5.0",
     "apollo-server": "^2.0.0",
-    "camel-case": "^3.0.0",
     "chance": "^1.0.16",
-    "change-case": "^3.0.2",
     "cli-ux": "^4.8.0",
     "commander": "^2.14.1",
-    "configstore": "^3.1.1",
-    "ejs": "^2.6.1",
     "express": "^4.16.3",
-    "fs-extra": "^7.0.0",
-    "fs.promised": "^3.0.0",
     "graphql": "^0.13.2",
-    "graphql-parse-resolve-info": "^4.0.0-rc.4",
-    "inquirer": "^5.1.0",
-    "json-stable-stringify": "^1.0.1",
     "lodash": "^4.17.10",
-    "node-fetch": "^2.2.0",
-    "pascal-case": "^2.0.1",
-    "pluralize": "^7.0.0",
-    "prompt": "^1.0.0",
-    "shelljs": "^0.8.2",
-    "write-file-atomic": "^2.3.0"
+    "node-fetch": "^2.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "@oclif/dev-cli": "^1",
     "@oclif/test": "^1",
+    "@semantic-release/changelog": "^3.0.0",
+    "@semantic-release/git": "^7.0.1",
     "@tipe/eslint-config-tipe": "^1.0.1",
     "eslint": "^5.3.0",
     "eslint-config-prettier": "^2.9.0",
@@ -84,9 +85,66 @@
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-standard": "^3.1.0",
+    "globby": "^8",
+    "lint-staged": "^7.2.0",
+    "husky": "^0.14.3",
     "jest": "^23.4.2",
     "prettier": "^1.14.0",
-    "globby": "^8",
-    "chai": "^4"
+    "travis-deploy-once": "^5.0.9",
+    "semantic-release": "^15.9.17"
+  },
+  "release": {
+    "verifyConditions": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ],
+    "prepare": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      {
+        "path": "@semantic-release/git",
+        "assets": [
+          "package.json",
+          "CHANGELOG.md"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    "publish": [
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ],
+    "analyzeCommits": {
+      "preset": "angular",
+      "releaseRules": [
+        {
+          "type": "docs",
+          "scope": "README",
+          "release": "patch"
+        },
+        {
+          "type": "refactor",
+          "release": "patch"
+        },
+        {
+          "type": "style",
+          "release": "patch"
+        },
+        {
+          "type": "chore",
+          "scope": "deps",
+          "release": "patch"
+        }
+      ],
+      "parserOpts": {
+        "noteKeywords": [
+          "BREAKING CHANGE",
+          "BREAKING CHANGES",
+          "BREAKING"
+        ]
+      }
+    }
   }
 }
