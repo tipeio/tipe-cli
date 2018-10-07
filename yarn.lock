@@ -3603,7 +3603,7 @@ got@^6.7.1:
     unzip-response "^2.0.1"
     url-parse-lax "^1.0.0"
 
-got@^9.1.0:
+got@^9.1.0, got@^9.2.2:
   version "9.2.2"
   resolved "https://registry.npmjs.org/got/-/got-9.2.2.tgz#d6cb73f40d4cb512864c2f66f275f258ab43aa25"
   dependencies:

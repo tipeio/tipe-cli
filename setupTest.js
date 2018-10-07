@@ -33,7 +33,7 @@ afterAll(done => {
   try {
     fs.writeFileSync(
       path.join(__dirname, 'package.json'),
-      JSON.stringify(newPjson, null, 2)
+      JSON.stringify(newPjson, null, 2) + '\n'
     )
   } catch (e) {
     done(e)
