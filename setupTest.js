@@ -2,7 +2,6 @@ const fs = require('fs')
 const path = require('path')
 
 beforeAll(done => {
-  console.log('hello')
   const pjson = require('./package.json')
   const newPjson = {
     ...pjson,

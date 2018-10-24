@@ -1,5 +1,5 @@
 import got from 'got'
-import { asyncWrap } from './utilities'
+import { asyncWrap } from './utils/async'
 
 const { API_ENDPOINT } = require('./constants')
 
