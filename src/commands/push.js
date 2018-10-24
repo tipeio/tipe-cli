@@ -1,4 +1,4 @@
-import { getUserArgs } from '../utilities'
+import { getUserArgs } from '../utils/args'
 import { schemaFlag } from '../flags'
 import { Command, flags } from '@oclif/command'
 import { cli } from 'cli-ux'

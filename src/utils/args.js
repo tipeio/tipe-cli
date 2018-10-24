@@ -1,8 +1,6 @@
-import config from './constants'
+import config from '../constants'
 import fs from 'fs'
 import path from 'path'
-
-export const asyncWrap = promise => promise.then(r => [null, r]).catch(e => [e])
 
 /**
  * Given CLi args, will create final user args with specific priority, 1 being the highest:

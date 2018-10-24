@@ -4,7 +4,7 @@ import { Command, flags } from '@oclif/command'
 import { ApolloServer } from 'apollo-server'
 import { createSchema } from '@tipe/schema-tools'
 import crudResolvers from '../resolvers'
-import { getUserArgs } from '../utilities'
+import { getUserArgs } from '../utils/args'
 
 export default class ServerCommand extends Command {
   async run() {
