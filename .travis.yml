@@ -15,13 +15,11 @@ before_install:
   - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
 install:
   - yarn --ignore-engines
-before_script:
-  # build to user's version then test on that
-  - yarn build
 script:
   - yarn ci
 after_success:
-  - npm run travis-deploy-once "npm run semantic-release"
+  - yarn build
+  - yarn travis-deploy-once "yarn semantic-release"
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/

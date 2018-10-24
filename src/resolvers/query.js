@@ -14,8 +14,6 @@ export const getMany = (_, args, { parsedInfo, schemaContext, type }, info) => {
     parsedInfo,
     schemaContext.rawSchema.getType(type.name)
   )
-  console.log(JSON.stringify(queryInfo, null, 2))
-
   return [3].map(() => genFakeContent(queryInfo, type.fields, schemaContext))
 }
 
