@@ -5,6 +5,19 @@ const { API_ENDPOINT } = require('./constants')
 
 export const pull = fileName => {}
 
+export const fetchRawSchema = (project, apiKey) => {
+  return asyncWrap(
+    got(`/${project}/schema`, {
+      baseUrl: API_ENDPOINT,
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: apiKey
+      }
+    })
+  )
+}
+
 export const push = (schema, project, apiKey) => {
   return asyncWrap(
     got(`/${project}/schema`, {
