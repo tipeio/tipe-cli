@@ -2,7 +2,8 @@ import {
   normalizeSchema,
   missingType,
   missingTypeField,
-  typeFieldTypeChange
+  typeFieldTypeChange,
+  checkForConflicts
 } from '../migration'
 
 describe('migration', () => {
@@ -96,6 +97,33 @@ describe('migration', () => {
 
       expect(conflict).toHaveBeenCalledTimes(1)
       expect(conflict).toHaveBeenCalledWith('name')
+    })
+  })
+
+  describe('checkForConflicts', () => {
+    test('finds conflicts for default rules', () => {
+      const newSchema = `
+        type Person implements Document {
+          name: Int!
+        }
+      `
+
+      const schema = `
+        type Person implements Document {
+          name: String!
+          age: Int!
+        }
+
+        type Animal {
+          fur: Boolean!
+        }
+      `
+      const conflics = checkForConflicts(newSchema, schema)
+
+      expect(Object.keys(conflics)).toHaveLength(3)
+      expect(conflics[missingType.name]).toEqual(['Animal'])
+      expect(conflics[missingTypeField.name]).toEqual(['age'])
+      expect(conflics[typeFieldTypeChange.name]).toEqual(['name'])
     })
   })
 })

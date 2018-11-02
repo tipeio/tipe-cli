@@ -80,7 +80,7 @@ const addConflict = (rulenName, conflicts) => {
   }
 }
 
-export const checkForConflicts = ({ newSchema, currentSchema, rules = [] }) => {
+export const checkForConflicts = (newSchema, currentSchema, rules = []) => {
   const allRules = [...baseRules, ...rules]
   const newSchemaTypes = normalizeSchema(newSchema)
   const currentSchemaTypes = normalizeSchema(currentSchema)
