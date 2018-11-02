@@ -1,12 +1,11 @@
 import { test } from '@oclif/test'
-process.env.TIPE_API_URL = 'http://localhost:6000'
-const { API_ENDPOINT } = require('../../src/constants')
+import config from '../../src/config'
 
 describe('push', () => {
   test
     .stdout({ print: true })
-    .nock(API_ENDPOINT, api =>
-      api.get('/api/1/conflicts').reply(200, {
+    .nock(config.API_ENDPOINT, api =>
+      api.post('/api/1/conflicts').reply(201, {
         data: {
           hasConflicts: true,
           conflicts: { 'Type missing field': ['age'] }

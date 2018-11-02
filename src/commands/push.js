@@ -25,7 +25,8 @@ export default class PushCommand extends Command {
 
     const [error, res] = await checkForSchemaConflicts(
       args.projectId,
-      args.apiKey
+      args.apiKey,
+      schema
     )
 
     if (error) {
