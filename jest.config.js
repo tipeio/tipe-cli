@@ -6,5 +6,5 @@ module.exports = {
   testEnvironment: 'node',
   restoreMocks: true,
   setupTestFrameworkScriptFile: '<rootDir>/setupTest.js',
-  testPathIgnorePatterns: ['dist/']
+  testPathIgnorePatterns: ['dist/', 'src/config/test.js']
 }

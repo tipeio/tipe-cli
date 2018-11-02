@@ -5,6 +5,5 @@ module.exports = {
   NAME: pkg.name,
   DESCRIPTION: pkg.description,
   configFile: '.tipe',
-  schemaPath: path.join(process.cwd(), 'tipe.graphql'),
-  API_ENDPOINT: process.env.TIPE_API_URL
+  schemaPath: path.join(process.cwd(), 'tipe.graphql')
 }
