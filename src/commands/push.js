@@ -1,8 +1,7 @@
 import _ from 'lodash'
 import { getUserArgs } from '../utils/args'
 import { schemaFlag } from '../flags'
-import { checkForConflicts } from '../utils/migration'
-import { fetchRawSchema } from '../api'
+import { checkForSchemaConflicts } from '../api'
 import { Command, flags } from '@oclif/command'
 import { cli } from 'cli-ux'
 import fs from 'fs'
@@ -24,7 +23,10 @@ export default class PushCommand extends Command {
     }
     cli.action.start('Checking for schema conflicts')
 
-    const [error, res] = await fetchRawSchema(args.projectId, args.apiKey)
+    const [error, res] = await checkForSchemaConflicts(
+      args.projectId,
+      args.apiKey
+    )
 
     if (error) {
       cli.action.stop('could not get current schema')
@@ -32,10 +34,7 @@ export default class PushCommand extends Command {
       return process.exit(1)
     }
 
-    const { hasConflicts, conflicts } = checkForConflicts(
-      schema,
-      res.body.data.contentSchema.raw
-    )
+    const { hasConflicts, conflicts } = res.body.data
 
     if (hasConflicts) {
       cli.action.stop('Content will require a migration due to conflicts: ')

@@ -3,11 +3,9 @@ import { asyncWrap } from './utils/async'
 
 const { API_ENDPOINT } = require('./constants')
 
-export const pull = fileName => {}
-
-export const fetchRawSchema = (project, apiKey) => {
+export const checkForSchemaConflicts = (project, apiKey) => {
   return asyncWrap(
-    got(`/project/${project}`, {
+    got(`/api/${project}/conflicts`, {
       baseUrl: API_ENDPOINT,
       method: 'GET',
       json: true,
@@ -21,7 +19,7 @@ export const fetchRawSchema = (project, apiKey) => {
 
 export const push = (schema, project, apiKey) => {
   return asyncWrap(
-    got(`/${project}/schema`, {
+    got(`/api/${project}/schema`, {
       baseUrl: API_ENDPOINT,
       method: 'POST',
       json: true,
