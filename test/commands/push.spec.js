@@ -13,7 +13,11 @@ describe('push', () => {
   `
   test
     .stdout({ print: true })
-    .nock(API_ENDPOINT, api => api.get('/1/schema').reply(200, { schema }))
+    .nock(API_ENDPOINT, api =>
+      api
+        .get('/project/1')
+        .reply(200, { data: { contentSchema: { raw: schema } } })
+    )
     .command([
       'push',
       '-s',
