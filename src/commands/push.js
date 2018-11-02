@@ -34,7 +34,7 @@ export default class PushCommand extends Command {
 
     const { hasConflicts, conflicts } = checkForConflicts(
       schema,
-      res.body.schema
+      res.body.data.contentSchema.raw
     )
 
     if (hasConflicts) {

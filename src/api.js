@@ -7,7 +7,7 @@ export const pull = fileName => {}
 
 export const fetchRawSchema = (project, apiKey) => {
   return asyncWrap(
-    got(`/${project}/schema`, {
+    got(`/project/${project}`, {
       baseUrl: API_ENDPOINT,
       method: 'GET',
       json: true,
