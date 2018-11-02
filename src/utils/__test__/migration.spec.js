@@ -118,12 +118,13 @@ describe('migration', () => {
           fur: Boolean!
         }
       `
-      const conflics = checkForConflicts(newSchema, schema)
+      const { hasConflicts, conflicts } = checkForConflicts(newSchema, schema)
 
-      expect(Object.keys(conflics)).toHaveLength(3)
-      expect(conflics[missingType.name]).toEqual(['Animal'])
-      expect(conflics[missingTypeField.name]).toEqual(['age'])
-      expect(conflics[typeFieldTypeChange.name]).toEqual(['name'])
+      expect(hasConflicts).toBe(true)
+      expect(Object.keys(conflicts)).toHaveLength(3)
+      expect(conflicts[missingType.name]).toEqual(['Animal'])
+      expect(conflicts[missingTypeField.name]).toEqual(['age'])
+      expect(conflicts[typeFieldTypeChange.name]).toEqual(['name'])
     })
   })
 })
