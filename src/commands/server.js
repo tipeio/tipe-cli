@@ -36,10 +36,9 @@ export default class ServerCommand extends Command {
     server
       .listen({ port: args.port })
       .then(() => {
-        this.log(`🚀 Server ready at http://localhost:${args.port}`)
-        this.log(
-          `⚽️ Playground ready at http://localhost:${args.port}/graphql`
-        )
+        this.log('🚀 Your local mock servers and documentation are ready')
+        this.log(`GraphQL server: http://localhost:${args.port}`)
+        this.log(`GraphQL documentation: http://localhost:${args.port}/graphql`)
       })
       .catch(e => {
         this.error(e)
