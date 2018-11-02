@@ -10,6 +10,7 @@ export const fetchRawSchema = (project, apiKey) => {
     got(`/${project}/schema`, {
       baseUrl: API_ENDPOINT,
       method: 'GET',
+      json: true,
       headers: {
         'Content-Type': 'application/json',
         Authorization: apiKey
@@ -23,6 +24,7 @@ export const push = (schema, project, apiKey) => {
     got(`/${project}/schema`, {
       baseUrl: API_ENDPOINT,
       method: 'POST',
+      json: true,
       headers: {
         'Content-Type': 'application/json',
         Authorization: apiKey

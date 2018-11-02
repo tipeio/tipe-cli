@@ -1,5 +1,8 @@
+import _ from 'lodash'
 import { getUserArgs } from '../utils/args'
 import { schemaFlag } from '../flags'
+import { checkForConflicts } from '../utils/migration'
+import { fetchRawSchema } from '../api'
 import { Command, flags } from '@oclif/command'
 import { cli } from 'cli-ux'
 import fs from 'fs'
@@ -13,15 +16,42 @@ export default class PushCommand extends Command {
     let schema
 
     try {
+      // TODO: support graphql import
       schema = fs.readFileSync(args.schema, { encoding: 'utf-8' }).toString()
     } catch (e) {
       this.error(`Could not find schema at: "${args.schema}"`)
       return this.exit(1)
     }
+    cli.action.start('Checking for schema conflicts')
 
-    cli.action.start('Pushing schema to Tipe...')
+    const [error, res] = await fetchRawSchema(args.projectId, args.apiKey)
+
+    if (error) {
+      cli.action.stop('could not get current schema')
+      this.error(error)
+      return process.exit(1)
+    }
+
+    const { hasConflicts, conflicts } = checkForConflicts(
+      schema,
+      res.body.schema
+    )
+
+    if (hasConflicts) {
+      cli.action.stop('Content will require a migration due to conflicts: ')
+      _.forEach(conflicts, (conflictMeta, conFlictName) => {
+        if (conflictMeta.length) {
+          this.log(conFlictName)
+          conflictMeta.forEach(meta => this.log(meta))
+          this.log('\n')
+        }
+      })
+      return
+    }
+
+    cli.action.start('Updating schema on Tipe')
     await push(schema, args.projectId, args.apiKey)
-    cli.action.stop('Schema has been updated! 🎉')
+    cli.action.stop('Schema, API, and Dashboard has been updated! 🎉')
   }
 }
 

@@ -105,5 +105,8 @@ export const checkForConflicts = (newSchema, currentSchema, rules = []) => {
     })
   })
 
-  return conflicts
+  return {
+    conflicts,
+    hasConflicts: _.some(conflicts, c => c.length)
+  }
 }
