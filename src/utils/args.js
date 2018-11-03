@@ -1,4 +1,4 @@
-import config from '../constants'
+import constants from '../constants'
 import fs from 'fs'
 import path from 'path'
 
@@ -16,7 +16,7 @@ export const getUserArgs = function(cliArgs) {
   }
   try {
     const tipeConfig = fs
-      .readFileSync(path.join(process.cwd(), config.configFile))
+      .readFileSync(path.join(process.cwd(), constants.configFile))
       .toString()
     return {
       ...envs,

@@ -10,3 +10,18 @@ export const schemaFlag = flags.build({
   requried: true,
   parse: relPath => path.join(process.cwd(), relPath)
 })
+
+export const authFlags = {
+  projectId: flags.string({
+    char: 'p',
+    description: 'Tipe project id that this schema belongs to.',
+    multiple: false,
+    requried: false
+  }),
+  apiKey: flags.string({
+    char: 'a',
+    description: 'Tipe API key with write permission.',
+    multiple: false,
+    requried: false
+  })
+}
