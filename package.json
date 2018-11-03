@@ -38,6 +38,9 @@
     ],
     "hooks": {
       "track": "./dist/hooks/track"
+    },
+    "topics": {
+      "migrate new": { "description": "Create a new migration file that you can use to configure a migration." }
     }
   },
   "files": [
