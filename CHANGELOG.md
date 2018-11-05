@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/tipeio/tipe-cli/compare/v1.0.0...v1.1.0) (2018-11-05)
+
+
+### Features
+
+* **migration:** add migration commands ([1c62015](https://github.com/tipeio/tipe-cli/commit/1c62015))
+* **migration:** add migration generator ([e6680fc](https://github.com/tipeio/tipe-cli/commit/e6680fc))
+
 # 1.0.0 (2018-11-02)
 
 
