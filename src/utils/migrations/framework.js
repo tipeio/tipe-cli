@@ -66,7 +66,7 @@ export class TipeMigrationContext {
 
     if (isThere) {
       throw new MigrationError(
-        'Cannot reuse same Type names for renaming again'
+        'Type is already being renamed or is target name for an exisiting Type rename.'
       )
     }
 
@@ -74,16 +74,78 @@ export class TipeMigrationContext {
     return this
   }
 
-  renameField(from, to) {
-    this.#instructions.fieldRenames.push({ type: this.#activeType, from, to })
+  renameField(targetType, oldField, newField) {
+    let type, from, to
+
+    if (!newField) {
+      from = targetType
+      to = oldField
+      type = this.#activeType
+    } else {
+      type = targetType
+      from = oldField
+      to = newField
+    }
+
+    if (oldField === newField) {
+      throw new MigrationError(
+        `Field rename must be a new name, got he same name: "${from}"`
+      )
+    }
+
+    if (!type) {
+      throw new MigrationError(
+        'Must set type with .type() or as first argument to rename'
+      )
+    }
+
+    const isThere = this.#instructions.fieldRenames
+      .filter(f => f.type === type)
+      .find(f => {
+        return f.from === from || f.to === from || f.from === to || f.to === to
+      })
+
+    if (isThere) {
+      throw new MigrationError(
+        `Field for Type "${type}" is already set to be renamed or is a target name for an existing field rename`
+      )
+    }
+
+    this.#instructions.fieldRenames.push({ type, from, to })
     return this
   }
 
-  removeField(fieldName) {
-    this.#instructions.fieldRenames.push({
-      type: this.#activeType,
-      field: fieldName
+  removeField(targetType, fieldName) {
+    let type, field
+    if (!fieldName) {
+      field = targetType
+      type = this.#activeType
+    } else {
+      type = targetType
+      field = fieldName
+    }
+
+    if (!type) {
+      throw new MigrationError(
+        'Must set type with .type() or as first argument to remove'
+      )
+    }
+
+    const isThere = this.#instructions.fieldRemoves.find(
+      t => t.type === type && t.field === field
+    )
+
+    if (isThere) {
+      throw new MigrationError(
+        `Field "${field}" of Type "${type}" is already set to be removed`
+      )
+    }
+
+    this.#instructions.fieldRemoves.push({
+      type,
+      field
     })
+
     return this
   }
 }
