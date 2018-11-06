@@ -1,3 +1,4 @@
 {
-  "extends": "@tipe/eslint-config-tipe/server"
+  "extends": "@tipe/eslint-config-tipe/server",
+  "parser": "babel-eslint"
 }
