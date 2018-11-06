@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/tipeio/tipe-cli/compare/v1.1.0...v1.2.0) (2018-11-06)
+
+
+### Features
+
+* **migration:** add migration context ([ff0c6b9](https://github.com/tipeio/tipe-cli/commit/ff0c6b9))
+
 # [1.1.0](https://github.com/tipeio/tipe-cli/compare/v1.0.0...v1.1.0) (2018-11-05)
 
 
