@@ -16,7 +16,7 @@ export class TipeMigrationContext {
   #activeType = null
 
   __finalize() {
-    return this.#instructions
+    return { ...this.#instructions }
   }
 
   type(typeName) {
