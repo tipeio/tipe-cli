@@ -115,4 +115,148 @@ describe('migration context', () => {
       expect(instructions.typeRenames).toHaveLength(3)
     })
   })
+
+  describe('renameField', () => {
+    test('renames field from active type', () => {
+      const ctx = new TipeMigrationContext()
+
+      ctx.type('Author').renameField('firstName', 'name')
+
+      const instructions = ctx.__finalize()
+      expect(instructions.fieldRenames).toHaveLength(1)
+      expect(instructions.fieldRenames[0]).toEqual({
+        type: 'Author',
+        from: 'firstName',
+        to: 'name'
+      })
+    })
+
+    test('renames field from arguments', () => {
+      const ctx = new TipeMigrationContext()
+
+      ctx.renameField('Author', 'firstName', 'name')
+
+      const instructions = ctx.__finalize()
+      expect(instructions.fieldRenames).toHaveLength(1)
+      expect(instructions.fieldRenames[0]).toEqual({
+        type: 'Author',
+        from: 'firstName',
+        to: 'name'
+      })
+    })
+
+    test('does not allow duplicates', () => {
+      const ctx = new TipeMigrationContext()
+      expect(() => {
+        ctx
+          .renameField('Author', 'firstName', 'name')
+          .renameField('Author', 'firstName', 'other')
+      }).toThrow()
+
+      expect(() => {
+        ctx
+          .renameField('Author', 'firstName', 'name')
+          .renameField('Author', 'lastName', 'name')
+      }).toThrow()
+
+      expect(() => {
+        ctx
+          .renameField('Author', 'firstName', 'name')
+          .renameField('Author', 'firstName', 'name')
+      }).toThrow()
+    })
+
+    test('requires a Type', () => {
+      const ctx = new TipeMigrationContext()
+      expect(() => {
+        ctx.renameField('firstName', 'name')
+      }).toThrow()
+    })
+
+    test('allows same name renames from different types', () => {
+      const ctx = new TipeMigrationContext()
+      expect(() => {
+        ctx
+          .renameField('Author', 'firstName', 'name')
+          .renameField('Post', 'name', 'title')
+      }).not.toThrow()
+    })
+
+    test('chains', () => {
+      const ctx = new TipeMigrationContext()
+
+      ctx
+        .renameField('Person', 'name', 'firstName')
+        .type('Article')
+        .renameField('title', 'name')
+        .renameField('favorite', 'fave')
+
+      const instructions = ctx.__finalize()
+      expect(instructions.fieldRenames).toHaveLength(3)
+    })
+  })
+
+  describe('removeField', () => {
+    test('removes field from active type', () => {
+      const ctx = new TipeMigrationContext()
+
+      ctx.type('Author').removeField('firstName')
+
+      const instructions = ctx.__finalize()
+      expect(instructions.fieldRemoves).toHaveLength(1)
+      expect(instructions.fieldRemoves[0]).toEqual({
+        type: 'Author',
+        field: 'firstName'
+      })
+    })
+
+    test('removes field from arguments', () => {
+      const ctx = new TipeMigrationContext()
+
+      ctx.removeField('Author', 'firstName')
+
+      const instructions = ctx.__finalize()
+      expect(instructions.fieldRemoves).toHaveLength(1)
+      expect(instructions.fieldRemoves[0]).toEqual({
+        type: 'Author',
+        field: 'firstName'
+      })
+    })
+
+    test('does not allow duplicates', () => {
+      const ctx = new TipeMigrationContext()
+      expect(() => {
+        ctx
+          .removeField('Author', 'firstName')
+          .removeField('Author', 'firstName')
+      }).toThrow()
+    })
+
+    test('requires a Type and field', () => {
+      const ctx = new TipeMigrationContext()
+      expect(() => {
+        ctx.removeField('firstName')
+      }).toThrow()
+    })
+
+    test('allows same name removes from different types', () => {
+      const ctx = new TipeMigrationContext()
+      expect(() => {
+        ctx.removeField('Author', 'firstName').removeField('Post', 'firstName')
+      }).not.toThrow()
+    })
+
+    test('chains', () => {
+      const ctx = new TipeMigrationContext()
+
+      ctx
+        .removeField('Person', 'name')
+        .type('Article')
+        .removeField('title')
+        .removeField('favorite')
+
+      const instructions = ctx.__finalize()
+      expect(instructions.fieldRemoves).toHaveLength(3)
+    })
+  })
 })
