@@ -14,20 +14,26 @@ export const getUserArgs = function(cliArgs) {
     projectId: process.env.TIPE_PROJECT_ID,
     apiKey: process.env.TIPE_API_KEY
   }
+
+  let args
   try {
     const tipeConfig = fs
       .readFileSync(path.join(process.cwd(), constants.configFile))
       .toString()
-    return {
+    args = {
       ...envs,
       ...JSON.parse(tipeConfig),
       ...cliArgs
     }
   } catch (e) {
-    this.log('no .tipe config')
-    return {
+    args = {
       ...envs,
       ...cliArgs
     }
   }
+
+  if (!args.projectId && !args.apiKey) {
+    return this.error('[NOAUTH]: must supply both project id and apikey')
+  }
+  return args
 }
