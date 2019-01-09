@@ -1,57 +1,53 @@
-import _ from 'lodash'
+import { groupBy, forEach } from 'lodash'
 import { getUserArgs } from '../utils/args'
-import { schemaFlag } from '../flags'
-import { checkForSchemaConflicts } from '../api'
-import { Command, flags } from '@oclif/command'
-import { cli } from 'cli-ux'
-import fs from 'fs'
+import { schemaFlag } from '../utils/flags'
+import { TipeCommand } from '../command'
+import { flags } from '@oclif/command'
+import chalk from 'chalk'
+import { push } from '../api'
 
-const { push } = require('../api')
-
-export default class PushCommand extends Command {
+export default class PushCommand extends TipeCommand {
   async run() {
     const { flags } = this.parse(PushCommand)
-    const args = getUserArgs.call(this, flags)
-    let schema
+    this.args = getUserArgs.call(this, flags)
+    await this.pushShapes()
+  }
 
-    try {
-      // TODO: support graphql import
-      schema = fs.readFileSync(args.schema, { encoding: 'utf-8' }).toString()
-    } catch (e) {
-      this.error(`Could not find schema at: "${args.schema}"`)
-      return this.exit(1)
+  async pushShapes() {
+    this.startAction('Validating your shapes')
+
+    const newShapes = require(this.args.schema)
+
+    if (!newShapes || !newShapes.length) {
+      this.error('Schema must have Shapes')
     }
-    cli.action.start('Checking for schema conflicts')
 
-    const [error, res] = await checkForSchemaConflicts(
-      args.projectId,
-      args.apiKey,
-      schema
+    const [error, res] = await push(
+      newShapes,
+      this.args.projectId,
+      this.args.apiKey
     )
 
     if (error) {
-      cli.action.stop('could not get current schema')
-      this.error(error)
-      return process.exit(1)
+      this.error('Oops, something is not working. We are on it!')
     }
 
-    const { hasConflicts, conflicts } = res.body.data
+    console.log(res.data)
+    // this.logShapeErrors(res.data.errors)
+    this.stopAction()
+  }
 
-    if (hasConflicts) {
-      cli.action.stop('Content will require a migration due to conflicts: ')
-      _.forEach(conflicts, (conflictMeta, conFlictName) => {
-        if (conflictMeta.length) {
-          this.log(conFlictName)
-          conflictMeta.forEach(meta => this.log(meta))
-          this.log('\n')
-        }
+  logShapeErrors(errors) {
+    if (errors && errors.length) {
+      this.warn('Invalid Shapes\n')
+      const errorsByShape = groupBy(errors, 'shape')
+
+      forEach(errorsByShape, (_errors, shape) => {
+        this.warn(chalk.underline(chalk.bold(shape)))
+        _errors.forEach(e => this.warn(`  * ${e.error}\n`))
+        this.warn('\n')
       })
-      return
     }
-
-    cli.action.start('Updating schema on Tipe')
-    await push(schema, args.projectId, args.apiKey)
-    cli.action.stop('Schema, API, and Dashboard has been updated! 🎉')
   }
 }
 

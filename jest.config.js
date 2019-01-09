@@ -5,6 +5,6 @@ module.exports = {
   testURL: 'http://localhost/',
   testEnvironment: 'node',
   restoreMocks: true,
-  setupTestFrameworkScriptFile: '<rootDir>/setupTest.js',
+  // setupTestFrameworkScriptFile: '<rootDir>/setupTest.js',
   testPathIgnorePatterns: ['dist/', 'src/config/test.js']
 }

@@ -10,30 +10,21 @@ import path from 'path'
  * @param {Object} cliArgs cli args parsed from command
  */
 export const getUserArgs = function(cliArgs) {
-  const envs = {
-    projectId: process.env.TIPE_PROJECT_ID,
-    apiKey: process.env.TIPE_API_KEY
-  }
-
   let args
   try {
     const tipeConfig = fs
       .readFileSync(path.join(process.cwd(), constants.configFile))
       .toString()
     args = {
-      ...envs,
       ...JSON.parse(tipeConfig),
       ...cliArgs
     }
   } catch (e) {
-    args = {
-      ...envs,
-      ...cliArgs
-    }
+    args = cliArgs
   }
 
   if (!args.projectId && !args.apiKey) {
-    return this.error('[NOAUTH]: must supply both project id and apikey')
+    return this.error('[NOAUTH]: must supply both project id and API Key')
   }
   return args
 }
