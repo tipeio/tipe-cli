@@ -35,8 +35,6 @@ export default class PushCommand extends TipeCommand {
     }
 
     this.logResponse(res.data)
-
-    // this.logShapeErrors(res.data.errors)
   }
 
   logResponse({ conflicts, changes, isNew }) {
