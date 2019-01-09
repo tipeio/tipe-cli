@@ -1,6 +1,3 @@
-// import PushCommand from '../../src/commands/push'
-
-// import config from '../../src/config'
 describe('push', () => {
   let results
   beforeEach(() => {
