@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/tipeio/tipe-cli/compare/v1.2.0...v1.3.0) (2019-01-09)
+
+
+### Features
+
+* **args:** add arg checks ([2dfe51c](https://github.com/tipeio/tipe-cli/commit/2dfe51c))
+* **push:** add push command ([5f173d5](https://github.com/tipeio/tipe-cli/commit/5f173d5))
+* **push:** show output ([749152e](https://github.com/tipeio/tipe-cli/commit/749152e)), closes [#17](https://github.com/tipeio/tipe-cli/issues/17)
+
 # [1.2.0](https://github.com/tipeio/tipe-cli/compare/v1.1.0...v1.2.0) (2018-11-06)
 
 
