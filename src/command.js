@@ -3,16 +3,18 @@ import { cli } from 'cli-ux'
 import chalk from 'chalk'
 
 export class TipeCommand extends Command {
+  logtag = '[tipe]: '
+
   log(message) {
-    super.log(chalk.cyanBright(message))
+    super.log(chalk.cyanBright(`${this.logtag}${message}`))
   }
 
   warn(message) {
-    super.log(chalk.yellow(message))
+    super.log(chalk.yellow(`${this.logtag}${message}`))
   }
 
   error(error, opts = {}) {
-    super.error(chalk.redBright(error), opts)
+    super.error(chalk.redBright(`${this.logtag}${error}`), opts)
   }
 
   startAction(message) {
