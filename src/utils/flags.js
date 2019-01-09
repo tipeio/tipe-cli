@@ -1,6 +1,6 @@
 import { flags } from '@oclif/command'
 import path from 'path'
-import config from './constants'
+import config from '../constants'
 
 export const schemaFlag = flags.build({
   char: 's',
@@ -16,12 +16,14 @@ export const authFlags = {
     char: 'p',
     description: 'Tipe project id that this schema belongs to.',
     multiple: false,
-    requried: false
+    requried: false,
+    env: 'TIPE_PROJECT_ID'
   }),
   apiKey: flags.string({
     char: 'a',
     description: 'Tipe API key with write permission.',
     multiple: false,
-    requried: false
+    requried: false,
+    env: 'TIPE_API_KEY'
   })
 }

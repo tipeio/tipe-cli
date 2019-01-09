@@ -6,5 +6,5 @@ module.exports = {
   DESCRIPTION: pkg.description,
   configFile: '.tiperc',
   migrationsPath: '.tipe-migrations',
-  schemaPath: path.join(process.cwd(), 'tipe.graphql')
+  schemaPath: path.join(process.cwd(), '.tipeshapes.js')
 }

@@ -1,48 +1,10 @@
-import fs from 'fs'
-import { schemaFlag } from '../flags'
-import { Command, flags } from '@oclif/command'
-import { ApolloServer } from 'apollo-server'
-import { createSchema } from '@tipe/schema-tools'
-import crudResolvers from '../resolvers'
+import { schemaFlag } from '../utils/flags'
+import { flags } from '@oclif/command'
 
-export default class ServerCommand extends Command {
-  async run() {
-    const { flags: args } = this.parse(ServerCommand)
-    let typeDefs
+import { TipeCommand } from '../command'
 
-    try {
-      typeDefs = fs.readFileSync(args.schema, { encoding: 'utf-8' }).toString()
-    } catch (e) {
-      this.error(`Could not find schema at: "${args.schema}"`)
-      return this.exit(1)
-    }
-
-    const server = new ApolloServer({
-      schema: createSchema({
-        typeDefs,
-        crudResolvers,
-        spec: 'tipe'
-      }),
-      playground: {
-        settings: {
-          'editor.theme': 'light',
-          'editor.cursorShape': 'block'
-        }
-      }
-    })
-
-    server
-      .listen({ port: args.port })
-      .then(() => {
-        this.log('🚀 Your local mock servers and documentation are ready')
-        this.log(`GraphQL server: http://localhost:${args.port}`)
-        this.log(`GraphQL documentation: http://localhost:${args.port}/graphql`)
-      })
-      .catch(e => {
-        this.error(e)
-        this.exit(1)
-      })
-  }
+export default class ServerCommand extends TipeCommand {
+  async run() {}
 }
 
 ServerCommand.description = 'Local sever for testing schema'
