@@ -1,4 +1,4 @@
-import { groupBy, forEach } from 'lodash'
+import { groupBy, reduce } from 'lodash'
 import { getUserArgs } from '../utils/args'
 import { schemaFlag } from '../utils/flags'
 import { TipeCommand } from '../command'
@@ -14,7 +14,7 @@ export default class PushCommand extends TipeCommand {
   }
 
   async pushShapes() {
-    this.startAction('Validating your shapes')
+    this.startAction('... 🚀 sending new shapes to Tipe')
 
     const newShapes = require(this.args.schema)
 
@@ -28,26 +28,71 @@ export default class PushCommand extends TipeCommand {
       this.args.apiKey
     )
 
+    this.stopAction('done')
+
     if (error) {
       this.error('Oops, something is not working. We are on it!')
     }
 
-    console.log(res.data)
+    this.logResponse(res.data)
+
     // this.logShapeErrors(res.data.errors)
-    this.stopAction()
   }
 
-  logShapeErrors(errors) {
-    if (errors && errors.length) {
-      this.warn('Invalid Shapes\n')
-      const errorsByShape = groupBy(errors, 'shape')
-
-      forEach(errorsByShape, (_errors, shape) => {
-        this.warn(chalk.underline(chalk.bold(shape)))
-        _errors.forEach(e => this.warn(`  * ${e.error}\n`))
-        this.warn('\n')
-      })
+  logResponse({ conflicts, changes, isNew }) {
+    if (conflicts && conflicts.length) {
+      return this.logConflicts(conflicts)
     }
+
+    if (changes && changes.length) {
+      return this.logChanges(changes)
+    }
+
+    if (changes && !changes.length) {
+      return this.log('No changes, your project is already using this schema.')
+    }
+  }
+
+  formatChangePath(changePath) {
+    return changePath.length > 1 ? changePath.join('.') : changePath[0]
+  }
+
+  logChanges(changes) {
+    this.log('The following shape changes were successful! 💯')
+    const changesByShape = groupBy(changes, c => c.path[0])
+
+    const message = reduce(
+      changesByShape,
+      (result, shapeChanges, shape) => {
+        result += '\n' + chalk.underline(chalk.bold(shape)) + '\n'
+        result += shapeChanges.map(
+          c => `✅  ${c.type} - ${this.formatChangePath(c.path)}`
+        )
+        return result + '\n'
+      },
+      ''
+    )
+
+    this.log(message)
+  }
+
+  logConflicts(conflicts) {
+    this.warn(
+      'Cound not make Shape changes. You need to resolve the following issues\n'
+    )
+    const conflictsByShape = groupBy(conflicts, 'shape')
+
+    const message = reduce(
+      conflictsByShape,
+      (result, shapeConflicts, shape) => {
+        result += '\n' + chalk.underline(chalk.bold(shape)) + '\n'
+        result += shapeConflicts.map(s => ` ❌  ${s.error}`).join('\n')
+        return result + '\n'
+      },
+      ''
+    )
+
+    this.warn(message)
   }
 }
 
