@@ -10,12 +10,12 @@ const api = axios.create({
   responseType: 'json'
 })
 
-export const push = (shapes, project, apiKey) => {
+export const push = (shapes, { projectId, apiKey, dryRun = false }) => {
   return asyncWrap(
     api
       .post(
-        `/api/${project}/updateshapes`,
-        { shapes },
+        `/api/${projectId}/updateshapes`,
+        { shapes, dryRun },
         {
           headers: {
             Authorization: apiKey

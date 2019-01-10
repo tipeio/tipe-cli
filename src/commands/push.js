@@ -14,7 +14,11 @@ export default class PushCommand extends TipeCommand {
   }
 
   async pushShapes() {
-    this.startAction('... 🚀 sending new shapes to Tipe')
+    if (this.args.dryRun) {
+      this.log('Dry run, will not modify project schema\n')
+    } else {
+      this.startAction('... 🚀 sending new shapes to Tipe')
+    }
 
     const newShapes = require(this.args.schema)
 
@@ -22,13 +26,11 @@ export default class PushCommand extends TipeCommand {
       this.error('Schema must have Shapes')
     }
 
-    const [error, res] = await push(
-      newShapes,
-      this.args.projectId,
-      this.args.apiKey
-    )
+    const [error, res] = await push(newShapes, this.args)
 
-    this.stopAction('done')
+    if (!this.args.dryRun) {
+      this.stopAction('done')
+    }
 
     if (error) {
       this.error('Oops, something is not working. We are on it!')
@@ -56,15 +58,16 @@ export default class PushCommand extends TipeCommand {
   }
 
   logChanges(changes) {
-    this.log('The following shape changes were successful! 💯')
+    this.log('List of changes =>')
     const changesByShape = groupBy(changes, c => c.path[0])
 
     const message = reduce(
       changesByShape,
       (result, shapeChanges, shape) => {
-        result += '\n' + chalk.underline(chalk.bold(shape)) + '\n'
+        result +=
+          '\n' + chalk.underline(chalk.bold(chalk.magenta(shape))) + '\n'
         result += shapeChanges.map(
-          c => `✅  ${c.type} - ${this.formatChangePath(c.path)}`
+          c => `✅  ${chalk.green(c.type)} - ${this.formatChangePath(c.path)}`
         )
         return result + '\n'
       },
@@ -83,7 +86,8 @@ export default class PushCommand extends TipeCommand {
     const message = reduce(
       conflictsByShape,
       (result, shapeConflicts, shape) => {
-        result += '\n' + chalk.underline(chalk.bold(shape)) + '\n'
+        result +=
+          '\n' + chalk.underline(chalk.bold(chalk.magenta(shape))) + '\n'
         result += shapeConflicts.map(s => ` ❌  ${s.error}`).join('\n')
         return result + '\n'
       },
@@ -104,9 +108,15 @@ PushCommand.flags = {
   }),
   apiKey: flags.string({
     char: 'a',
-    description: 'Tipe API key with write permission.',
+    description: 'Tipe Secret API key.',
     multiple: false,
     requried: false
+  }),
+  dryRun: flags.boolean({
+    char: 'd',
+    description: `Won't apply any changes to your project's schema. Useful to see what changes will be applied or any conflicts.`,
+    required: false,
+    multiple: false
   })
 }
 

@@ -6,15 +6,15 @@ export class TipeCommand extends Command {
   logtag = '[tipe]: '
 
   log(message) {
-    super.log(chalk.cyanBright(`${this.logtag}${message}`))
+    super.log(`${chalk.cyan(this.logtag)}${message}`)
   }
 
   warn(message) {
-    super.log(chalk.yellow(`${this.logtag}${message}`))
+    super.log(`${chalk.yellow(this.logtag)}${message}`)
   }
 
   error(error, opts = {}) {
-    super.error(chalk.redBright(`${this.logtag}${error}`), opts)
+    super.error(`${chalk.redBright(this.logtag)}${error}`, opts)
   }
 
   startAction(message) {
