@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/tipeio/tipe-cli/compare/v1.3.0...v1.4.0) (2019-01-10)
+
+
+### Features
+
+* **push:** add dry run ([ec82480](https://github.com/tipeio/tipe-cli/commit/ec82480))
+
 # [1.3.0](https://github.com/tipeio/tipe-cli/compare/v1.2.0...v1.3.0) (2019-01-09)
 
 
