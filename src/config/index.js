@@ -7,7 +7,9 @@ const base = {
   env
 }
 
-let envConfig = {}
+let envConfig = {
+  API_ENDPOINT: process.env.TIPE_API_URL
+}
 
 switch (env) {
   case 'prod':

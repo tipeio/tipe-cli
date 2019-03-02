@@ -49,7 +49,7 @@ export default class PushCommand extends TipeCommand {
     }
 
     if (changes && !changes.length) {
-      return this.log('No changes, your project is already using this schema.')
+      return this.log('No changes, your project is already using these shapes.')
     }
   }
 
@@ -58,7 +58,7 @@ export default class PushCommand extends TipeCommand {
   }
 
   logChanges(changes) {
-    this.log('List of changes =>')
+    this.log('List of changes')
     const changesByShape = groupBy(changes, c => c.path[0])
 
     const message = reduce(
