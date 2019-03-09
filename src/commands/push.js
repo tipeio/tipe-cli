@@ -1,8 +1,7 @@
 import { groupBy, reduce } from 'lodash'
 import { getUserArgs } from '../utils/args'
-import { schemaFlag } from '../utils/flags'
+import { schemaFlag, authFlags, commonFlags } from '../utils/flags'
 import { TipeCommand } from '../command'
-import { flags } from '@oclif/command'
 import chalk from 'chalk'
 import { push } from '../api'
 
@@ -26,7 +25,7 @@ export default class PushCommand extends TipeCommand {
       this.error('Schema must have Shapes')
     }
 
-    const [error, res] = await push(newShapes, this.args)
+    const [error, res] = await push(this.args.api, newShapes, this.args)
 
     if (!this.args.dryRun) {
       this.stopAction('done')
@@ -99,25 +98,9 @@ export default class PushCommand extends TipeCommand {
 }
 
 PushCommand.flags = {
-  schema: schemaFlag(),
-  projectId: flags.string({
-    char: 'p',
-    description: 'Tipe project id that this schema belongs to.',
-    multiple: false,
-    requried: false
-  }),
-  apiKey: flags.string({
-    char: 'a',
-    description: 'Tipe Secret API key.',
-    multiple: false,
-    requried: false
-  }),
-  dryRun: flags.boolean({
-    char: 'd',
-    description: `Won't apply any changes to your project's schema. Useful to see what changes will be applied or any conflicts.`,
-    required: false,
-    multiple: false
-  })
+  ...authFlags,
+  ...commonFlags,
+  schema: schemaFlag()
 }
 
 PushCommand.description = `Push your project's schema to Tipe which will update your API and Content dashboard`

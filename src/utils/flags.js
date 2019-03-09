@@ -27,3 +27,20 @@ export const authFlags = {
     env: 'TIPE_API_KEY'
   })
 }
+
+export const commonFlags = {
+  dryRun: flags.boolean({
+    char: 'd',
+    description: `Won't apply any changes to your project's schema. Useful to see what changes will be applied or any conflicts.`,
+    required: false,
+    multiple: false
+  }),
+  api: flags.string({
+    char: 'A',
+    description: 'Tipe API endpoint url',
+    multiple: false,
+    required: false,
+    hidden: true,
+    default: config.API_ENDPOINT
+  })
+}
