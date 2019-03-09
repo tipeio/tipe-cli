@@ -5,8 +5,8 @@
 
 ## Overview
 The Tipe CLI is used to manage your Tipe Schemas  from the command line. It is built using [oclif](https://oclif.io/). <br>
-yarn add @tipe/cli <br>
-npm install @tipe/cli
+yarn add @tipe/cli --global<br>
+npm install @tipe/cli -g
 # Commands
 - `tipe login`: Login to your Tipe account(WIP)
 - `tipe server`: Creates a local api based on your schema(WIP)
