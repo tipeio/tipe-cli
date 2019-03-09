@@ -1,3 +1,3 @@
 module.exports = {
-  API_ENDPOINT: process.env.TIPE_API_URL
+  API_ENDPOINT: 'https://api.tipe.io'
 }
