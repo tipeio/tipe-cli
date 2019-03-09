@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/tipeio/tipe-cli/compare/v1.4.0...v1.4.1) (2019-03-09)
+
+
+### Bug Fixes
+
+* **api:** add api url flag ([9be5b53](https://github.com/tipeio/tipe-cli/commit/9be5b53))
+
 # [1.4.0](https://github.com/tipeio/tipe-cli/compare/v1.3.0...v1.4.0) (2019-01-10)
 
 
