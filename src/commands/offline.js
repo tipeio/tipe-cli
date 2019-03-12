@@ -3,7 +3,6 @@ import { schemaFlag, portFlag } from '../utils/flags'
 import { createServer } from '../utils/offline'
 import { getUserArgs } from '../utils/args'
 import { prepareShapes } from '@tipe/schema'
-const DEFAULT_PORT = 4001
 
 export default class OfflineCommand extends TipeCommand {
   run() {
@@ -33,10 +32,9 @@ export default class OfflineCommand extends TipeCommand {
       const shapes = this.getShapes()
       const startServer = createServer(shapes)
       try {
-        const port = this.args.port || DEFAULT_PORT
-        this.server = await startServer(port)
+        this.server = await startServer(this.args.port)
 
-        this.log(`offline API @ http://localhost:${port}`)
+        this.log(`offline API @ http://localhost:${this.args.port}`)
         this.log('If you are using @tipe/sdk, make sure to enable offline mode')
       } catch (e) {
         this.error('Could not start server')
