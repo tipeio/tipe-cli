@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/tipeio/tipe-cli/compare/v1.4.1...v1.5.0) (2019-03-12)
+
+
+### Features
+
+* **offline:** add offline api ([cfbfd69](https://github.com/tipeio/tipe-cli/commit/cfbfd69))
+
 ## [1.4.1](https://github.com/tipeio/tipe-cli/compare/v1.4.0...v1.4.1) (2019-03-09)
 
 
