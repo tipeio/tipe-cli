@@ -1,16 +1,16 @@
 # Tipe CLI
 ![Tipe logo](https://cdn.tipe.io/tipe/tipe-cat-no-text.svg)
-
 [![Build Status](https://travis-ci.com/tipeio/tipe-cli.svg?token=mE8qfws6qu8ishNcR5Zr&branch=master)](https://travis-ci.com/tipeio/tipe-cli)
+> Tool to interact with [Tipe](https://tipe.io)
 
 ## Overview
 The Tipe CLI is used to manage your Tipe Schemas  from the command line. It is built using [oclif](https://oclif.io/). <br>
 yarn add @tipe/cli <br>
 npm install @tipe/cli
+
 # Commands
-- `tipe login`: Login to your Tipe account(WIP)
-- `tipe server`: Creates a local api based on your schema(WIP)
 - [`tipe push`](docs/push.md): Pushes your local [Tipe Schema](https://github.com/tipeio/schema) to your [Dashboard](https://tipe.io) to create content
+- [`tipe offline`](docs/push.md): Starts an offline local API that serves mock content based on your [Tipe Schema](https://github.com/tipeio/schema)
 - [`tipe help`](docs/help.md): Display help for Tipe
 
 # Issues
