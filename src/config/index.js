@@ -4,7 +4,8 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'developement'
 
 const env = process.env.NODE_ENV
 const base = {
-  env
+  env,
+  port: 4001
 }
 
 let envConfig = {}

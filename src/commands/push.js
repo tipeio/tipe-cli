@@ -100,7 +100,7 @@ export default class PushCommand extends TipeCommand {
 PushCommand.flags = {
   ...authFlags,
   ...commonFlags,
-  schema: schemaFlag()
+  ...schemaFlag
 }
 
 PushCommand.description = `Push your project's schema to Tipe which will update your API and Content dashboard`

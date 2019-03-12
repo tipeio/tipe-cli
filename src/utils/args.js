@@ -9,7 +9,7 @@ import path from 'path'
  * 3. env vars
  * @param {Object} cliArgs cli args parsed from command
  */
-export const getUserArgs = function(cliArgs) {
+export const getUserArgs = function(cliArgs, auth = true) {
   let args
   try {
     const tipeConfig = fs
@@ -23,7 +23,7 @@ export const getUserArgs = function(cliArgs) {
     args = cliArgs
   }
 
-  if (!args.projectId && !args.apiKey) {
+  if (auth && !args.projectId && !args.apiKey) {
     return this.error('[NOAUTH]: must supply both project id and API Key')
   }
   return args
