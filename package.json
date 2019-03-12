@@ -64,9 +64,10 @@
     "cli-ux": "^4.8.0",
     "commander": "^2.14.1",
     "cors": "^2.8.5",
-    "express": "^4.16.3",
+    "express": "^4.16.4",
     "lodash": "^4.17.10",
-    "node-fetch": "^2.2.0"
+    "node-fetch": "^2.2.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
