@@ -25,7 +25,7 @@ export default class PushCommand extends TipeCommand {
       this.error('Schema must have Shapes')
     }
 
-    const [error, res] = await push(this.args.api, newShapes, this.args)
+    const [error, res] = await push(newShapes, this.args)
 
     if (!this.args.dryRun) {
       this.stopAction('done')
