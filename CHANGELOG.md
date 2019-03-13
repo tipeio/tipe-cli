@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/tipeio/tipe-cli/compare/v1.5.0...v1.6.0) (2019-03-13)
+
+
+### Features
+
+* **new:** add new command ([5cc98da](https://github.com/tipeio/tipe-cli/commit/5cc98da))
+
 # [1.5.0](https://github.com/tipeio/tipe-cli/compare/v1.4.1...v1.5.0) (2019-03-12)
 
 
