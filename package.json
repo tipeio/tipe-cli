@@ -1,6 +1,6 @@
 {
   "name": "@tipe/cli",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "Tipe CLI",
   "main": "dist/index.js",
   "bin": {

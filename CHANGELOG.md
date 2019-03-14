@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/tipeio/tipe-cli/compare/v1.6.1...v1.6.2) (2019-03-14)
+
+
+### Bug Fixes
+
+* **offline:** add express middleware ([ff3fc96](https://github.com/tipeio/tipe-cli/commit/ff3fc96))
+
 ## [1.6.1](https://github.com/tipeio/tipe-cli/compare/v1.6.0...v1.6.1) (2019-03-14)
 
 
