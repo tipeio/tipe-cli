@@ -42,9 +42,14 @@ export const getValueForField = (field, shapes, levels = DEFAULT_LEVEL) => {
   const isNested = _.isObject(field.type)
 
   if (isArray) {
+    if (!levels || levels === 0) {
+      return []
+    }
+
     return new Array(5)
       .fill(1)
       .map(() => resolveValueForType(field, shapes, levels))
+      .filter(d => !_.isNull(d))
   }
 
   if (isNested) {
