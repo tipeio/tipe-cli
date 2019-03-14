@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/tipeio/tipe-cli/compare/v1.6.0...v1.6.1) (2019-03-14)
+
+
+### Bug Fixes
+
+* **db:** fix resolver ([e744116](https://github.com/tipeio/tipe-cli/commit/e744116))
+
 # [1.6.0](https://github.com/tipeio/tipe-cli/compare/v1.5.0...v1.6.0) (2019-03-13)
 
 
