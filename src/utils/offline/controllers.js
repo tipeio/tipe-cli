@@ -13,6 +13,6 @@ export const byType = (shapes, db) => (req, res) => {
     })
   }
 
-  const data = db.findByShape(req.params.type, 3)
+  const data = db.findByShape(req.params.type)
   return res.json({ data })
 }

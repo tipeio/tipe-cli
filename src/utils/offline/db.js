@@ -144,7 +144,7 @@ export const createDB = shapes => {
         return null
       }
 
-      return resolvePartialDoc(doc, shapes)
+      return doc
     }
   }
 }
