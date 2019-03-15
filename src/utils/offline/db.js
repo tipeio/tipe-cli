@@ -120,7 +120,7 @@ export const resolvePartialDoc = (doc, shapes) => {
 
       return final
     },
-    {}
+    doc
   )
 }
 
@@ -144,7 +144,7 @@ export const createDB = shapes => {
         return null
       }
 
-      return doc
+      return resolvePartialDoc(doc, shapes)
     }
   }
 }

@@ -187,7 +187,7 @@ describe('db', () => {
       expect(docFound.meta_info.id).toEqual(docs[0].meta_info.id)
       expect(docFound.name).toBeTruthy()
       expect(docFound.age).toBeTruthy()
-      expect(docFound.contractor).toBeTruthy()
+      expect(typeof docFound.contractor).toBe('boolean')
       expect(docFound.bio).toBeTruthy()
       expect(docFound.birthdate).toBeTruthy()
     })
