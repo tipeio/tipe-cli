@@ -1,3 +1,11 @@
+## [1.6.4](https://github.com/tipeio/tipe-cli/compare/v1.6.3...v1.6.4) (2019-03-15)
+
+
+### Bug Fixes
+
+* **findById:** returns correct value ([a2c7061](https://github.com/tipeio/tipe-cli/commit/a2c7061))
+* **offline:** findById returns doc ([76a1a79](https://github.com/tipeio/tipe-cli/commit/76a1a79))
+
 ## [1.6.3](https://github.com/tipeio/tipe-cli/compare/v1.6.2...v1.6.3) (2019-03-15)
 
 
