@@ -1,3 +1,10 @@
+## [1.6.3](https://github.com/tipeio/tipe-cli/compare/v1.6.2...v1.6.3) (2019-03-15)
+
+
+### Bug Fixes
+
+* **db:** fix null deep array ([9327d08](https://github.com/tipeio/tipe-cli/commit/9327d08))
+
 ## [1.6.2](https://github.com/tipeio/tipe-cli/compare/v1.6.1...v1.6.2) (2019-03-14)
 
 
