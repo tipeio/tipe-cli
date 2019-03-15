@@ -1,5 +1,5 @@
 import { Shape, types, prepareShapes } from '@tipe/schema'
-import { resolveShape } from '../db'
+import { resolveShape, createDB } from '../db'
 import _ from 'lodash'
 
 describe('db', () => {
@@ -158,6 +158,38 @@ describe('db', () => {
       expect(document.guidesSections.sections[0].sections[0].sections).toEqual(
         []
       )
+    })
+  })
+  describe('createDB', () => {
+    test('findById', () => {
+      const Author = new Shape('Author', {
+        name: {
+          type: types.simpletext
+        },
+        age: {
+          type: types.number
+        },
+        contractor: {
+          type: types.toggle
+        },
+        bio: {
+          type: types.markdown
+        },
+        birthdate: {
+          type: types.calendar
+        }
+      })
+      const { findById, findByShape } = createDB([Author])
+      const docs = findByShape('Author')
+
+      const docFound = findById(docs[0].meta_info.id)
+      expect(docFound).toBeTruthy()
+      expect(docFound.meta_info.id).toEqual(docs[0].meta_info.id)
+      expect(docFound.name).toBeTruthy()
+      expect(docFound.age).toBeTruthy()
+      expect(docFound.contractor).toBeTruthy()
+      expect(docFound.bio).toBeTruthy()
+      expect(docFound.birthdate).toBeTruthy()
     })
   })
 })
