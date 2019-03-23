@@ -1,3 +1,10 @@
+## [1.6.5](https://github.com/tipeio/tipe-cli/compare/v1.6.4...v1.6.5) (2019-03-23)
+
+
+### Bug Fixes
+
+* **chore:** fix spacing ([86def00](https://github.com/tipeio/tipe-cli/commit/86def00))
+
 ## [1.6.4](https://github.com/tipeio/tipe-cli/compare/v1.6.3...v1.6.4) (2019-03-15)
 
 
