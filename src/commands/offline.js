@@ -31,6 +31,7 @@ export default class OfflineCommand extends TipeCommand {
     if (!this.server) {
       const shapes = this.getShapes()
       const startServer = createServer(shapes)
+
       try {
         this.server = await startServer(this.args.port)
 
