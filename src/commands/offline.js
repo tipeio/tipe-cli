@@ -1,17 +1,21 @@
+import path from 'path'
 import TipeCommand from './commandBase'
 import { createServer } from '../utils/offline'
 import { prepareShapes } from '@tipe/schema'
 
-export default class OfflineCommand extends TipeCommand {
-  run(dir, cmd) {
-    this.args = cmd
-    console.log('dir: ', dir)
-    console.log('this.args: ', this.args)
+export default class Offline extends TipeCommand {
+  constructor(args) {
+    super()
+    this.args = this.validate(Offline.validCommands, args)
+  }
 
+  run() {
     this.startServer(this.args.schema)
   }
 
   getShapes() {
+    console.log('this.args.schema: ', this.args.schema)
+    console.log('this.args: ', this.args)
     const newShapes = require(this.args.schema)
     const { errors, shapes } = prepareShapes(newShapes)
 
@@ -48,5 +52,25 @@ export default class OfflineCommand extends TipeCommand {
     if (this.server) {
       this.server.close()
     }
+  }
+}
+
+Offline.validCommands = {
+  p: {
+    complete: 'port'
+  },
+  port: {
+    type: 'number',
+    required: false,
+    default: () => 5000
+  },
+  s: {
+    complete: 'schema'
+  },
+  schema: {
+    type: 'string',
+    required: false,
+    parse: schemaPath => path.join(process.cwd(), schemaPath),
+    default: () => path.join(process.cwd(), '.tipeshapes.js')
   }
 }

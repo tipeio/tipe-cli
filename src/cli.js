@@ -1,13 +1,18 @@
 import argv from 'minimist'
-import { Push, Offline } from './commands'
+import { Push, Offline, NewCommand, Help } from './commands'
 
 const args = argv(process.argv.slice(2))
-// console.log('args: ', args)
 const command = args._[0]
+
+if (command === 'help') {
+  console.log(Help())
+  process.exit(0)
+}
 
 const commands = {
   push: Push,
-  offline: Offline
+  offline: Offline,
+  new: NewCommand
 }
 
 const ValidCommand = commands[command]
