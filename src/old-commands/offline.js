@@ -1,12 +1,13 @@
-import TipeCommand from './commandBase'
+import { TipeCommand } from '../command'
+import { schemaFlag, portFlag } from '../utils/flags'
 import { createServer } from '../utils/offline'
+import { getUserArgs } from '../utils/args'
 import { prepareShapes } from '@tipe/schema'
 
 export default class OfflineCommand extends TipeCommand {
-  run(dir, cmd) {
-    this.args = cmd
-    console.log('dir: ', dir)
-    console.log('this.args: ', this.args)
+  run() {
+    const { flags } = this.parse(OfflineCommand)
+    this.args = getUserArgs.call(this, flags, false)
 
     this.startServer(this.args.schema)
   }
@@ -50,3 +51,11 @@ export default class OfflineCommand extends TipeCommand {
     }
   }
 }
+
+OfflineCommand.flags = {
+  ...schemaFlag,
+  ...portFlag
+}
+
+OfflineCommand.description =
+  'Start a local API with mock cotent based off your shapes.'
