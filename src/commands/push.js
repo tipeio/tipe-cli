@@ -8,11 +8,9 @@ export default class Push extends TipeCommand {
   constructor(args) {
     super()
     this.args = this.validate(Push.validCommands, args)
-    console.log('this.args: ', this.args)
   }
-  run(dir, cmd) {
-    // this.args = cmd
-    // await this.pushShapes()
+  run() {
+    this.pushShapes()
   }
 
   async pushShapes() {

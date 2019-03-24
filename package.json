@@ -2,9 +2,8 @@
   "name": "@tipe/cli",
   "version": "1.6.5",
   "description": "Tipe CLI",
-  "main": "dist/program.js",
   "bin": {
-    "tipe": "./dist/program.js"
+    "tipe": "bin/tipe"
   },
   "scripts": {
     "build": "rm -rf dist && babel src --out-dir dist",
@@ -31,12 +30,6 @@
   },
   "author": "@tipe",
   "license": "Apache-2.0",
-  "files": [
-    "/bin",
-    "/dist",
-    "README.md",
-    "CHANGELOG.md"
-  ],
   "bugs": {
     "url": "https://github.com/tipeio/tipe-cli/issues"
   },
@@ -53,7 +46,6 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "lodash": "^4.17.10",
-    "minimist": "^1.2.0",
     "morgan": "^1.9.1",
     "node-fetch": "^2.2.0",
     "uuid": "^3.3.2"
@@ -92,6 +84,9 @@
     "prettier": "^1.14.0",
     "semantic-release": "^15.9.17",
     "travis-deploy-once": "^5.0.9"
+  },
+  "engines": {
+    "node": ">=8"
   },
   "release": {
     "verifyConditions": [

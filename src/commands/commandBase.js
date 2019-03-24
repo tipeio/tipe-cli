@@ -5,37 +5,34 @@ import chalk from 'chalk'
 export default class TipeCommand {
   logtag = '[tipe]: '
 
-  validate(validCommands, args) {
+  validate(validCommands, userArgs) {
     return _.reduce(
-      args,
-      (finalArgs, argValue, argKey) => {
-        // console.log('argKey: ', argKey)
-        // console.log('argValue: ', argValue)
-        if (argKey === '_') {
-          return finalArgs
-        }
-
-        let flag = validCommands[argKey]
-        if (!flag) this.error('bad flag')
-        flag = flag.complete ? validCommands[flag.complete] : flag
-        console.log('flag: ', flag)
+      validCommands,
+      (finalArgs, flag, flagName) => {
+        const value = userArgs[flagName]
+        const name = flag.complete || flagName
+        const completeFlag = validCommands[flag.complete] || flag
         const parse =
-          flag.parse ||
+          completeFlag.parse ||
           function(v) {
             return v
           }
 
-        // is there a value - argValue
-        // test if value is of flags value type
-        // no value and required is true, error
-        if (this.isThere(argValue) && flag.required) {
-          const flagDefault = flag.default ? flag.default() : null
-          if (this.isThere(flagDefault)) {
-            this.error('error')
+        if (!this.isThere(value) && completeFlag.required) {
+          const flagDefault = completeFlag.default
+            ? completeFlag.default()
+            : null
+
+          if (!this.isThere(flagDefault)) {
+            this.error('nothing we can do for you')
           }
-          finalArgs[argKey] = parse(argValue)
+
+          finalArgs[name] = finalArgs[name] || flagDefault
         }
-        finalArgs[argKey] = parse(argValue)
+
+        if (!this.isThere(value)) return finalArgs
+
+        finalArgs[name] = parse(value)
         return finalArgs
       },
       {}
