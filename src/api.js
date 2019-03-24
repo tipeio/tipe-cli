@@ -4,7 +4,7 @@ import config from './config'
 
 export const push = (
   shapes,
-  { projectId, apiKey, api = config.API_ENDPOINT, dryRun = false }
+  { project, apikey, api = config.API_ENDPOINT, 'dry-run': dryRun }
 ) => {
   const http = axios.create({
     baseURL: api,
@@ -17,11 +17,11 @@ export const push = (
   return asyncWrap(
     http
       .post(
-        `/api/${projectId}/updateshapes`,
+        `/api/${project}/updateshapes`,
         { shapes, dryRun },
         {
           headers: {
-            Authorization: apiKey
+            Authorization: apikey
           }
         }
       )

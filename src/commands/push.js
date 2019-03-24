@@ -1,5 +1,6 @@
 import path from 'path'
 import TipeCommand from './commandBase'
+import config from '../config'
 import { groupBy, reduce } from 'lodash'
 import chalk from 'chalk'
 import { push } from '../api'
@@ -14,28 +15,34 @@ export default class Push extends TipeCommand {
   }
 
   async pushShapes() {
-    if (this.args.dryRun) {
-      this.log('Dry run, will not modify project schema\n')
-    } else {
-      this.startAction('... 🚀 sending new shapes to Tipe')
-    }
-
+    this.startAction('Finding Schema')
     const newShapes = require(this.args.schema)
 
     if (!newShapes || !newShapes.length) {
-      this.error('Schema must have Shapes')
+      this.updateAction('fail', 'Schema does not have Shapes')
+      this.error()
+    }
+
+    if (this.args.dryRun || this.args['dry-run']) {
+      this.updateAction(
+        'succeed',
+        'Sending Schema to Tipe, Dry run, will not modify schema',
+        true
+      )
+    } else {
+      this.updateAction('succeed', 'Sending Schema to Tipe', true)
     }
 
     const [error, res] = await push(newShapes, this.args)
 
-    if (!this.args.dryRun) {
-      this.stopAction('done')
-    }
-
     if (error) {
-      this.error('Oops, something is not working. We are on it!')
+      this.updateAction('fail')
+      this.error(error.message)
+      this.stopAction()
     }
 
+    this.updateAction('succeed', 'Formatting Schema changes', true)
+    // this.stopAction()
     this.logResponse(res.data)
   }
 
@@ -78,9 +85,8 @@ export default class Push extends TipeCommand {
   }
 
   logConflicts(conflicts) {
-    this.warn(
-      'Cound not make Shape changes. You need to resolve the following issues\n'
-    )
+    const title = '✖ Tipe Schema Error'
+
     const conflictsByShape = groupBy(conflicts, 'shape')
 
     const message = reduce(
@@ -94,7 +100,7 @@ export default class Push extends TipeCommand {
       ''
     )
 
-    this.warn(message)
+    this.errorBox(message, title)
   }
 }
 
@@ -137,7 +143,7 @@ Push.validCommands = {
   },
   api: {
     type: 'string',
-    required: true
-    // default: () => config.API_ENDPOINT
+    required: false,
+    default: () => config.API_ENDPOINT
   }
 }

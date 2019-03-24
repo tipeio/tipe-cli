@@ -1,4 +1,5 @@
 import path from 'path'
+import chalk from 'chalk'
 import TipeCommand from './commandBase'
 import { createServer } from '../utils/offline'
 import { prepareShapes } from '@tipe/schema'
@@ -14,8 +15,6 @@ export default class Offline extends TipeCommand {
   }
 
   getShapes() {
-    console.log('this.args.schema: ', this.args.schema)
-    console.log('this.args: ', this.args)
     const newShapes = require(this.args.schema)
     const { errors, shapes } = prepareShapes(newShapes)
 
@@ -38,13 +37,25 @@ export default class Offline extends TipeCommand {
       try {
         this.server = await startServer(this.args.port)
 
-        this.log(`offline API @ http://localhost:${this.args.port}`)
-        this.log('If you are using @tipe/sdk, make sure to enable offline mode')
+        // this.log(`offline API @ http://localhost:${this.args.port}`)
+        // this.log('If you are using @tipe/sdk, make sure to enable offline mode')
+        const message = [
+          `listening on: ${chalk.magenta(
+            'http://localhost:' + this.args.port
+          )}`,
+          `If you are using ${chalk.magenta(
+            '@tipe/sdk'
+          )}, make sure to enable offline mode`
+        ].join('\n')
+
+        process.stdout.write(
+          this.successBox(message, 'Tipe offline API started 🐈')
+        )
       } catch (e) {
         this.error('Could not start server')
       }
     } else {
-      this.warn('offline API already started')
+      this.warning('offline API already started')
     }
   }
 
