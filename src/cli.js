@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import argv from 'minimist'
 import { Push, Offline, NewCommand, Help } from './commands'
 
@@ -16,5 +18,6 @@ const commands = {
 }
 
 const ValidCommand = commands[command]
+
 const validClass = new ValidCommand(args)
 validClass.run()
