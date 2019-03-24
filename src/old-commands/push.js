@@ -1,18 +1,15 @@
-import path from 'path'
-import TipeCommand from './commandBase'
 import { groupBy, reduce } from 'lodash'
+import { getUserArgs } from '../utils/args'
+import { schemaFlag, authFlags, commonFlags } from '../utils/flags'
+import { TipeCommand } from '../command'
 import chalk from 'chalk'
 import { push } from '../api'
 
-export default class Push extends TipeCommand {
-  constructor(args) {
-    super()
-    this.args = this.validate(Push.validCommands, args)
-    console.log('this.args: ', this.args)
-  }
-  run(dir, cmd) {
-    // this.args = cmd
-    // await this.pushShapes()
+export default class PushCommand extends TipeCommand {
+  async run() {
+    const { flags } = this.parse(PushCommand)
+    this.args = getUserArgs.call(this, flags)
+    await this.pushShapes()
   }
 
   async pushShapes() {
@@ -100,46 +97,10 @@ export default class Push extends TipeCommand {
   }
 }
 
-Push.validCommands = {
-  p: {
-    complete: 'project'
-  },
-  project: {
-    type: 'string',
-    required: false,
-    default: () => process.env.TIPE_PROJECT
-  },
-  s: {
-    complete: 'schema'
-  },
-  schema: {
-    type: 'string',
-    required: false,
-    parse: schemaPath => path.join(process.cwd(), schemaPath),
-    default: () => path.join(process.cwd(), '.tipeshapes.js')
-  },
-  a: {
-    complete: 'apikey'
-  },
-  apikey: {
-    type: 'string',
-    required: false,
-    default: () => process.env.TIPE_APIKEY
-  },
-  d: {
-    complete: 'dry-run'
-  },
-  'dry-run': {
-    type: 'boolean',
-    required: false,
-    default: () => false
-  },
-  A: {
-    complete: 'api'
-  },
-  api: {
-    type: 'string',
-    required: true
-    // default: () => config.API_ENDPOINT
-  }
+PushCommand.flags = {
+  ...authFlags,
+  ...commonFlags,
+  ...schemaFlag
 }
+
+PushCommand.description = `Push your project's schema to Tipe which will update your API and Content dashboard`
