@@ -8,7 +8,7 @@ const BlogPost = new Shape('BlogPost', 'Blog Post', {
     type: types.toggle
   },
   body: {
-    type: types.markdown
+    type: types.richtext
   },
   mainImg: {
     type: types.asset,
@@ -28,7 +28,7 @@ const Author = new Shape('Author', {
     type: types.simpletext
   },
   bio: {
-    type: types.markdown
+    type: types.richtext
   },
   socialLinks: {
     name: 'social links',
@@ -51,7 +51,7 @@ const BlogPostPage = new Shape('BlogPostPage', 'Blog Post Page', {
         type: types.simpletext
       },
       body: {
-        type: types.markdown
+        type: types.richtext
       }
     }
   },
