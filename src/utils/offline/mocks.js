@@ -1,6 +1,6 @@
 export const asset = 'https://cdn.tipe.io/tipe/logo.png'
 
-export const markdown = `# Paludibus alumnus
+export const richtext = `# Paludibus alumnus
 
 ## Suique vultus licuit
 

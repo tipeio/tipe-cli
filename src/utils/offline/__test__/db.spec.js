@@ -16,7 +16,7 @@ describe('db', () => {
           type: types.toggle
         },
         bio: {
-          type: types.markdown
+          type: types.richtext
         },
         birthdate: {
           type: types.calendar
@@ -47,7 +47,7 @@ describe('db', () => {
           array: true
         },
         bio: {
-          type: types.markdown,
+          type: types.richtext,
           array: true
         },
         birthdate: {
@@ -84,7 +84,7 @@ describe('db', () => {
               type: types.toggle
             },
             bio: {
-              type: types.markdown
+              type: types.richtext
             },
             birthdate: {
               type: types.calendar
@@ -115,7 +115,7 @@ describe('db', () => {
           ref: 'DocSection'
         },
         content: {
-          type: types.markdown
+          type: types.richtext
         }
       })
 
@@ -144,7 +144,7 @@ describe('db', () => {
           type: types.simpletext
         },
         subtext: {
-          type: types.markdown
+          type: types.richtext
         },
         guidesSections: {
           type: types.shape,
@@ -173,7 +173,7 @@ describe('db', () => {
           type: types.toggle
         },
         bio: {
-          type: types.markdown
+          type: types.richtext
         },
         birthdate: {
           type: types.calendar

@@ -20,8 +20,8 @@ export const resolveValueForType = (field, shapes, levels = DEFAULT_LEVEL) => {
     case types.toggle:
       return [true, false][_.random(1)]
 
-    case types.markdown:
-      return fakes.markdown
+    case types.richtext:
+      return fakes.richtext
 
     case types.calendar:
       return randomDate()
