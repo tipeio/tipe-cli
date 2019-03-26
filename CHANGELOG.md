@@ -1,3 +1,15 @@
+# [1.7.0](https://github.com/tipeio/tipe-cli/compare/v1.6.5...v1.7.0) (2019-03-26)
+
+
+### Bug Fixes
+
+* **validate:** fix validate bugs ([e5627aa](https://github.com/tipeio/tipe-cli/commit/e5627aa))
+
+
+### Features
+
+* **command:** add default help command ([13a0cbc](https://github.com/tipeio/tipe-cli/commit/13a0cbc))
+
 ## [1.6.5](https://github.com/tipeio/tipe-cli/compare/v1.6.4...v1.6.5) (2019-03-23)
 
 
