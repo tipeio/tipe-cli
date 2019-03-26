@@ -8,7 +8,9 @@ const base = {
   port: 4001
 }
 
-let envConfig = {}
+let envConfig = {
+  API_ENDPOINT: 'default'
+}
 
 switch (env) {
   case 'prod':

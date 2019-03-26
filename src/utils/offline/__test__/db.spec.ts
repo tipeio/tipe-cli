@@ -24,7 +24,7 @@ describe('db', () => {
       })
 
       const { shapes } = prepareShapes([Author])
-      const author = resolveShape(Author, shapes)
+      const author: any = resolveShape(Author, shapes)
 
       expect(_.isString(author.name)).toBeTruthy()
       expect(_.isNumber(author.age)).toBeTruthy()
@@ -57,7 +57,7 @@ describe('db', () => {
       })
 
       const { shapes } = prepareShapes([Author])
-      const author = resolveShape(Author, shapes)
+      const author: any = resolveShape(Author, shapes)
 
       author.name.forEach(name => expect(_.isString(name)).toBeTruthy())
       author.age.forEach(age => expect(_.isNumber(age)).toBeTruthy())
@@ -94,7 +94,7 @@ describe('db', () => {
       })
 
       const { shapes } = prepareShapes([Author])
-      const author = resolveShape(Author, shapes)
+      const author: any = resolveShape(Author, shapes)
 
       expect(_.isNumber(author.info.age)).toBeTruthy()
       expect(_.isBoolean(author.info.contractor)).toBeTruthy()
@@ -153,7 +153,7 @@ describe('db', () => {
       })
 
       const { shapes } = prepareShapes([DocSection, HomePage, DocType])
-      const document = resolveShape(HomePage, shapes)
+      const document: any = resolveShape(HomePage, shapes)
 
       expect(document.guidesSections.sections[0].sections[0].sections).toEqual(
         []
@@ -181,8 +181,8 @@ describe('db', () => {
       })
       const { findById, findByShape } = createDB([Author])
       const docs = findByShape('Author')
-
       const docFound = findById(docs[0].meta_info.id)
+
       expect(docFound).toBeTruthy()
       expect(docFound.meta_info.id).toEqual(docs[0].meta_info.id)
       expect(docFound.name).toBeTruthy()
