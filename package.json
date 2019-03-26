@@ -5,6 +5,11 @@
   "bin": {
     "tipe": "./dist/src/cli.js"
   },
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "README.md"
+  ],
   "scripts": {
     "build": "rm -rf dist && tsc",
     "build-link": "rm -rf dist && tsc && npm link",
