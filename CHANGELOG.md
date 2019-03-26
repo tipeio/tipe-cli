@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/tipeio/tipe-cli/compare/v1.7.0...v1.7.1) (2019-03-26)
+
+
+### Bug Fixes
+
+* **bug fix:** add files property to package.json ([573fb37](https://github.com/tipeio/tipe-cli/commit/573fb37))
+
 # [1.7.0](https://github.com/tipeio/tipe-cli/compare/v1.6.5...v1.7.0) (2019-03-26)
 
 
