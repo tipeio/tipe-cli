@@ -129,7 +129,7 @@ export const createDB = shapes => {
 
   return {
     findByShape(shape, count = 10) {
-      const data = _.filter(allDocsById, d => {
+      const data = _.filter(allDocsById, (d: any) => {
         return d[systemFields.meta].shape === shape
       })
 

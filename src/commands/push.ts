@@ -1,14 +1,62 @@
 import path from 'path'
 import TipeCommand from './commandBase'
+import { CommandFlagConfig, CommandArgs } from '../../types'
 import config from '../config'
 import { groupBy, reduce } from 'lodash'
 import chalk from 'chalk'
 import { push } from '../api'
 
 export default class Push extends TipeCommand {
-  constructor(args) {
+  args: CommandArgs
+  validCommands: CommandFlagConfig = {
+    p: {
+      complete: 'project'
+    },
+    project: {
+      type: 'string',
+      required: false,
+      default: () => process.env.TIPE_PROJECT
+    },
+    s: {
+      complete: 'schema'
+    },
+    schema: {
+      type: 'string',
+      required: false,
+      parse: schemaPath => path.join(process.cwd(), schemaPath),
+      default: () => path.join(process.cwd(), '.tipeshapes.js')
+    },
+    a: {
+      complete: 'apikey'
+    },
+    apikey: {
+      type: 'string',
+      required: false,
+      default: () => {
+        return process.env.TIPE_APIKEY
+      }
+    },
+    d: {
+      complete: 'dry-run'
+    },
+    'dry-run': {
+      type: 'boolean',
+      required: false,
+      default: () => false
+    },
+    A: {
+      complete: 'api'
+    },
+    api: {
+      type: 'string',
+      required: false,
+      default: () => config.API_ENDPOINT
+    }
+  }
+
+  constructor(args: object) {
     super()
-    this.args = this.validate(Push.validCommands, args)
+    this.args = this.validate(this.validCommands, args)
   }
   run() {
     this.pushShapes()
@@ -20,7 +68,7 @@ export default class Push extends TipeCommand {
 
     if (!newShapes || !newShapes.length) {
       this.updateAction('fail', 'Schema does not have Shapes')
-      this.error()
+      this.error('Schema does not have Shapes')
     }
 
     if (this.args.dryRun || this.args['dry-run']) {
@@ -36,7 +84,7 @@ export default class Push extends TipeCommand {
     const [error, res] = await push(newShapes, this.args)
 
     if (error) {
-      this.updateAction('fail')
+      this.updateAction('fail', error.message)
       this.error(error.message)
       this.stopAction()
     }
@@ -101,49 +149,5 @@ export default class Push extends TipeCommand {
     )
 
     this.errorBox(message, title)
-  }
-}
-
-Push.validCommands = {
-  p: {
-    complete: 'project'
-  },
-  project: {
-    type: 'string',
-    required: false,
-    default: () => process.env.TIPE_PROJECT
-  },
-  s: {
-    complete: 'schema'
-  },
-  schema: {
-    type: 'string',
-    required: false,
-    parse: schemaPath => path.join(process.cwd(), schemaPath),
-    default: () => path.join(process.cwd(), '.tipeshapes.js')
-  },
-  a: {
-    complete: 'apikey'
-  },
-  apikey: {
-    type: 'string',
-    required: false,
-    default: () => process.env.TIPE_APIKEY
-  },
-  d: {
-    complete: 'dry-run'
-  },
-  'dry-run': {
-    type: 'boolean',
-    required: false,
-    default: () => false
-  },
-  A: {
-    complete: 'api'
-  },
-  api: {
-    type: 'string',
-    required: false,
-    default: () => config.API_ENDPOINT
   }
 }

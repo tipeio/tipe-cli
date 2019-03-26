@@ -1,13 +1,15 @@
 import _ from 'lodash'
-import Ora from 'ora'
+import Ora, { Ora as OraInterface } from 'ora'
 import chalk from 'chalk'
 import boxen from 'boxen'
 import wrapAnsi from 'wrap-ansi'
+import { CommandFlag, CommandFlagConfig, CommandArgs } from '../../types'
 
 export default class TipeCommand {
   logtag = chalk.gray.bold('tipe')
+  spinner: OraInterface
 
-  validate(validCommands, userArgs) {
+  validate(validCommands: CommandFlagConfig, userArgs: object): any {
     return _.reduce(
       validCommands,
       (finalArgs, flag, flagName) => {
@@ -38,25 +40,22 @@ export default class TipeCommand {
     )
   }
 
-  isThere(val) {
+  isThere(val: string) {
     return !_.isUndefined(val) && !_.isNil(val) && !_.isNaN(val)
   }
 
-  log(message) {
+  log(message: string) {
     if (message) {
-      console.log(`${this.logtag} ${message}`)
     }
   }
 
-  warning(message) {
+  warning(message: string) {
     if (message) {
-      console.log(`${this.logtag} ${chalk.bold.yellow('warn')} ${message}`)
     }
   }
 
-  error(message) {
+  error(message: string) {
     if (message) {
-      console.log(`${this.logtag} ${chalk.bold.red('error')} ${message}`)
     }
 
     process.exit(1)
@@ -66,12 +65,14 @@ export default class TipeCommand {
     return ((process.stdout.columns || 100) * 80) / 100
   }
 
-  indent(count, chr = ' ') {
+  indent(count: number, chr: string = ' ') {
     return chr.repeat(count)
   }
 
-  indentLines(string, spaces, firstLineSpaces) {
-    const lines = Array.isArray(string) ? string : string.split('\n')
+  indentLines(string: string, spaces: number, firstLineSpaces: number) {
+    const lines: Array<string> = Array.isArray(string)
+      ? string
+      : string.split('\n')
     let s = ''
     if (lines.length) {
       const i0 = this.indent(
@@ -87,10 +88,10 @@ export default class TipeCommand {
   }
 
   foldLines(
-    string,
-    spaces,
-    firstLineSpaces,
-    charsPerLine = this.maxCharsPerLine()
+    string: string,
+    spaces: number,
+    firstLineSpaces: number,
+    charsPerLine: number = this.maxCharsPerLine()
   ) {
     return this.indentLines(
       wrapAnsi(string, charsPerLine),
@@ -99,7 +100,7 @@ export default class TipeCommand {
     )
   }
 
-  box(message, title, options) {
+  box(message: string, title: string, options: object) {
     return (
       boxen(
         [
@@ -120,34 +121,34 @@ export default class TipeCommand {
     )
   }
 
-  successBox(message, title) {
+  successBox(message: string, title: string) {
     return this.box(message, title || chalk.green('✔ Tipe Success'), {
       borderColor: 'green'
     })
   }
 
-  warningBox(message, title) {
+  warningBox(message: string, title: string) {
     return this.box(message, title || chalk.yellow('⚠ Tipe Warning'), {
       borderColor: 'yellow'
     })
   }
 
-  errorBox(message, title) {
+  errorBox(message: string, title: string) {
     this.box(message, title || chalk.red('✖ Tipe Error'), {
       borderColor: 'red'
     })
     process.exit(1)
   }
 
-  startAction(text) {
-    const spinner = new Ora({ text, color: 'magenta' })
+  startAction(text: string) {
+    const spinner = Ora({ text, color: 'magenta' })
     spinner.start()
     this.spinner = spinner
 
     return spinner
   }
 
-  updateAction(type, text, add = false) {
+  updateAction(type: string, text: string, add: boolean = false) {
     if (this.spinner) {
       const method = this.spinner[type]
 

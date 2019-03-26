@@ -1,13 +1,36 @@
 import path from 'path'
 import chalk from 'chalk'
 import TipeCommand from './commandBase'
+import { CommandFlagConfig, CommandArgs } from '../../types'
 import { createServer } from '../utils/offline'
 import { prepareShapes } from '@tipe/schema'
 
 export default class Offline extends TipeCommand {
+  args: CommandArgs
+  server: any
+  validCommands: CommandFlagConfig = {
+    p: {
+      complete: 'port'
+    },
+    port: {
+      type: 'number',
+      required: false,
+      default: () => 5000
+    },
+    s: {
+      complete: 'schema'
+    },
+    schema: {
+      type: 'string',
+      required: false,
+      parse: schemaPath => path.join(process.cwd(), schemaPath),
+      default: () => path.join(process.cwd(), '.tipeshapes.js')
+    }
+  }
+
   constructor(args) {
     super()
-    this.args = this.validate(Offline.validCommands, args)
+    this.args = this.validate(this.validCommands, args)
   }
 
   run() {
@@ -29,7 +52,7 @@ export default class Offline extends TipeCommand {
     this.error(JSON.stringify(errors))
   }
 
-  async startServer() {
+  async startServer(schema?: string) {
     if (!this.server) {
       const shapes = this.getShapes()
       const startServer = createServer(shapes)
@@ -63,25 +86,5 @@ export default class Offline extends TipeCommand {
     if (this.server) {
       this.server.close()
     }
-  }
-}
-
-Offline.validCommands = {
-  p: {
-    complete: 'port'
-  },
-  port: {
-    type: 'number',
-    required: false,
-    default: () => 5000
-  },
-  s: {
-    complete: 'schema'
-  },
-  schema: {
-    type: 'string',
-    required: false,
-    parse: schemaPath => path.join(process.cwd(), schemaPath),
-    default: () => path.join(process.cwd(), '.tipeshapes.js')
   }
 }
