@@ -49,15 +49,15 @@ export default class Offline extends TipeCommand {
   }
 
   logSchemaErorrs(errors) {
-    this.error(JSON.stringify(errors))
+    this.error('Schema error', JSON.stringify(errors))
   }
 
   async startServer(schema?: string) {
     if (!this.server) {
       const shapes = this.getShapes()
       const startServer = createServer(shapes)
-
       try {
+        this.startAction('Starting Tipe offline API')
         this.server = await startServer(this.args.port)
 
         // this.log(`offline API @ http://localhost:${this.args.port}`)
@@ -75,9 +75,11 @@ export default class Offline extends TipeCommand {
           this.successBox(message, 'Tipe offline API started 🐈')
         )
       } catch (e) {
-        this.error('Could not start server')
+        this.stopAction()
+        this.error('Server error', 'Could not start server')
       }
     } else {
+      this.stopAction()
       this.warning('offline API already started')
     }
   }

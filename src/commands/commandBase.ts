@@ -26,7 +26,7 @@ export default class TipeCommand {
 
         if (!this.isThere(value)) {
           if (completeFlag.required && !this.isThere(flagDefault)) {
-            this.error('nothing we can do for you')
+            this.error('Required flag', 'missing defaults and no args passed')
           }
 
           finalArgs[name] = finalArgs[name] || flagDefault
@@ -54,8 +54,9 @@ export default class TipeCommand {
     }
   }
 
-  error(message: string) {
+  error(errorType: string, message: string) {
     if (message) {
+      console.log(`${chalk.yellow(errorType)}: ${chalk.red(message)}`)
     }
 
     process.exit(1)
@@ -141,16 +142,16 @@ export default class TipeCommand {
   }
 
   startAction(text: string) {
-    const spinner = Ora({ text, color: 'magenta' })
+    const spinner: OraInterface = Ora({ text, color: 'magenta' })
     spinner.start()
     this.spinner = spinner
 
     return spinner
   }
 
-  updateAction(type: string, text: string, add: boolean = false) {
+  updateAction(spinnerType: string, text: string, add: boolean = false) {
     if (this.spinner) {
-      const method = this.spinner[type]
+      const method = this.spinner[spinnerType]
 
       if (method) {
         if (add) {
