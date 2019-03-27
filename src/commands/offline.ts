@@ -28,7 +28,7 @@ export default class Offline extends TipeCommand {
     }
   }
 
-  constructor(args) {
+  constructor(args: object) {
     super()
     this.args = this.validate(this.validCommands, args)
   }
