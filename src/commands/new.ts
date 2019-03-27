@@ -31,18 +31,23 @@ export default class NewCommand extends TipeCommand {
     super()
     this.args = this.validate(this.validCommands, args)
   }
-  async run() {
-    await this.saveSchema()
+
+  run() {
+    this.startAction('Saving Schema')
+    this.saveSchema()
     this.log('New schema => ./tipeshapes.js')
     this.log('run the "tipe push" command when you')
     this.log('Run the offline API with "tipe offline"')
   }
 
-  async saveSchema() {
-    const [e] = await writeSchema('blog')
+  saveSchema() {
+    const [e] = writeSchema('blog')
 
     if (e) {
-      return this.error('Could not create shapes')
+      this.stopAction()
+      return this.error('Schema not saved', 'Could not create shapes')
+    } else {
+      this.updateAction('succeed', 'Schema Saved Successfully', true)
     }
   }
 }

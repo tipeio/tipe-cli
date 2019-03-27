@@ -68,7 +68,7 @@ export default class Push extends TipeCommand {
 
     if (!newShapes || !newShapes.length) {
       this.updateAction('fail', 'Schema does not have Shapes')
-      this.error('Schema does not have Shapes')
+      this.error('Schema error', 'Schema does not have Shapes')
     }
 
     if (this.args.dryRun || this.args['dry-run']) {
@@ -85,7 +85,7 @@ export default class Push extends TipeCommand {
 
     if (error) {
       this.updateAction('fail', error.message)
-      this.error(error.message)
+      this.error('Push failed', error.message)
       this.stopAction()
     }
 

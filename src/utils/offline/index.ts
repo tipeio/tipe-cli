@@ -17,6 +17,7 @@ export const createServer = shapes => {
 
   return port =>
     new Promise(resolve => {
+      console.log('yo!')
       const server = app.listen(port, () => resolve(server))
     })
 }
