@@ -1,10 +1,10 @@
 import path from 'path'
 import TipeCommand from './commandBase'
-import { CommandFlagConfig } from '../../types'
+import { CommandFlagConfig, CommandArgs } from '../../types'
 import { writeSchema } from '../utils/new'
 
 export default class NewCommand extends TipeCommand {
-  args: object
+  args: CommandArgs
   log: any
   description: string = 'Scaffold a new basic schema for your project'
   validCommands: CommandFlagConfig = {
@@ -27,7 +27,7 @@ export default class NewCommand extends TipeCommand {
     }
   }
 
-  constructor(args: Array<string>) {
+  constructor(args: object) {
     super()
     this.args = this.validate(this.validCommands, args)
   }
