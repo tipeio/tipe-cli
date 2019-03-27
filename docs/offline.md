@@ -8,5 +8,5 @@ USAGE
 
 OPTIONS
   -s --schema            (required) path to schema file
-  -p --port            (required) project ID to save schema
+  -p --project            (required) project ID to save schema
 ```
