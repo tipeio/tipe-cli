@@ -5,6 +5,6 @@
     "target": "es5",
     "esModuleInterop": true
   },
-  "include": ["src"],
+  "include": ["src", "src/commands/.tipeshapes.ts"],
   "exclude": ["node_modules", "**/*.spec.ts", "./src/**/*__test__"]
 }

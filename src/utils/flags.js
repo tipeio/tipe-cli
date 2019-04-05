@@ -1,13 +1,13 @@
 import { flags } from '@oclif/command'
 import path from 'path'
-import config from '../constants'
+import constants from '../constants'
 
 export const schemaFlag = {
   schema: flags.string({
     char: 's',
     description: 'Path to your schema file',
     multiple: false,
-    default: config.schemaPath,
+    default: constants.schemaPath,
     requried: true,
     parse: relPath => path.join(process.cwd(), relPath)
   })
@@ -19,7 +19,7 @@ export const portFlag = {
     description: 'Port for the offline API',
     multiple: false,
     required: false,
-    default: config.port
+    default: constants.port
   })
 }
 
@@ -53,6 +53,6 @@ export const commonFlags = {
     multiple: false,
     required: false,
     hidden: true,
-    default: config.API_ENDPOINT
+    default: constants.API_ENDPOINT
   })
 }

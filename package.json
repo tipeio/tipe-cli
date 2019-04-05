@@ -135,6 +135,11 @@
           "release": "patch"
         },
         {
+          "type": "docs",
+          "scope": "help",
+          "release": "patch"
+        },
+        {
           "type": "refactor",
           "release": "patch"
         },

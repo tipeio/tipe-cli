@@ -1,5 +1,7 @@
 import path from 'path'
 import TipeCommand from './commandBase'
+
+import constants from '../constants'
 import { CommandFlagConfig, CommandArgs } from '../../types'
 import config from '../config'
 import { groupBy, reduce } from 'lodash'
@@ -67,8 +69,8 @@ export default class Push extends TipeCommand {
     const newShapes = require(this.args.schema)
 
     if (!newShapes || !newShapes.length) {
-      this.updateAction('fail', 'Schema does not have Shapes')
-      this.error('Schema error', 'Schema does not have Shapes')
+      this.updateAction('fail', constants.pushErrors.schemaFileError)
+      this.error('Schema error', constants.pushErrors.schemaFileError)
     }
 
     if (this.args.dryRun || this.args['dry-run']) {
