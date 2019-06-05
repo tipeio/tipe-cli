@@ -1,6 +1,6 @@
 {
   "name": "@tipe/cli",
-  "version": "1.7.2",
+  "version": "1.7.3",
   "description": "Tipe CLI",
   "bin": {
     "tipe": "./dist/src/cli.js"
