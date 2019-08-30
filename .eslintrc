@@ -1,15 +1,7 @@
 {
-  "extends": [
-    "@tipe/eslint-config-tipe/server",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  },
-  "rules": {
-    "indent": "off",
-    "@typescript-eslint/indent": ["error", 2]
+  "extends": "@tipe/eslint-config-tipe/server",
+
+  "globals": {
+    "newId": false
   }
 }
