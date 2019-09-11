@@ -2,17 +2,17 @@
   "name": "@tipe/cli",
   "version": "1.7.3",
   "description": "Tipe CLI",
-  "main": "./dist/src/index.js",
+  "main": "./lib/index.js",
   "bin": {
     "tipe": "./bin/tipe"
   },
   "files": [
     "bin/**/*",
-    "src/**/*"
+    "lib/**/*"
   ],
   "scripts": {
     "test": "cross-env NODE_ENV=testing jest --detectOpenHandles --forceExit",
-    "lint": "eslint src",
+    "lint": "eslint lib",
     "lint-autofix": "yarn lint --fix",
     "precommit": "lint-staged && yarn test --passWithNoTests",
     "ci": "yarn lint && yarn test",
