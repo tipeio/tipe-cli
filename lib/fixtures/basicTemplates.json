@@ -1,0 +1,20 @@
+{
+  "templates": [
+    {
+      "name": "Home",
+      "id": "home",
+      "fields": [{ "name": "name", "id": "name", "type": "text" }],
+      "multi": false
+    },
+    {
+      "name": "About",
+      "disabled": true,
+      "id": "about",
+      "fields": [
+        { "name": "title", "id": "title", "type": "text" },
+        { "name": "other", "id": "other", "type": "text" }
+      ],
+      "multi": false
+    }
+  ]
+}
