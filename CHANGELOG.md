@@ -1,3 +1,17 @@
+# [1.8.0](https://github.com/tipeio/tipe-cli/compare/v1.7.3...v1.8.0) (2019-09-11)
+
+
+### Bug Fixes
+
+* **build:** change src to lib ([9227fd0](https://github.com/tipeio/tipe-cli/commit/9227fd0))
+* **cli:** clean up ([a1a160e](https://github.com/tipeio/tipe-cli/commit/a1a160e))
+
+
+### Features
+
+* **push:** add push command ([8177de2](https://github.com/tipeio/tipe-cli/commit/8177de2))
+* **push:** push template ([dd062c9](https://github.com/tipeio/tipe-cli/commit/dd062c9))
+
 ## [1.7.3](https://github.com/tipeio/tipe-cli/compare/v1.7.2...v1.7.3) (2019-06-05)
 
 ## [1.7.2](https://github.com/tipeio/tipe-cli/compare/v1.7.1...v1.7.2) (2019-03-27)
