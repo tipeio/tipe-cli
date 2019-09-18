@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/tipeio/tipe-cli/compare/v1.8.0...v1.8.1) (2019-09-18)
+
+
+### Bug Fixes
+
+* **config:** default to prod ([8d3af3a](https://github.com/tipeio/tipe-cli/commit/8d3af3a))
+
 # [1.8.0](https://github.com/tipeio/tipe-cli/compare/v1.7.3...v1.8.0) (2019-09-11)
 
 
