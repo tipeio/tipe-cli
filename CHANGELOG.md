@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/tipeio/tipe-cli/compare/v1.8.1...v1.8.2) (2019-09-24)
+
+
+### Bug Fixes
+
+* **build:** fix file name to build ([5273e2a](https://github.com/tipeio/tipe-cli/commit/5273e2a))
+
 ## [1.8.1](https://github.com/tipeio/tipe-cli/compare/v1.8.0...v1.8.1) (2019-09-18)
 
 
