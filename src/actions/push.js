@@ -2,14 +2,15 @@ const { addFlags, getOptions } = require('../utils/options')
 const { getUserFile } = require('../utils/paths')
 const { push } = require('../utils/api')
 const asyncWrap = require('../utils/async')
+const logSymbols = require('log-symbols')
 
 module.exports = program => {
   let p = program.command('push', 'Push up your templates')
   p = addFlags(p)
 
   return p
-    .option('--dry', 'Dry run', p.BOOL)
-    .option('--templates <path>', 'Path to Templates', p.STRING)
+    .option('--dry -d', 'Dry run', program.BOOL, false)
+    .option('--templates -t <path>', 'Path to Templates', program.STRING, null, true)
     .action(async (args, options, logger) => {
       const finalOptions = getOptions(options, args)
 
@@ -18,7 +19,7 @@ module.exports = program => {
       try {
         templates = JSON.parse(getUserFile(finalOptions.templates))
       } catch (e) {
-        logger.error(e.message)
+        logger.error(logSymbols.error, e.message)
         process.exit(1)
       }
 
@@ -31,12 +32,12 @@ module.exports = program => {
         if (result) {
           if (result.errors) {
             // TODO: pretty print
-            return logger.error(JSON.stringify(result.errors, null, 2))
+            return logger.error(logSymbols.error, JSON.stringify(result.errors, null, 2))
           }
-          logger.info('success ✅')
+          logger.info(logSymbols.success, 'success')
         }
       } else {
-        logger.error('No templates')
+        logger.error(logSymbols.error, 'No templates')
       }
     })
 }
