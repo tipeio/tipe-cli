@@ -12,7 +12,7 @@
   ],
   "scripts": {
     "test": "cross-env NODE_ENV=testing jest --detectOpenHandles --forceExit",
-    "lint": "eslint lib",
+    "lint": "eslint src",
     "lint-autofix": "yarn lint --fix",
     "precommit": "lint-staged && yarn test --passWithNoTests",
     "ci": "yarn lint && yarn test",
