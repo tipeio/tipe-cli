@@ -1,3 +1,15 @@
+# [1.9.0](https://github.com/tipeio/tipe-cli/compare/v1.8.2...v1.9.0) (2019-09-27)
+
+
+### Bug Fixes
+
+* **test:** fix test ([f8ec93d](https://github.com/tipeio/tipe-cli/commit/f8ec93d))
+
+
+### Features
+
+* **api:** add mock api ([ca75220](https://github.com/tipeio/tipe-cli/commit/ca75220))
+
 ## [1.8.2](https://github.com/tipeio/tipe-cli/compare/v1.8.1...v1.8.2) (2019-09-24)
 
 
