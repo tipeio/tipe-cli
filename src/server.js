@@ -17,7 +17,7 @@ const documentsByProjectId = mockDocuments => (req, res) => {
 }
 
 const documentById = mockDocuments => (req, res) => {
-  const document = mockDocuments.find(d => d.id === req.body.id)
+  const document = mockDocuments.find(d => d.document === req.body.document)
 
   if (!document) {
     return res.sendStatus(400)
