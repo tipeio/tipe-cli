@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/tipeio/tipe-cli/compare/v1.9.0...v1.10.0) (2019-10-01)
+
+
+### Features
+
+* **serve:** add default mocks ([4d006b4](https://github.com/tipeio/tipe-cli/commit/4d006b4))
+
 # [1.9.0](https://github.com/tipeio/tipe-cli/compare/v1.8.2...v1.9.0) (2019-09-27)
 
 
