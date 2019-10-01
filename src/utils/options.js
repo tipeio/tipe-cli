@@ -3,10 +3,8 @@ const mainOptions = [
   { flag: '--project <id>', description: 'Tipe project' },
 ]
 
-const getOptions = (options, args) => ({ ...options, ...args })
 const addFlags = program => mainOptions.reduce((p, o) => p.option(o.flag, o.description), program)
 
 module.exports = {
   addFlags,
-  getOptions,
 }

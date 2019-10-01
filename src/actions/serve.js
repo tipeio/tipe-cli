@@ -1,44 +1,53 @@
-const { getUserFile } = require('../utils/paths')
-const { createServer } = require('../server')
 const boxen = require('boxen')
 const logSymbols = require('log-symbols')
 const chalk = require('chalk')
-const mocks = require('../mocks')
 const _ = require('lodash')
 const nano = require('nanoid')
 const Chance = require('chance')
 
+const { getUserConfig } = require('../utils/config')
+const asyncWrap = require('../utils/async')
+const { createServer } = require('../server')
+const mocks = require('../mocks')
+
 const chance = new Chance()
 const docsPerTemplate = 10
 
-const getFieldvalue = (template, field) => {
+const getField = (template, field) => {
   switch (field.type) {
     case 'button':
-      return mocks.button()
+      return mocks.button(field)
     case 'image':
-      return mocks.image(field.name)
+      return mocks.image(field)
     case 'markdown':
-      return mocks.markdown()
+      return mocks.markdown(field)
+    case 'code':
+      return mocks.code(field)
+    case 'html':
+      return mocks.html(field)
     default:
-      return mocks.text()
+      return mocks.text(field)
   }
 }
 
-const formatFields = (fields, template, getValue = getFieldvalue) =>
+const formatFields = (fields, template, renderField = getField) =>
   fields.reduce((fields, field) => {
-    const final = {
-      name: field.name,
-      id: field.id,
-      type: field.type,
-      data: {},
-      value: getValue(template, field),
-    }
+    const final = _.merge(
+      {
+        name: field.name,
+        id: field.id,
+        type: field.type,
+        data: {},
+      },
+      renderField(template, field),
+    )
+
     fields[field.id] = final
     return fields
   }, {})
 
 const createDocsForTemplate = template =>
-  _.times(docsPerTemplate, () => ({
+  _.times(template.multi === false ? 1 : docsPerTemplate, () => ({
     id: nano(),
     fields: formatFields(template.fields, template),
     template: {
@@ -81,23 +90,23 @@ module.exports = program => {
 
   return p
     .option('--port <port>', 'Port for offline mock API', program.INT, 8300)
-    .option('--templates -t <path>', 'Path to Templates', program.STRING, null, true)
-    .action(async (args, options, logger) => {
-      let templates
-      try {
-        templates = JSON.parse(getUserFile(options.templates))
-      } catch (e) {
-        logger.error(logSymbols.error, e.message)
-        process.exit(1)
+    .option('--config -c <path>', 'Path to config file', program.STRING, null)
+    .action(async (__, options, logger) => {
+      let [error, allOptions] = await asyncWrap(getUserConfig())
+
+      if (error) {
+        logger.error(logSymbols.error, error.message)
+        return process.exit(1)
       }
 
-      if (!templates.templates) {
+      if (!allOptions.config.templates) {
         logger.error(logSymbols.error, 'Missing templates')
         return process.exit(1)
       }
 
-      const docs = createMockDocuments(templates.templates)
+      const docs = createMockDocuments(allOptions.config.templates)
       await createServer(docs, options.port)
+
       const url = `http://localhost:${options.port}`
       const message = `${chalk.magenta.bold('Tipe')} offline mock API\n\n${chalk.white.underline(url)}`
 
