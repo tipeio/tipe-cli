@@ -14,6 +14,27 @@ module.exports = {
           mocks: [`const me = 'hello'`],
         },
       },
+      refs: {
+        performanceFeature: {
+          name: 'Performance Feature',
+          type: 'homeFeature',
+        },
+      },
+    },
+
+    homeFeature: {
+      name: 'Feature',
+      fields: {
+        title: {
+          name: 'header',
+          type: 'text',
+          mocks: ['feature header here'],
+        },
+        icon: {
+          name: 'icon',
+          type: 'image',
+        },
+      },
     },
   },
 }

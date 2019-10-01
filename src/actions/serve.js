@@ -72,7 +72,7 @@ const createMockDocuments = templates => {
         (refs, ref) => {
           const match = _.sample(allDocs.filter(d => d.template.id === ref.type))
           refs[ref.id] = {
-            ...refs,
+            ...ref,
             value: match.id,
           }
 
