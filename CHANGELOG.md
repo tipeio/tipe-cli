@@ -1,3 +1,10 @@
+## [1.10.1](https://github.com/tipeio/tipe-cli/compare/v1.10.0...v1.10.1) (2019-10-01)
+
+
+### Bug Fixes
+
+* **serve:** fix refs output ([80db39e](https://github.com/tipeio/tipe-cli/commit/80db39e))
+
 # [1.10.0](https://github.com/tipeio/tipe-cli/compare/v1.9.0...v1.10.0) (2019-10-01)
 
 
