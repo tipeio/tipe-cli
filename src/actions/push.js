@@ -1,5 +1,5 @@
-const { addFlags, getOptions } = require('../utils/options')
-const { getUserFile } = require('../utils/paths')
+const { addFlags } = require('../utils/options')
+const { getUserConfig } = require('../utils/config')
 const { push } = require('../utils/api')
 const asyncWrap = require('../utils/async')
 const logSymbols = require('log-symbols')
@@ -10,21 +10,18 @@ module.exports = program => {
 
   return p
     .option('--dry -d', 'Dry run', program.BOOL, false)
-    .option('--templates -t <path>', 'Path to Templates', program.STRING, null, true)
+    .option('--config -c <path>', 'Path to tipe config', program.STRING, null, true)
     .action(async (args, options, logger) => {
-      const finalOptions = getOptions(options, args)
-
-      let templates
-
+      let allOptions
       try {
-        templates = JSON.parse(getUserFile(finalOptions.templates))
+        allOptions = await getUserConfig()
       } catch (e) {
         logger.error(logSymbols.error, e.message)
         process.exit(1)
       }
 
-      if (templates.templates) {
-        const [error, result] = await asyncWrap(push(templates.templates, { ...finalOptions }))
+      if (allOptions.config.templates) {
+        const [error, result] = await asyncWrap(push(allOptions.config.templates, { ...allOptions.config }))
         if (error) {
           logger.error('Could not push templates')
           logger.error(error)

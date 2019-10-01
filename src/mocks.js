@@ -1,12 +1,40 @@
-// const Chance = require('chance')
-// const chance = new Chance()
+const _ = require('lodash')
 
-const button = () => 'click me'
-const text = () => '<p>text here</p>'
-const markdown = () => '#This is markdown \n> hello there\n[link here](https://google.com)'
-const image = text => {
-  const txt64 = Buffer.from(text).toString('base64')
-  return `https://assets.imgix.net/~text?txtclr=fff&bg=A8A2A1&txt64=${txt64}&txtfont64=TGF0bw&w=100&txtsize=40&fm=svg&h=400&txtalign=center%2Cmiddle`
+const getMockContent = (field, base) => {
+  const mocks = _.isArray(field.mocks) ? field.mocks : [base]
+  return _.sample(mocks)
 }
 
-module.exports = { button, text, markdown, image }
+const button = field => ({
+  value: getMockContent(field, 'click me'),
+})
+
+const text = field => ({
+  value: getMockContent(field, 'this is some text here'),
+})
+
+const markdown = field => ({
+  value: getMockContent(field, '#This is markdown \n> hello there\n[link here](https://google.com)'),
+})
+
+const code = field => ({
+  value: getMockContent(field, `const name = 'tipe'`),
+  data: { lang: 'javascript' },
+})
+
+const image = field => {
+  const txt64 = Buffer.from('tipe').toString('base64')
+  const url = `https://assets.imgix.net/~text?txtclr=fff&bg=3D4CF5&txt64=${txt64}=&txtfont64=TGF0bw&w=100&txtsize=40&fm=svg&h=100&txtalign=center%2Cmiddle`
+  return {
+    value: getMockContent(field, url),
+  }
+}
+
+const html = field => ({
+  value: getMockContent(
+    field,
+    '<p>this is some html <i>here</i>. Check out some <a href="https://tipe.io">docs</a></p>',
+  ),
+})
+
+module.exports = { button, text, markdown, image, code, html }
