@@ -37,4 +37,8 @@ const html = field => ({
   ),
 })
 
-module.exports = { button, text, markdown, image, code, html }
+const boolean = field => ({
+  value: getMockContent(field, false),
+})
+
+module.exports = { button, text, markdown, image, code, html, boolean }

@@ -25,6 +25,8 @@ const getField = (template, field) => {
       return mocks.code(field)
     case 'html':
       return mocks.html(field)
+    case 'boolean':
+      return mocks.boolean(field)
     default:
       return mocks.text(field)
   }
