@@ -1,3 +1,10 @@
+## [1.11.1](https://github.com/tipeio/tipe-cli/compare/v1.11.0...v1.11.1) (2019-10-09)
+
+
+### Bug Fixes
+
+* **push:** fix push ([f6965dc](https://github.com/tipeio/tipe-cli/commit/f6965dc))
+
 # [1.11.0](https://github.com/tipeio/tipe-cli/compare/v1.10.1...v1.11.0) (2019-10-09)
 
 
