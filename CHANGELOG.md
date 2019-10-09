@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/tipeio/tipe-cli/compare/v1.10.1...v1.11.0) (2019-10-09)
+
+
+### Features
+
+* **blocks:** add support for boolean block ([923e7e6](https://github.com/tipeio/tipe-cli/commit/923e7e6))
+
 ## [1.10.1](https://github.com/tipeio/tipe-cli/compare/v1.10.0...v1.10.1) (2019-10-01)
 
 
