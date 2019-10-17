@@ -21,10 +21,12 @@ module.exports = program => {
       }
 
       if (allOptions.config.templates) {
-        const [error, result] = await asyncWrap(push(allOptions.config.templates, { ...allOptions.config, ...options }))
-        if (error) {
+        const [errors, result] = await asyncWrap(
+          push(allOptions.config.templates, { ...allOptions.config, ...options }),
+        )
+        if (errors) {
           logger.error('Could not push templates')
-          logger.error(error)
+          logger.error(errors)
         }
         if (result) {
           if (result.errors) {
