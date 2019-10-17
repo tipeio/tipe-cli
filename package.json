@@ -157,5 +157,12 @@
         ]
       }
     }
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/bin/",
+      "/dist/",
+      "/config/"
+    ]
   }
 }
