@@ -64,7 +64,7 @@ const getHomePageContent = () => tipe.document.list({template: 'home'})
 1. **[Create an account on Tipe](https://tipe.io?rel=cli)**
 2. **Push up your templates to your Tipe project**
 ```
-tipe push --project your-project-id --apikey your-api-key
+tipe push --config tipe.js --project your-project-id --apikey your-api-key
 ```
 3. **Change SDK to use live API in Production**
 ```javascript
