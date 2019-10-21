@@ -1,3 +1,10 @@
+## [1.11.2](https://github.com/tipeio/tipe-cli/compare/v1.11.1...v1.11.2) (2019-10-21)
+
+
+### Bug Fixes
+
+* **http:** fix utl ([a3e0eb2](https://github.com/tipeio/tipe-cli/commit/a3e0eb2))
+
 ## [1.11.1](https://github.com/tipeio/tipe-cli/compare/v1.11.0...v1.11.1) (2019-10-09)
 
 
