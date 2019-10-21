@@ -112,6 +112,13 @@ module.exports = program => {
       const url = `http://localhost:${options.port}`
       const message = `${chalk.magenta.bold('Tipe')} offline mock API\n\n${chalk.white.underline(url)}`
 
-      console.log(boxen(message, { padding: 1, margin: 1, borderColor: 'green', borderStyle: 'single' }))
+      console.log(
+        boxen(message, {
+          padding: 1,
+          margin: 1,
+          borderColor: 'green',
+          borderStyle: 'single',
+        }),
+      )
     })
 }
