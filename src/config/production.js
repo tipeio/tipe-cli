@@ -1,3 +1,3 @@
 module.exports = {
-  API_ENDPOINT: 'https://beta-api.tipe.io',
+  API_ENDPOINT: 'https://api.tipe.io',
 }
