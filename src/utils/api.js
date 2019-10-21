@@ -1,6 +1,5 @@
 const axios = require('axios')
 const config = require('../config')
-const _ = require('lodash')
 const { validateTemplates } = require('@tipe/schema')
 
 const createClient = api =>
@@ -14,13 +13,7 @@ const createClient = api =>
 
 const push = (templates, { project, apikey, dry, api = config.API_ENDPOINT }) => {
   // Validate templates
-  const validation = validateTemplates(templates)
-  const errors = _.flatten(validation.filter(e => e !== true)).map(error => {
-    return {
-      code: 200,
-      message: `Template format is incorrect. ${error.message} at field "${error.field}"`,
-    }
-  })
+  const errors = validateTemplates(templates)
 
   if (errors.length) {
     return Promise.resolve([errors])
