@@ -7,7 +7,7 @@ const Chance = require('chance')
 
 const { getUserConfig } = require('../utils/config')
 const asyncWrap = require('../utils/async')
-const { createServer } = require('../server')
+const { startServer } = require('../server')
 const mocks = require('../mocks')
 
 const chance = new Chance()
@@ -93,6 +93,7 @@ module.exports = program => {
   return p
     .option('--port <port>', 'Port for offline mock API', program.INT, 8300)
     .option('--config -c <path>', 'Path to config file', program.STRING, null)
+    .option('--watch -w <watch>', 'Path to watch and reload', program.STRING, null)
     .action(async (__, options, logger) => {
       let [error, allOptions] = await asyncWrap(getUserConfig())
 
@@ -107,7 +108,7 @@ module.exports = program => {
       }
 
       const docs = createMockDocuments(allOptions.config.templates)
-      await createServer(docs, options.port)
+      startServer(docs, options)
 
       const url = `http://localhost:${options.port}`
       const message = `${chalk.magenta.bold('Tipe')} offline mock API\n\n${chalk.white.underline(url)}`
