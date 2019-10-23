@@ -92,8 +92,8 @@ module.exports = program => {
 
   return p
     .option('--port <port>', 'Port for offline mock API', program.INT, 8300)
-    .option('--config -c <path>', 'Path to config file', program.STRING, null)
-    .option('--watch -w <watch>', 'Path to watch and reload', program.STRING, null)
+    .option('--config -c <path>', 'Path to config file', program.STRING, 'tipe.js')
+    .option('--watch -w <watch>', 'Watch tipe.js for changes', program.BOOL, true)
     .action(async (__, options, logger) => {
       let [error, allOptions] = await asyncWrap(getUserConfig())
 

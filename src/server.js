@@ -4,6 +4,7 @@ const morgan = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const chokidar = require('chokidar')
+const fs = require('fs')
 const path = require('path')
 
 const DEFAULTS = {
@@ -48,9 +49,37 @@ app.get('*', (req, res) => res.json({ ok: true }))
 
 const state = {
   server: null,
+  watch: true,
   options: null,
-  mocks: null,
-  sockets: [],
+  documents: null,
+}
+
+const createServer = (docs, options) =>
+  new Promise((resolve, reject) => {
+    app.post('/api/:project/documentsByProjectId', documentsByProjectId(docs))
+    app.post('/api/:project/documentById', documentById(docs))
+    app.post('/api/:project/documentsByTemplate', documentsByTemplate(docs))
+    const server = app.listen(options.port, () => {
+      console.log('Tipe content server running')
+    })
+    resolve(server)
+  })
+
+const startServer = async (generatedDocs, options = { port: DEFAULTS.port, watch: true, refresh: false }) => {
+  state.watch = options.watch
+  state.options = options
+  const tipeDBPath = path.join(process.cwd(), '.tipeDB.json')
+
+  // tipeDB exist? && first load
+  if (fs.existsSync(tipeDBPath) && !options.refresh) {
+    const tipeDB = await fs.readFileSync(tipeDBPath, 'utf8').toString()
+    state.documents = JSON.parse(tipeDB)
+  } else {
+    // its a refresh, update tipeDB with latest
+    await fs.writeFileSync(tipeDBPath, JSON.stringify(generatedDocs))
+    state.documents = generatedDocs
+  }
+  state.server = await createServer(state.documents, state.options)
 }
 
 // Initialize watcher.
@@ -58,50 +87,22 @@ const watcher = chokidar.watch('tipe.js', {
   ignored: /(^|[/\\])\../, // ignore dotfiles
 })
 
-watcher.on('change', filePath => {
-  console.log('TCL: filePath', filePath)
+watcher.on('change', file => {
   const clientRootPath = Object.keys(watcher.getWatched())[0]
-  // fs.writeFileSync('templateCache.js', state.mocks)
-  // const templates = fs.readFileSync(filePath, 'utf8').toString()
-  delete require.cache[require.resolve(path.join(clientRootPath, filePath))]
-  const { templates } = require(path.join(clientRootPath, filePath))
-  console.log('TCL: templates', templates)
-  if (state.server) {
-    console.log(`${filePath} has been changed, restarting`)
+  // clear require cache of the userTipeFile
+  delete require.cache[require.resolve(path.join(clientRootPath, file))]
+  const userTipeFile = require(path.join(process.cwd(), file))
+  if (state.server && state.watch) {
     try {
+      console.log(`${file} has been changed, restarting...`)
       state.server.close()
     } catch (error) {
       console.log(error)
     }
-    const updatedDocs = { ...state.mocks, ...templates }
-    startServer(updatedDocs, state.options)
+    state.options.refresh = true
+    startServer(userTipeFile, state.options)
   }
 })
-
-const createServer = (docs, options) =>
-  new Promise((resolve, reject) => {
-    app.post('/api/:project/documentsByProjectId', documentsByProjectId(docs))
-    app.post('/api/:project/documentById', documentById(docs))
-    app.post('/api/:project/documentsByTemplate', documentsByTemplate(docs))
-    const server = app.listen(options.port, () => {})
-    resolve(server)
-  })
-
-const startServer = async (mockDocuments, options = { port: DEFAULTS.port, watch: 'tipe.js' }) => {
-  state.server = await createServer(mockDocuments, options)
-  state.mocks = mockDocuments
-  // will change this to store created docs instead of mocks on restart
-  state.options = options
-
-  state.server.on('connection', socket => {
-    console.log('Add socket', state.sockets.length + 1)
-    state.sockets.push(socket)
-  })
-  state.server.on('close', () => {
-    console.log('shut down ===========')
-  })
-  console.log('TCL: startServer -> mockDocuments', mockDocuments)
-}
 
 module.exports = {
   startServer,
