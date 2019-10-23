@@ -1,3 +1,15 @@
+# [1.12.0](https://github.com/tipeio/tipe-cli/compare/v1.11.2...v1.12.0) (2019-10-23)
+
+
+### Bug Fixes
+
+* **test:** Remove post validation formatting ([31a477d](https://github.com/tipeio/tipe-cli/commit/31a477d))
+
+
+### Features
+
+* **validation:** Add validation via tipe/schema ([9332ff9](https://github.com/tipeio/tipe-cli/commit/9332ff9))
+
 ## [1.11.2](https://github.com/tipeio/tipe-cli/compare/v1.11.1...v1.11.2) (2019-10-21)
 
 
