@@ -106,13 +106,19 @@ module.exports = program => {
         logger.error(logSymbols.error, 'Missing templates')
         return process.exit(1)
       }
-
       const docs = createMockDocuments(allOptions.config.templates)
       startServer(docs, options)
 
       const url = `http://localhost:${options.port}`
       const message = `${chalk.magenta.bold('Tipe')} offline mock API\n\n${chalk.white.underline(url)}`
 
-      console.log(boxen(message, { padding: 1, margin: 1, borderColor: 'green', borderStyle: 'single' }))
+      console.log(
+        boxen(message, {
+          padding: 1,
+          margin: 1,
+          borderColor: 'green',
+          borderStyle: 'single',
+        }),
+      )
     })
 }

@@ -19,6 +19,11 @@ module.exports = {
           name: 'Performance Feature',
           type: 'homeFeature',
         },
+        authors: {
+          name: 'Authors',
+          list: true,
+          type: 'author',
+        },
       },
     },
 
@@ -33,6 +38,19 @@ module.exports = {
         icon: {
           name: 'icon',
           type: 'image',
+        },
+      },
+    },
+    author: {
+      name: 'Author',
+      fields: {
+        title: {
+          name: 'Title',
+          type: 'html',
+        },
+        name: {
+          name: 'name',
+          type: 'text',
         },
       },
     },
