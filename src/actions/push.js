@@ -10,7 +10,13 @@ module.exports = program => {
 
   return p
     .option('--dry -d', 'Dry run', program.BOOL, false)
-    .option('--config -c <path>', 'Path to tipe config', program.STRING, null, true)
+    .option(
+      '--config -c <path>',
+      'Path to tipe config',
+      program.STRING,
+      null,
+      true
+    )
     .action(async (args, options, logger) => {
       let allOptions
       try {
@@ -21,17 +27,23 @@ module.exports = program => {
       }
 
       if (allOptions.config.templates) {
-        const [errors, result] = await asyncWrap(
-          push(allOptions.config.templates, { ...allOptions.config, ...options }),
+        const [error, result] = await asyncWrap(
+          push(allOptions.config.templates, {
+            ...allOptions.config,
+            ...options
+          })
         )
-        if (errors) {
+        if (error) {
           logger.error('Could not push templates')
-          logger.error(errors)
+          logger.error(error)
         }
         if (result) {
           if (result.errors) {
             // TODO: pretty print
-            return logger.error(logSymbols.error, JSON.stringify(result.errors, null, 2))
+            return logger.error(
+              logSymbols.error,
+              JSON.stringify(result.errors, null, 2)
+            )
           }
           logger.info(logSymbols.success, 'success')
         }

@@ -9,13 +9,13 @@ const path = require('path')
 const { mergeTipeDB } = require('./utils/templates')
 
 const DEFAULTS = {
-  port: 8300,
+  port: 8300
 }
 
 const documentsByProjectId = mockDocuments => (req, res) => {
   const data = {
     pagination: {},
-    data: mockDocuments,
+    data: mockDocuments
   }
 
   res.json({ data })
@@ -35,7 +35,7 @@ const documentsByTemplate = mockDocuments => (req, res) => {
   const docs = mockDocuments.filter(d => d.template.id === req.body.template)
   const data = {
     pagination: {},
-    data: docs,
+    data: docs
   }
 
   return res.json({ data })
@@ -52,7 +52,7 @@ const state = {
   server: null,
   watch: true,
   options: null,
-  documents: null,
+  documents: null
 }
 
 const createServer = (docs, options) =>
@@ -66,7 +66,10 @@ const createServer = (docs, options) =>
     resolve(server)
   })
 
-const startServer = async (generatedDocs, options = { port: DEFAULTS.port, watch: true, refresh: false }) => {
+const startServer = async (
+  generatedDocs,
+  options = { port: DEFAULTS.port, watch: true, refresh: false }
+) => {
   state.watch = options.watch
   state.options = options
   const tipeDBPath = path.join(process.cwd(), '.tipeDB.json')
@@ -86,7 +89,7 @@ const startServer = async (generatedDocs, options = { port: DEFAULTS.port, watch
 
 // Initialize watcher.
 const watcher = chokidar.watch('tipe.js', {
-  ignored: /(^|[/\\])\../, // ignore dotfiles
+  ignored: /(^|[/\\])\../ // ignore dotfiles
 })
 
 watcher.on('change', file => {
@@ -107,5 +110,5 @@ watcher.on('change', file => {
 })
 
 module.exports = {
-  startServer,
+  startServer
 }
