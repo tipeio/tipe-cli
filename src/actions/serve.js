@@ -50,7 +50,7 @@ const formatFields = (fields, template, renderField = getField) =>
   }, {})
 
 const createDocsForTemplate = template =>
-  _.times(template.multi === false ? docsPerTemplate : 1, () => ({
+  _.times(template.multi === false ? 1 : docsPerTemplate, () => ({
     id: nano(),
     fields: formatFields(template.fields, template),
     template: {
