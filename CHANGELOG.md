@@ -1,3 +1,15 @@
+# [1.14.0](https://github.com/tipeio/tipe-cli/compare/v1.13.0...v1.14.0) (2019-10-24)
+
+
+### Bug Fixes
+
+* **serve:** incorrectly creating multiple docs when multi is set to false ([4036c7a](https://github.com/tipeio/tipe-cli/commit/4036c7a))
+
+
+### Features
+
+* **serve:** added list of refs ([c624769](https://github.com/tipeio/tipe-cli/commit/c624769))
+
 # [1.13.0](https://github.com/tipeio/tipe-cli/compare/v1.12.0...v1.13.0) (2019-10-24)
 
 
