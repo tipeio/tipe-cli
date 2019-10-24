@@ -34,22 +34,23 @@ const getField = (template, field) => {
 
 const formatFields = (fields, template, renderField = getField) =>
   fields.reduce((fields, field) => {
-    const final = _.merge(
-      {
-        name: field.name,
-        id: field.id,
-        type: field.type,
-        data: {},
-      },
-      renderField(template, field),
+    const final = _.times(field.list ? 3 : 1, () =>
+      _.merge(
+        {
+          name: field.name,
+          id: field.id,
+          type: field.type,
+          data: {},
+        },
+        renderField(template, field),
+      ),
     )
-
-    fields[field.id] = final
+    fields[field.id] = field.list ? final : final[0]
     return fields
   }, {})
 
 const createDocsForTemplate = template =>
-  _.times(template.multi === false ? 1 : docsPerTemplate, () => ({
+  _.times(template.multi === false ? docsPerTemplate : 1, () => ({
     id: nano(),
     fields: formatFields(template.fields, template),
     template: {
@@ -72,6 +73,16 @@ const createMockDocuments = templates => {
       doc.refs = _.reduce(
         doc.refs,
         (refs, ref) => {
+          if (Array.isArray(ref)) {
+            const _ref = ref[0]
+            const match = _.sample(allDocs.filter(d => d.template.id === _ref.type))
+            refs[_ref.id] = ref.map(_r => ({
+              ..._r,
+              value: match.id,
+            }))
+
+            return refs
+          }
           const match = _.sample(allDocs.filter(d => d.template.id === ref.type))
           refs[ref.id] = {
             ...ref,
