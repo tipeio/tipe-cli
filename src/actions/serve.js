@@ -40,10 +40,10 @@ const formatFields = (fields, template, renderField = getField) =>
           name: field.name,
           id: field.id,
           type: field.type,
-          data: {},
+          data: {}
         },
-        renderField(template, field),
-      ),
+        renderField(template, field)
+      )
     )
     fields[field.id] = field.list ? final : final[0]
     return fields
@@ -55,14 +55,16 @@ const createDocsForTemplate = template =>
     fields: formatFields(template.fields, template),
     template: {
       id: template.id,
-      name: template.name,
+      name: template.name
     },
     createdBy: {
       firstName: chance.first(),
       lastName: chance.last(),
-      email: chance.email(),
+      email: chance.email()
     },
-    refs: _.size(template.refs) ? formatFields(template.refs, template, () => false) : {},
+    refs: _.size(template.refs)
+      ? formatFields(template.refs, template, () => false)
+      : {}
   }))
 
 const createMockDocuments = templates => {
@@ -75,23 +77,27 @@ const createMockDocuments = templates => {
         (refs, ref) => {
           if (Array.isArray(ref)) {
             const _ref = ref[0]
-            const match = _.sample(allDocs.filter(d => d.template.id === _ref.type))
+            const match = _.sample(
+              allDocs.filter(d => d.template.id === _ref.type)
+            )
             refs[_ref.id] = ref.map(_r => ({
               ..._r,
-              value: match.id,
+              value: match.id
             }))
 
             return refs
           }
-          const match = _.sample(allDocs.filter(d => d.template.id === ref.type))
+          const match = _.sample(
+            allDocs.filter(d => d.template.id === ref.type)
+          )
           refs[ref.id] = {
             ...ref,
-            value: match.id,
+            value: match.id
           }
 
           return refs
         },
-        {},
+        {}
       )
     }
     return doc
@@ -103,8 +109,18 @@ module.exports = program => {
 
   return p
     .option('--port <port>', 'Port for offline mock API', program.INT, 8300)
-    .option('--config -c <path>', 'Path to config file', program.STRING, 'tipe.js')
-    .option('--watch -w <watch>', 'Watch tipe.js for changes', program.BOOL, true)
+    .option(
+      '--config -c <path>',
+      'Path to config file',
+      program.STRING,
+      'tipe.js'
+    )
+    .option(
+      '--watch -w <watch>',
+      'Watch tipe.js for changes',
+      program.BOOL,
+      true
+    )
     .action(async (__, options, logger) => {
       let [error, allOptions] = await asyncWrap(getUserConfig())
 
@@ -121,15 +137,17 @@ module.exports = program => {
       startServer(docs, options)
 
       const url = `http://localhost:${options.port}`
-      const message = `${chalk.magenta.bold('Tipe')} offline mock API\n\n${chalk.white.underline(url)}`
+      const message = `${chalk.magenta.bold(
+        'Tipe'
+      )} offline mock API\n\n${chalk.white.underline(url)}`
 
       console.log(
         boxen(message, {
           padding: 1,
           margin: 1,
           borderColor: 'green',
-          borderStyle: 'single',
-        }),
+          borderStyle: 'single'
+        })
       )
     })
 }

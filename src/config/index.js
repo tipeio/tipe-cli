@@ -8,11 +8,11 @@ const base = {
   env,
   VERSION: pkg.version,
   NAME: pkg.name,
-  DESCRIPTION: pkg.description,
+  DESCRIPTION: pkg.description
 }
 
 let envConfig = {
-  API_ENDPOINT: 'default',
+  API_ENDPOINT: 'default'
 }
 
 switch (env) {

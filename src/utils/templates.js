@@ -1,6 +1,7 @@
 import _ from 'lodash'
 
-const mapObjectToList = (o, keyField) => _.map(o, (item, key) => ({ ...item, [keyField]: key }))
+const mapObjectToList = (o, keyField) =>
+  _.map(o, (item, key) => ({ ...item, [keyField]: key }))
 
 export const mapTemplatesForAPI = templates =>
   mapObjectToList(templates, 'id').map(template => {
@@ -22,7 +23,7 @@ export const mergeTipeDB = (db, generatedDocs) => {
     if (db[templateApiId]) {
       const tempObj = {
         ...generatedDocs[templateApiId],
-        id: db[templateApiId].id,
+        id: db[templateApiId].id
       }
       result[templateApiId] = tempObj
       return result
