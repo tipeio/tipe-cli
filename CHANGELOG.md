@@ -1,3 +1,16 @@
+# [1.13.0](https://github.com/tipeio/tipe-cli/compare/v1.12.0...v1.13.0) (2019-10-24)
+
+
+### Bug Fixes
+
+* **offline:** Merge existing tipe file on initial load with tipedb json ([513d564](https://github.com/tipeio/tipe-cli/commit/513d564))
+
+
+### Features
+
+* **reload:** Add reload functionality to offline api ([8f43e64](https://github.com/tipeio/tipe-cli/commit/8f43e64))
+* **wip:** WIP ([5f8057a](https://github.com/tipeio/tipe-cli/commit/5f8057a))
+
 # [1.12.0](https://github.com/tipeio/tipe-cli/compare/v1.11.2...v1.12.0) (2019-10-23)
 
 
