@@ -6,12 +6,15 @@ const createClient = api =>
   axios.create({
     baseURL: api,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    responseType: 'json',
+    responseType: 'json'
   })
 
-const push = (templates, { project, apikey, dry, api = config.API_ENDPOINT }) => {
+const push = (
+  templates,
+  { project, apikey, dry, api = config.API_ENDPOINT }
+) => {
   // Validate templates
   const errors = validateTemplates(templates)
 
@@ -25,9 +28,9 @@ const push = (templates, { project, apikey, dry, api = config.API_ENDPOINT }) =>
       { templates, dry },
       {
         headers: {
-          Authorization: apikey,
-        },
-      },
+          Authorization: apikey
+        }
+      }
     )
     .then(r => r.data)
 }

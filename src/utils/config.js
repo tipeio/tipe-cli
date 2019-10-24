@@ -6,7 +6,7 @@ const conf = new CC()
 
 export const defaultConfig = {
   config: 'tipe.js',
-  dry: false,
+  dry: false
 }
 
 export const getUserConfig = () =>

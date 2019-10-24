@@ -6,25 +6,25 @@ module.exports = {
         title: {
           name: 'Title',
           type: 'text',
-          mocks: ['yolo this is some text here'],
+          mocks: ['yolo this is some text here']
         },
         someCode: {
           name: 'Some Code',
           type: 'code',
-          mocks: [`const me = 'hello'`],
-        },
+          mocks: [`const me = 'hello'`]
+        }
       },
       refs: {
         performanceFeature: {
           name: 'Performance Feature',
-          type: 'homeFeature',
+          type: 'homeFeature'
         },
         authors: {
           name: 'Authors',
           list: true,
-          type: 'author',
-        },
-      },
+          type: 'author'
+        }
+      }
     },
 
     homeFeature: {
@@ -33,26 +33,26 @@ module.exports = {
         title: {
           name: 'header',
           type: 'text',
-          mocks: ['feature header here'],
+          mocks: ['feature header here']
         },
         icon: {
           name: 'icon',
-          type: 'image',
-        },
-      },
+          type: 'image'
+        }
+      }
     },
     author: {
       name: 'Author',
       fields: {
         title: {
           name: 'Title',
-          type: 'html',
+          type: 'html'
         },
         name: {
           name: 'name',
-          type: 'text',
-        },
-      },
-    },
-  },
+          type: 'text'
+        }
+      }
+    }
+  }
 }

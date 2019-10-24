@@ -6,16 +6,21 @@ describe('Push', () => {
       {
         id: 'home',
         name: 'home',
-        fields: [{ id: 'title', name: 'title', type: 'text' }],
+        fields: [{ id: 'title', name: 'title', type: 'text' }]
       },
       {
         id: 'about',
         name: 'about',
-        fields: [{ id: 'title', name: 'title' }],
-      },
+        fields: [{ id: 'title', name: 'title' }]
+      }
     ]
 
-    const validation = await push(templates, { project: 'asdf', apikey: 'asdf', dry: false, api: 'asdf' })
+    const validation = await push(templates, {
+      project: 'asdf',
+      apikey: 'asdf',
+      dry: false,
+      api: 'asdf'
+    })
 
     expect(validation[0][0].code).toBeTruthy()
   })
@@ -28,20 +33,25 @@ describe('Push', () => {
         fields: {
           image: {
             type: 'image',
-            name: 'feature image',
+            name: 'feature image'
           },
           header: {
             type: 'text',
-            name: 'feature header',
+            name: 'feature header'
           },
           subHeader: {
-            name: 'feature subheader',
-          },
-        },
-      },
+            name: 'feature subheader'
+          }
+        }
+      }
     }
 
-    const validation = await push(templates, { project: 'asdf', apikey: 'asdf', dry: false, api: 'asdf' })
+    const validation = await push(templates, {
+      project: 'asdf',
+      apikey: 'asdf',
+      dry: false,
+      api: 'asdf'
+    })
 
     expect(validation[0][0].code).toBeTruthy()
   })
