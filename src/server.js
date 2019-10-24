@@ -6,6 +6,7 @@ const helmet = require('helmet')
 const chokidar = require('chokidar')
 const fs = require('fs')
 const path = require('path')
+const { mergeTipeDB } = require('./utils/templates')
 
 const DEFAULTS = {
   port: 8300,
@@ -73,7 +74,8 @@ const startServer = async (generatedDocs, options = { port: DEFAULTS.port, watch
   // tipeDB exist? && first load
   if (fs.existsSync(tipeDBPath) && !options.refresh) {
     const tipeDB = await fs.readFileSync(tipeDBPath, 'utf8').toString()
-    state.documents = JSON.parse(tipeDB)
+    state.documents = mergeTipeDB(JSON.parse(tipeDB), generatedDocs)
+    await fs.writeFileSync(tipeDBPath, JSON.stringify(state.documents))
   } else {
     // its a refresh, update tipeDB with latest
     await fs.writeFileSync(tipeDBPath, JSON.stringify(generatedDocs))
