@@ -15,3 +15,19 @@ export const mapTemplatesForAPI = templates =>
 
     return template
   })
+
+export const mergeTipeDB = (db, generatedDocs) => {
+  return Object.keys(generatedDocs).reduce((result, templateApiId) => {
+    // if in the db, create new object with id = db[templateApiId].id
+    if (db[templateApiId]) {
+      const tempObj = {
+        ...generatedDocs[templateApiId],
+        id: db[templateApiId].id,
+      }
+      result[templateApiId] = tempObj
+      return result
+    }
+    result[templateApiId] = generatedDocs[templateApiId]
+    return result
+  }, {})
+}
