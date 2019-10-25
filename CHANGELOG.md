@@ -1,3 +1,10 @@
+## [1.15.1](https://github.com/tipeio/tipe-cli/compare/v1.15.0...v1.15.1) (2019-10-25)
+
+
+### Bug Fixes
+
+* **bin:** fix cli bin ([4907079](https://github.com/tipeio/tipe-cli/commit/4907079))
+
 # [1.15.0](https://github.com/tipeio/tipe-cli/compare/v1.14.0...v1.15.0) (2019-10-25)
 
 
