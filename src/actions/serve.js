@@ -13,7 +13,7 @@ const mocks = require('../mocks')
 const chance = new Chance()
 const docsPerTemplate = 10
 
-const getField = (template, field) => {
+const getField = field => {
   switch (field.type) {
     case 'button':
       return mocks.button(field)
@@ -32,7 +32,7 @@ const getField = (template, field) => {
   }
 }
 
-const formatFields = (fields, template, renderField = getField) =>
+const formatFields = (fields, renderField = getField) =>
   fields.reduce((fields, field) => {
     const final = _.times(field.list ? 3 : 1, () =>
       _.merge(
@@ -42,7 +42,7 @@ const formatFields = (fields, template, renderField = getField) =>
           type: field.type,
           data: {}
         },
-        renderField(template, field)
+        renderField(field)
       )
     )
     fields[field.id] = field.list ? final : final[0]
@@ -52,7 +52,7 @@ const formatFields = (fields, template, renderField = getField) =>
 const createDocsForTemplate = template =>
   _.times(template.multi === false ? 1 : docsPerTemplate, () => ({
     id: nano(),
-    fields: formatFields(template.fields, template),
+    fields: formatFields(template.fields),
     template: {
       id: template.id,
       name: template.name
@@ -62,9 +62,7 @@ const createDocsForTemplate = template =>
       lastName: chance.last(),
       email: chance.email()
     },
-    refs: _.size(template.refs)
-      ? formatFields(template.refs, template, () => false)
-      : {}
+    refs: _.size(template.refs) ? formatFields(template.refs, () => false) : {}
   }))
 
 const createMockDocuments = templates => {
