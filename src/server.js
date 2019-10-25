@@ -85,6 +85,13 @@ const startServer = async (
   const tipeDBPath = path.join(process.cwd(), '.tipeDB.json')
 
   // tipeDB exist? && first load
+  /**
+   * 1. server starts up
+   * 2. look for db file
+   * 3. if no db file, create one
+   * 4. if db file, require the documents in the file
+   * 5. if no documents, generate them and save them to the same db file
+   */
   if (fs.existsSync(tipeDBPath) && !options.refresh) {
     const tipeDB = await fs.readFileSync(tipeDBPath, 'utf8').toString()
     state.documents = mergeTipeDB(JSON.parse(tipeDB), generatedDocs)
