@@ -1,3 +1,15 @@
+# [1.15.0](https://github.com/tipeio/tipe-cli/compare/v1.14.0...v1.15.0) (2019-10-25)
+
+
+### Bug Fixes
+
+* **serve:** added limit to recursive ref populate. tests ([c331889](https://github.com/tipeio/tipe-cli/commit/c331889))
+
+
+### Features
+
+* **serve:** populate refs from api calls. tests ([f5a747a](https://github.com/tipeio/tipe-cli/commit/f5a747a))
+
 # [1.14.0](https://github.com/tipeio/tipe-cli/compare/v1.13.0...v1.14.0) (2019-10-24)
 
 
