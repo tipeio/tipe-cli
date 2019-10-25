@@ -45,7 +45,7 @@ const _populateRefs = (mockDocuments, refs, depth) =>
             ...nestedDoc,
             refs:
               depth > 0 && _.size(nestedDoc.refs)
-                ? _populateRefs(mockDocuments, nestedDoc.refs)
+                ? _populateRefs(mockDocuments, nestedDoc.refs, --depth)
                 : nestedDoc.refs
           }
         })
@@ -59,7 +59,7 @@ const _populateRefs = (mockDocuments, refs, depth) =>
         ...nestedDoc,
         refs:
           depth > 0 && _.size(nestedDoc.refs)
-            ? _populateRefs(mockDocuments, nestedDoc.refs)
+            ? _populateRefs(mockDocuments, nestedDoc.refs, --depth)
             : nestedDoc.refs
       }
     }

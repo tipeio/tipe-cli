@@ -156,5 +156,80 @@ describe('Utils: Templates', () => {
       expect(secondDoc.refs.pets.type).toBe(mockDocuments[1].refs.pets.type)
       expect(secondDoc.refs.pets.value).toEqual(mockDocuments[2])
     })
+    it('should only populate 3 levels deep', () => {
+      const mockDocuments = [
+        {
+          id: '1234',
+          fields: { name: 'test' },
+          refs: {
+            pets: { name: 'pets', id: 'pets', type: 'pet', value: 'abcde' }
+          }
+        },
+        {
+          id: '5678',
+          fields: { name: 'testing' },
+          refs: {
+            pets: { name: 'pets', id: 'pets', type: 'pet', value: 'mo24edd' }
+          }
+        },
+        {
+          id: 'abcde',
+          fields: { name: 'test', age: 55 },
+          refs: {
+            author: {
+              name: 'author',
+              id: 'author',
+              type: 'person',
+              value: '5678'
+            }
+          }
+        },
+        {
+          id: 'mo24edd',
+          fields: { name: 'test', age: 55 },
+          refs: {
+            author: {
+              name: 'author',
+              id: 'author',
+              type: 'person',
+              value: '1234'
+            }
+          }
+        }
+      ]
+      const docToFormat = mockDocuments[3]
+      const result = populateRefs(mockDocuments, docToFormat)
+      expect(result).toBeTruthy()
+      const firstLevel = result.refs.author.value
+      const secondLevel = firstLevel.refs.pets.value
+      expect(secondLevel.refs.author.value).toEqual(mockDocuments[1].id)
+    })
+    it('should return correctly with negative depth', () => {
+      const mockDocuments = [
+        { id: '1234', fields: { name: 'test' }, refs: {} },
+        { id: 'abcde', fields: { name: 'test', age: 55 }, refs: {} },
+        {
+          id: 'mo24edd',
+          fields: { name: 'test', age: 55 },
+          refs: {
+            author: {
+              name: 'author',
+              id: 'author',
+              type: 'person',
+              value: '1234'
+            }
+          }
+        }
+      ]
+      const docToFormat = mockDocuments[2]
+      const result = populateRefs(mockDocuments, docToFormat, -1)
+      expect(result).toBeTruthy()
+      expect(result.id).toBe(docToFormat.id)
+      expect(result.fields).toEqual(docToFormat.fields)
+      expect(result.refs.author.id).toBe(docToFormat.refs.author.id)
+      expect(result.refs.author.name).toBe(docToFormat.refs.author.name)
+      expect(result.refs.author.type).toBe(docToFormat.refs.author.type)
+      expect(result.refs.author.value).toEqual(mockDocuments[0].id)
+    })
   })
 })
