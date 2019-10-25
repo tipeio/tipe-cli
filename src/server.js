@@ -6,7 +6,7 @@ const helmet = require('helmet')
 const chokidar = require('chokidar')
 const fs = require('fs')
 const path = require('path')
-const { mergeTipeDB } = require('./utils/templates')
+const { mergeTipeDB, populateRefs } = require('./utils/templates')
 
 const DEFAULTS = {
   port: 8300
@@ -14,8 +14,12 @@ const DEFAULTS = {
 
 const documentsByProjectId = mockDocuments => (req, res) => {
   const data = {
-    pagination: {},
-    data: mockDocuments
+    pagination: {
+      totalDocs: mockDocuments.length,
+      page: 1,
+      limit: mockDocuments.length
+    },
+    data: populateRefs(mockDocuments, mockDocuments, req.body.depth)
   }
 
   res.json({ data })
@@ -28,14 +32,20 @@ const documentById = mockDocuments => (req, res) => {
     return res.sendStatus(400)
   }
 
-  return res.json({ data: document })
+  return res.json({
+    data: populateRefs(mockDocuments, document, req.body.depth)
+  })
 }
 
 const documentsByTemplate = mockDocuments => (req, res) => {
   const docs = mockDocuments.filter(d => d.template.id === req.body.template)
   const data = {
-    pagination: {},
-    data: docs
+    pagination: {
+      totalDocs: mockDocuments.length,
+      page: 1,
+      limit: mockDocuments.length
+    },
+    data: populateRefs(mockDocuments, docs, req.body.depth)
   }
 
   return res.json({ data })
