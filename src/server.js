@@ -6,7 +6,13 @@ const helmet = require('helmet')
 const chokidar = require('chokidar')
 const fs = require('fs')
 const path = require('path')
-const { mergeTipeDB, populateRefs } = require('./utils/templates')
+const {
+  populateRefs,
+  mapTemplatesForAPI,
+  // createDocsForTemplate,
+  createMockDocuments,
+  mergeTipeDB
+} = require('./utils/templates')
 
 const DEFAULTS = {
   port: 8300
@@ -60,9 +66,12 @@ app.get('*', (req, res) => res.json({ ok: true }))
 
 const state = {
   server: null,
-  watch: true,
+  // cli options
   options: null,
-  documents: null
+  documents: null,
+  // templates
+  tipeFilePath: null,
+  tipeDBPath: null
 }
 
 const createServer = (docs, options) =>
@@ -77,28 +86,55 @@ const createServer = (docs, options) =>
   })
 
 const startServer = async (
-  generatedDocs,
   options = { port: DEFAULTS.port, watch: true, refresh: false }
 ) => {
+  // flag on whether to watch or not
   state.watch = options.watch
   state.options = options
-  const tipeDBPath = path.join(process.cwd(), '.tipeDB.json')
+  state.tipeDBPath = path.join(process.cwd(), '.tipeDB.json')
+  state.tipeFilePath = path.join(process.cwd(), state.options.config)
 
-  // tipeDB exist? && first load
   /**
    * 1. server starts up
    * 2. look for db file
-   * 3. if no db file, create one
-   * 4. if db file, require the documents in the file
-   * 5. if no documents, generate them and save them to the same db file
+   * 3. if db file, require the documents in the file
+   * 4. look at template for changes
+   * 5. for each change, create new field or document
+   * 6. if no db file, create one
+   * 7. if no documents, generate them and save them to the same db file
    */
-  if (fs.existsSync(tipeDBPath) && !options.refresh) {
-    const tipeDB = await fs.readFileSync(tipeDBPath, 'utf8').toString()
-    state.documents = mergeTipeDB(JSON.parse(tipeDB), generatedDocs)
-    await fs.writeFileSync(tipeDBPath, JSON.stringify(state.documents))
+
+  // 2 tipeDB exist?
+  if (fs.existsSync(state.tipeDBPath)) {
+    // clear require cache of the tipeFile (templates) and tipeDB
+    try {
+      delete require.cache[require.resolve(state.tipeDBPath)]
+      delete require.cache[require.resolve(state.tipeFilePath)]
+    } catch (error) {
+      console.error(error)
+    }
+    // 3
+    const tipeDB = fs.readFileSync(state.tipeDBPath, 'utf8').toString()
+    const templateFile = require(state.tipeFilePath)
+    // 5
+
+    const generatedDocs = createMockDocuments(mapTemplatesForAPI(templateFile))
+    console.log(
+      'TCL: mapTemplatesForAPI(templateFile)[0].feature.fields',
+      mapTemplatesForAPI(templateFile)[0].feature.fields
+    )
+    // 4
+    const updatedDocuments = mergeTipeDB(tipeDB, generatedDocs)
+    fs.writeFileSync(
+      state.tipeDBPath,
+      JSON.stringify(updatedDocuments, null, 2)
+    )
+    state.documents = updatedDocuments
   } else {
-    // its a refresh, update tipeDB with latest
-    await fs.writeFileSync(tipeDBPath, JSON.stringify(generatedDocs))
+    // 7
+    const generatedDocs = createMockDocuments(state.options.templates)
+    // 6
+    fs.writeFileSync(state.tipeDBPath, JSON.stringify(generatedDocs, null, 2))
     state.documents = generatedDocs
   }
   state.server = await createServer(state.documents, state.options)
@@ -109,20 +145,18 @@ const watcher = chokidar.watch('tipe.js', {
   ignored: /(^|[/\\])\../ // ignore dotfiles
 })
 
-watcher.on('change', file => {
+watcher.on('change', async file => {
   const clientRootPath = Object.keys(watcher.getWatched())[0]
-  // clear require cache of the userTipeFile
-  delete require.cache[require.resolve(path.join(clientRootPath, file))]
-  const userTipeFile = require(path.join(process.cwd(), file))
-  if (state.server && state.watch) {
+  state.tipeFile = path.join(clientRootPath, file)
+  if (state.server && state.options.watch) {
     try {
       console.log(`${file} has been changed, restarting...`)
       state.server.close()
+      startServer(state.options)
     } catch (error) {
       console.log(error)
+      process.exit(1)
     }
-    state.options.refresh = true
-    startServer(userTipeFile, state.options)
   }
 })
 
