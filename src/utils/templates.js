@@ -1,4 +1,9 @@
 import _ from 'lodash'
+import nano from 'nanoid'
+import mocks from '../mocks'
+import Chance from 'chance'
+const chance = new Chance()
+const docsPerTemplate = 2
 
 const mapObjectToList = (o, keyField) =>
   _.map(o, (item, key) => ({ ...item, [keyField]: key }))
@@ -18,19 +23,18 @@ export const mapTemplatesForAPI = templates =>
   })
 
 export const mergeTipeDB = (db, generatedDocs) => {
-  return Object.keys(generatedDocs).reduce((result, templateApiId) => {
-    // if in the db, create new object with id = db[templateApiId].id
-    if (db[templateApiId]) {
+  return generatedDocs.reduce((result, document, i) => {
+    if (db[i]) {
       const tempObj = {
-        ...generatedDocs[templateApiId],
-        id: db[templateApiId].id
+        ...document,
+        id: db[i].id
       }
-      result[templateApiId] = tempObj
+      result.push(tempObj)
       return result
     }
-    result[templateApiId] = generatedDocs[templateApiId]
+    result.push(document)
     return result
-  }, {})
+  }, [])
 }
 
 const _populateRefs = (mockDocuments, refs, depth) =>
@@ -98,4 +102,94 @@ export const populateRefs = (mockDocuments, data, depth = 1) => {
     }
   }
   return data
+}
+
+export const getField = field => {
+  switch (field.type) {
+    case 'button':
+      return mocks.button(field)
+    case 'image':
+      return mocks.image(field)
+    case 'markdown':
+      return mocks.markdown(field)
+    case 'code':
+      return mocks.code(field)
+    case 'html':
+      return mocks.html(field)
+    case 'boolean':
+      return mocks.boolean(field)
+    default:
+      return mocks.text(field)
+  }
+}
+
+export const formatFields = (fields, renderField = getField) => {
+  return fields.reduce((fields, field) => {
+    const final = _.times(field.list ? 3 : 1, () =>
+      _.merge(
+        {
+          name: field.name,
+          id: field.id,
+          type: field.type,
+          data: {}
+        },
+        renderField(field)
+      )
+    )
+    fields[field.id] = field.list ? final : final[0]
+    return fields
+  }, {})
+}
+
+export const createDocsForTemplate = template =>
+  _.times(template.multi === false ? 1 : docsPerTemplate, () => ({
+    id: nano(),
+    fields: formatFields(template.fields),
+    template: {
+      id: template.id,
+      name: template.name
+    },
+    createdBy: {
+      firstName: chance.first(),
+      lastName: chance.last(),
+      email: chance.email()
+    },
+    refs: _.size(template.refs) ? formatFields(template.refs, () => false) : {}
+  }))
+
+export const createMockDocuments = templates => {
+  const allDocs = _.flatten(templates.map(createDocsForTemplate))
+
+  return allDocs.map(doc => {
+    if (_.size(doc.refs)) {
+      doc.refs = _.reduce(
+        doc.refs,
+        (refs, ref) => {
+          if (Array.isArray(ref)) {
+            const _ref = ref[0]
+            const match = _.sample(
+              allDocs.filter(d => d.template.id === _ref.type)
+            )
+            refs[_ref.id] = ref.map(_r => ({
+              ..._r,
+              value: match.id
+            }))
+
+            return refs
+          }
+          const match = _.sample(
+            allDocs.filter(d => d.template.id === ref.type)
+          )
+          refs[ref.id] = {
+            ...ref,
+            value: match.id
+          }
+
+          return refs
+        },
+        {}
+      )
+    }
+    return doc
+  })
 }
