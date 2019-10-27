@@ -2,6 +2,10 @@ import _ from 'lodash'
 import nano from 'nanoid'
 import mocks from '../mocks'
 import Chance from 'chance'
+import chalk from 'chalk'
+import boxen from 'boxen'
+import logSymbols from 'log-symbols'
+
 const chance = new Chance()
 const docsPerTemplate = 2
 
@@ -191,5 +195,26 @@ export const createMockDocuments = templates => {
       )
     }
     return doc
+  })
+}
+
+export const formatTemplateErrors = errors => {
+  const title = `${logSymbols.error} ${chalk.bold(
+    chalk.red('Invalid templates')
+  )}\n\n`
+
+  const message = errors.reduce((final, { code, message }) => {
+    final += `\n${logSymbols.warning} ${chalk.yellow(
+      chalk.underline(code)
+    )} ${chalk.white(message)}`
+
+    return final
+  }, title)
+
+  return boxen(message, {
+    padding: 1,
+    margin: 1,
+    borderColor: 'red',
+    borderStyle: 'single'
   })
 }
