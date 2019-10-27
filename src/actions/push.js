@@ -1,6 +1,7 @@
 const { addFlags } = require('../utils/options')
 const { mergeOptions, getUserConfig } = require('../utils/config')
 const { push } = require('../utils/api')
+const { formatTemplateErrors } = require('../utils/templates')
 const asyncWrap = require('../utils/async')
 const logSymbols = require('log-symbols')
 
@@ -45,10 +46,7 @@ module.exports = program => {
       if (result) {
         if (result.errors) {
           // TODO: pretty print
-          return logger.error(
-            logSymbols.error,
-            JSON.stringify(result.errors, null, 2)
-          )
+          return logger.info(formatTemplateErrors(result.errors))
         }
 
         logger.info(logSymbols.success, 'success')
