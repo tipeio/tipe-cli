@@ -1,5 +1,5 @@
 const { addFlags } = require('../utils/options')
-const { getUserConfig } = require('../utils/config')
+const { mergeOptions, getUserConfig } = require('../utils/config')
 const { push } = require('../utils/api')
 const asyncWrap = require('../utils/async')
 const logSymbols = require('log-symbols')
@@ -18,37 +18,40 @@ module.exports = program => {
       true
     )
     .action(async (args, options, logger) => {
-      let allOptions
+      let finalOptions
       try {
-        allOptions = await getUserConfig()
+        finalOptions = await mergeOptions(options)
       } catch (e) {
         logger.error(logSymbols.error, e.message)
-        process.exit(1)
+        return process.exit(1)
       }
 
-      if (allOptions.config.templates) {
-        const [error, result] = await asyncWrap(
-          push(allOptions.config.templates, {
-            ...allOptions.config,
-            ...options
-          })
-        )
-        if (error) {
-          logger.error('Could not push templates')
-          logger.error(error)
-        }
-        if (result) {
-          if (result.errors) {
-            // TODO: pretty print
-            return logger.error(
-              logSymbols.error,
-              JSON.stringify(result.errors, null, 2)
-            )
-          }
-          logger.info(logSymbols.success, 'success')
-        }
-      } else {
+      const userConfig = getUserConfig(options.config)
+
+      if (!userConfig || !userConfig.templates) {
         logger.error(logSymbols.error, 'No templates')
+        return process.exit(1)
+      }
+
+      const [error, result] = await asyncWrap(
+        push(userConfig.templates, finalOptions)
+      )
+
+      if (error) {
+        logger.error('Could not push templates')
+        logger.error(error)
+      }
+
+      if (result) {
+        if (result.errors) {
+          // TODO: pretty print
+          return logger.error(
+            logSymbols.error,
+            JSON.stringify(result.errors, null, 2)
+          )
+        }
+
+        logger.info(logSymbols.success, 'success')
       }
     })
 }

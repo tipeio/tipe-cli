@@ -1,8 +1,8 @@
 const boxen = require('boxen')
 const logSymbols = require('log-symbols')
 const chalk = require('chalk')
-
-const { getUserConfig } = require('../utils/config')
+const chokidar = require('chokidar')
+const { mergeOptions } = require('../utils/config')
 const asyncWrap = require('../utils/async')
 const { startServer } = require('../server')
 
@@ -24,22 +24,28 @@ module.exports = program => {
       true
     )
     .action(async (__, options, logger) => {
-      let [error, allOptions] = await asyncWrap(getUserConfig())
+      let [error, finalOptions] = await asyncWrap(mergeOptions(options))
 
       if (error) {
         logger.error(logSymbols.error, error.message)
         return process.exit(1)
       }
 
-      if (!allOptions.config.templates) {
-        logger.error(logSymbols.error, 'Missing templates')
-        return process.exit(1)
-      }
-      // pass templates into options
-      options.templates = allOptions.config.templates
-      startServer(options)
+      let watcher
 
-      const url = `http://localhost:${options.port}`
+      if (finalOptions.watch) {
+        watcher = chokidar.watch(finalOptions.config, {
+          ignored: /(^|[/\\])\../ // ignore dotfiles
+        })
+      }
+
+      try {
+        await startServer(finalOptions, watcher, { logger })
+      } catch (e) {
+        process.exit(1)
+      }
+
+      const url = `http://localhost:${finalOptions.port}`
       const message = `${chalk.magenta.bold(
         'Tipe'
       )} offline mock API\n\n${chalk.white.underline(url)}`
