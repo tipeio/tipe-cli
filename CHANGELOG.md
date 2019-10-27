@@ -1,3 +1,12 @@
+## [1.15.2](https://github.com/tipeio/tipe-cli/compare/v1.15.1...v1.15.2) (2019-10-27)
+
+
+### Bug Fixes
+
+* **push:** add error formatter ([bdd251d](https://github.com/tipeio/tipe-cli/commit/bdd251d))
+* **reload:** fix offline reload ([c7bf091](https://github.com/tipeio/tipe-cli/commit/c7bf091))
+* **wip:** Push progress ([d2765f4](https://github.com/tipeio/tipe-cli/commit/d2765f4))
+
 ## [1.15.1](https://github.com/tipeio/tipe-cli/compare/v1.15.0...v1.15.1) (2019-10-25)
 
 
