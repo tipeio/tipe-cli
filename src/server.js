@@ -47,8 +47,8 @@ const documentById = mockDocuments => (req, res) => {
 
 const documentsByIds = mockDocuments => (req, res) => {
   const { ids } = req.body
-  const documents = ids.map(id =>
-    _.flatten(mockDocuments.filter(doc => doc.id === id))
+  const documents = _.flatten(
+    ids.map(id => mockDocuments.filter(doc => doc.id === id))
   )
 
   if (!documents.length) {
