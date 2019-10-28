@@ -15,6 +15,7 @@ const {
   mergeTipeDB,
   formatTemplateErrors
 } = require('./utils/templates')
+const _ = require('lodash')
 
 let SERVER = null
 const DEFAULT_DB_PATH = '.tipe-offline-db.json'
@@ -41,6 +42,21 @@ const documentById = mockDocuments => (req, res) => {
 
   return res.json({
     data: populateRefs(mockDocuments, document, req.body.depth)
+  })
+}
+
+const documentsByIds = mockDocuments => (req, res) => {
+  const { ids } = req.body
+  const documents = ids.map(id =>
+    _.flatten(mockDocuments.filter(doc => doc.id === id))
+  )
+
+  if (!documents.length) {
+    return res.sendStatus(400)
+  }
+
+  return res.json({
+    data: populateRefs(mockDocuments, documents, req.body.depth)
   })
 }
 
@@ -124,6 +140,7 @@ const createServer = (options, initConfig = {}) => {
 
     app.post('/api/:project/documentsByProjectId', documentsByProjectId(docs))
     app.post('/api/:project/documentById', documentById(docs))
+    app.post('/api/:project/documentsByIds', documentsByIds(docs))
     app.post('/api/:project/documentsByTemplate', documentsByTemplate(docs))
 
     const server = app.listen(options.port)
