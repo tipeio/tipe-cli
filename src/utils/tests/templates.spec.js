@@ -1,4 +1,5 @@
-const { populateRefs } = require('../templates.js')
+const _ = require('lodash')
+const { populateRefs, createMockDocuments } = require('../templates.js')
 
 describe('Utils: Templates', () => {
   describe('populateRefs', () => {
@@ -230,6 +231,155 @@ describe('Utils: Templates', () => {
       expect(result.refs.author.name).toBe(docToFormat.refs.author.name)
       expect(result.refs.author.type).toBe(docToFormat.refs.author.type)
       expect(result.refs.author.value).toEqual(mockDocuments[0].id)
+    })
+  })
+  describe('createMockDocuments', () => {
+    it('should create single documents and multi documents', () => {
+      const templates = [
+        {
+          name: 'home',
+          id: 'home',
+          fields: [
+            {
+              name: 'Title',
+              id: 'title',
+              type: 'text'
+            },
+            {
+              name: 'Banner Image',
+              id: 'banner',
+              type: 'image'
+            },
+            {
+              name: 'Documentation',
+              id: 'content',
+              type: 'markdown'
+            }
+          ],
+          multi: true
+        },
+        {
+          name: 'features',
+          id: 'features',
+          fields: [
+            {
+              name: 'Title',
+              id: 'title',
+              type: 'text'
+            }
+          ],
+          multi: false
+        }
+      ]
+      const result = createMockDocuments(templates)
+      expect(result).toHaveLength(3)
+      const homeDocs = result.filter(_f => _f.template.name === 'home')
+      const featuresDoc = result.filter(_f => _f.template.name === 'features')
+      expect(homeDocs.length).toBeGreaterThan(featuresDoc.length)
+    })
+    it('should create real refs', () => {
+      const templates = [
+        {
+          name: 'home',
+          id: 'home',
+          fields: [
+            {
+              name: 'Title',
+              id: 'title',
+              type: 'text'
+            },
+            {
+              name: 'Banner Image',
+              id: 'banner',
+              type: 'image'
+            },
+            {
+              name: 'Documentation',
+              id: 'content',
+              type: 'markdown'
+            }
+          ],
+          refs: [
+            {
+              type: 'features',
+              id: 'features',
+              name: 'feature1'
+            }
+          ],
+          multi: false
+        },
+        {
+          name: 'features',
+          id: 'features',
+          fields: [
+            {
+              name: 'Title',
+              id: 'title',
+              type: 'text'
+            }
+          ],
+          multi: false
+        }
+      ]
+      const result = createMockDocuments(templates)
+      const homeDoc = _.sample(result.filter(_d => _d.template.id === 'home'))
+      const featuresDoc = _.sample(
+        result.filter(_d => _d.template.id === 'features')
+      )
+      expect(homeDoc.refs.features.value).toEqual(featuresDoc.id)
+    })
+    it('should create list refs', () => {
+      const templates = [
+        {
+          name: 'home',
+          id: 'home',
+          fields: [
+            {
+              name: 'Title',
+              id: 'title',
+              type: 'text'
+            },
+            {
+              name: 'Banner Image',
+              id: 'banner',
+              type: 'image'
+            },
+            {
+              name: 'Documentation',
+              id: 'content',
+              type: 'markdown'
+            }
+          ],
+          refs: [
+            {
+              type: 'features',
+              id: 'features',
+              name: 'feature1',
+              list: true
+            }
+          ],
+          multi: true
+        },
+        {
+          name: 'features',
+          id: 'features',
+          fields: [
+            {
+              name: 'Title',
+              id: 'title',
+              type: 'text'
+            }
+          ],
+          multi: true
+        }
+      ]
+      const result = createMockDocuments(templates)
+      const homeDoc = _.sample(result.filter(_d => _d.template.id === 'home'))
+      expect(homeDoc.refs.features.length).toBeGreaterThan(0)
+      homeDoc.refs.features.forEach(_r => {
+        const featuresDoc = _.sample(result.filter(_d => _d.id === _r.value))
+        expect(featuresDoc).toBeTruthy()
+      })
     })
   })
 })
