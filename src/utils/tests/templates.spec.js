@@ -1,5 +1,9 @@
 const _ = require('lodash')
-const { populateRefs, createMockDocuments } = require('../templates.js')
+const {
+  populateRefs,
+  createMockDocuments,
+  mergeTipeDB
+} = require('../templates.js')
 
 describe('Utils: Templates', () => {
   describe('populateRefs', () => {
@@ -380,6 +384,423 @@ describe('Utils: Templates', () => {
         const featuresDoc = _.sample(result.filter(_d => _d.id === _r.value))
         expect(featuresDoc).toBeTruthy()
       })
+    })
+  })
+  describe('mergeTipeDB', () => {
+    it('should merge documents', () => {
+      const db = [
+        {
+          id: 'JBH25tvUT3L7E5RqKBXvw',
+          fields: {
+            signup: {
+              name: 'sign up button text',
+              id: 'signup',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            },
+            signin: {
+              name: 'sign in button text',
+              id: 'signin',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            }
+          },
+          template: {
+            id: 'home',
+            name: 'Home'
+          },
+          createdBy: {
+            firstName: 'Dean',
+            lastName: 'Thomas',
+            email: 'ti@ciam.lv'
+          },
+          refs: {}
+        },
+        {
+          id: 'uCT6QdgIRUSI9UdqhVYtr',
+          fields: {
+            header: {
+              name: 'feature header',
+              id: 'header',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            },
+            subHeader: {
+              name: 'feature subheader',
+              id: 'subHeader',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            }
+          },
+          template: {
+            id: 'feature',
+            name: 'Feature'
+          },
+          createdBy: {
+            firstName: 'Travis',
+            lastName: 'Newman',
+            email: 'luc@vi.io'
+          },
+          refs: {}
+        }
+      ]
+      const generatedDocs = [
+        {
+          id: 'FJOIWER390452OJD',
+          fields: {
+            signup: {
+              name: 'sign up button text',
+              id: 'signup',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            },
+            signin: {
+              name: 'sign in button text',
+              id: 'signin',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            }
+          },
+          template: {
+            id: 'home',
+            name: 'Home'
+          },
+          createdBy: {
+            firstName: 'Dean',
+            lastName: 'Thomas',
+            email: 'ti@ciam.lv'
+          },
+          refs: {}
+        },
+        {
+          id: 'jODISJF009W32joCVN',
+          fields: {
+            header: {
+              name: 'feature header',
+              id: 'header',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            },
+            subHeader: {
+              name: 'feature subheader',
+              id: 'subHeader',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            }
+          },
+          template: {
+            id: 'feature',
+            name: 'Feature'
+          },
+          createdBy: {
+            firstName: 'Travis',
+            lastName: 'Newman',
+            email: 'luc@vi.io'
+          },
+          refs: {}
+        }
+      ]
+      const result = mergeTipeDB(db, generatedDocs)
+      expect(result).toHaveLength(2)
+      const homeDoc = result[0]
+      const featuresDoc = result[1]
+      expect(homeDoc.id).toEqual(db[0].id)
+      expect(featuresDoc.id).toEqual(db[1].id)
+    })
+    it('should merge refs', () => {
+      const db = [
+        {
+          id: 'JBH25tvUT3L7E5RqKBXvw',
+          fields: {
+            signup: {
+              name: 'sign up button text',
+              id: 'signup',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            },
+            signin: {
+              name: 'sign in button text',
+              id: 'signin',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            }
+          },
+          template: {
+            id: 'home',
+            name: 'Home'
+          },
+          createdBy: {
+            firstName: 'Dean',
+            lastName: 'Thomas',
+            email: 'ti@ciam.lv'
+          },
+          refs: {
+            featureSet: {
+              name: 'features set',
+              id: 'featureSets',
+              type: 'feature',
+              data: {},
+              value: 'uCT6QdgIRUSI9UdqhVYtr'
+            }
+          }
+        },
+        {
+          id: 'uCT6QdgIRUSI9UdqhVYtr',
+          fields: {
+            header: {
+              name: 'feature header',
+              id: 'header',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            },
+            subHeader: {
+              name: 'feature subheader',
+              id: 'subHeader',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            }
+          },
+          template: {
+            id: 'feature',
+            name: 'Feature'
+          },
+          createdBy: {
+            firstName: 'Travis',
+            lastName: 'Newman',
+            email: 'luc@vi.io'
+          },
+          refs: {}
+        }
+      ]
+      const generatedDocs = [
+        {
+          id: 'FJOIWER390452OJD',
+          fields: {
+            signup: {
+              name: 'sign up button text',
+              id: 'signup',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            },
+            signin: {
+              name: 'sign in button text',
+              id: 'signin',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            }
+          },
+          template: {
+            id: 'home',
+            name: 'Home'
+          },
+          createdBy: {
+            firstName: 'Dean',
+            lastName: 'Thomas',
+            email: 'ti@ciam.lv'
+          },
+          refs: {
+            featureSet: {
+              name: 'features set',
+              id: 'featureSets',
+              type: 'feature',
+              data: {},
+              value: 'jODISJF009W32joCVN'
+            }
+          }
+        },
+        {
+          id: 'jODISJF009W32joCVN',
+          fields: {
+            header: {
+              name: 'feature header',
+              id: 'header',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            },
+            subHeader: {
+              name: 'feature subheader',
+              id: 'subHeader',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            }
+          },
+          template: {
+            id: 'feature',
+            name: 'Feature'
+          },
+          createdBy: {
+            firstName: 'Travis',
+            lastName: 'Newman',
+            email: 'luc@vi.io'
+          },
+          refs: {}
+        }
+      ]
+      const result = mergeTipeDB(db, generatedDocs)
+      const homeDoc = result[0]
+      expect(homeDoc.refs.featureSet.value).toEqual(db[0].refs.featureSet.value)
+    })
+    it('should handle list changes', () => {
+      const db = [
+        {
+          id: 'JBH25tvUT3L7E5RqKBXvw',
+          fields: {
+            signup: {
+              name: 'sign up button text',
+              id: 'signup',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            },
+            signin: {
+              name: 'sign in button text',
+              id: 'signin',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            }
+          },
+          template: {
+            id: 'home',
+            name: 'Home'
+          },
+          createdBy: {
+            firstName: 'Dean',
+            lastName: 'Thomas',
+            email: 'ti@ciam.lv'
+          },
+          refs: {
+            featureSet: {
+              name: 'features set',
+              id: 'featureSets',
+              type: 'feature',
+              data: {},
+              value: 'uCT6QdgIRUSI9UdqhVYtr'
+            }
+          }
+        },
+        {
+          id: 'uCT6QdgIRUSI9UdqhVYtr',
+          fields: {
+            header: {
+              name: 'feature header',
+              id: 'header',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            },
+            subHeader: {
+              name: 'feature subheader',
+              id: 'subHeader',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            }
+          },
+          template: {
+            id: 'feature',
+            name: 'Feature'
+          },
+          createdBy: {
+            firstName: 'Travis',
+            lastName: 'Newman',
+            email: 'luc@vi.io'
+          },
+          refs: {}
+        }
+      ]
+      const generatedDocs = [
+        {
+          id: 'FJOIWER390452OJD',
+          fields: {
+            signup: {
+              name: 'sign up button text',
+              id: 'signup',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            },
+            signin: {
+              name: 'sign in button text',
+              id: 'signin',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            }
+          },
+          template: {
+            id: 'home',
+            name: 'Home'
+          },
+          createdBy: {
+            firstName: 'Dean',
+            lastName: 'Thomas',
+            email: 'ti@ciam.lv'
+          },
+          refs: {
+            featureSet: {
+              name: 'features set',
+              id: 'featureSets',
+              type: 'feature',
+              list: true,
+              data: {},
+              value: [
+                'jODISJF009W32joCVN',
+                'jODISJF009W32joCVN',
+                'jODISJF009W32joCVN'
+              ]
+            }
+          }
+        },
+        {
+          id: 'jODISJF009W32joCVN',
+          fields: {
+            header: {
+              name: 'feature header',
+              id: 'header',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            },
+            subHeader: {
+              name: 'feature subheader',
+              id: 'subHeader',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            }
+          },
+          template: {
+            id: 'feature',
+            name: 'Feature'
+          },
+          createdBy: {
+            firstName: 'Travis',
+            lastName: 'Newman',
+            email: 'luc@vi.io'
+          },
+          refs: {}
+        }
+      ]
+      const result = mergeTipeDB(db, generatedDocs)
+      const homeDoc = result[0]
+      expect(homeDoc.refs.featureSet.value).toHaveLength(3)
     })
   })
 })

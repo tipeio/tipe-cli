@@ -26,12 +26,54 @@ export const mapTemplatesForAPI = templates =>
     return template
   })
 
+const mergeRefs = (dbRefs, generateDocRefs) => {
+  return _.reduce(
+    generateDocRefs,
+    (result, generatedRef, key) => {
+      const dbRef = dbRefs[key]
+      if (!dbRef) {
+        result[key] = generateDocRefs
+        return result
+      }
+      if (Array.isArray(dbRef.value) && Array.isArray(generatedRef.value)) {
+        result[key] = generatedRef.map((_generatedRef, i) => {
+          if (dbRef[i] && dbRef[i].type === _generatedRef.type) {
+            return dbRef[i]
+          }
+
+          return _generatedRef
+        })
+        return result
+      } else if (
+        !Array.isArray(dbRef.value) &&
+        !Array.isArray(generatedRef.value)
+      ) {
+        result[key] = dbRef
+        return result
+      } else {
+        result = { ...result, ...generateDocRefs }
+        return result
+      }
+    },
+    {}
+  )
+}
+
 export const mergeTipeDB = (db, generatedDocs) => {
   return generatedDocs.reduce((result, document, i) => {
     if (db[i]) {
+      let refs
+      if (_.size(db[i].refs)) {
+        console.log('hasRefs before: ', db[i].refs)
+        refs = mergeRefs(db[i].refs, document.refs)
+        console.log('hasRefs after: ', refs)
+      } else {
+        refs = document.refs
+      }
       const tempObj = {
         ...document,
-        id: db[i].id
+        id: db[i].id,
+        refs
       }
       result.push(tempObj)
       return result
