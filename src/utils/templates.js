@@ -36,19 +36,21 @@ const mergeRefs = (dbRefs, generateDocRefs) => {
         return result
       }
       if (Array.isArray(dbRef.value) && Array.isArray(generatedRef.value)) {
-        result[key] = generatedRef.map((_generatedRef, i) => {
-          if (dbRef[i] && dbRef[i].type === _generatedRef.type) {
-            return dbRef[i]
-          }
-
-          return _generatedRef
-        })
+        if (dbRef.type === generatedRef.type) {
+          result[key] = dbRef
+          return result
+        }
+        result[key] = generatedRef
         return result
       } else if (
         !Array.isArray(dbRef.value) &&
         !Array.isArray(generatedRef.value)
       ) {
-        result[key] = dbRef
+        if (dbRef.type === generatedRef.type) {
+          result[key] = dbRef
+          return result
+        }
+        result[key] = generatedRef
         return result
       } else {
         result = { ...result, ...generateDocRefs }
@@ -64,9 +66,7 @@ export const mergeTipeDB = (db, generatedDocs) => {
     if (db[i]) {
       let refs
       if (_.size(db[i].refs)) {
-        console.log('hasRefs before: ', db[i].refs)
         refs = mergeRefs(db[i].refs, document.refs)
-        console.log('hasRefs after: ', refs)
       } else {
         refs = document.refs
       }
@@ -216,11 +216,10 @@ export const createMockDocuments = templates => {
             const match = _.sample(
               allDocs.filter(d => d.template.id === _ref.type)
             )
-            refs[_ref.id] = ref.map(_r => ({
-              ..._r,
-              value: match.id
-            }))
-
+            refs[_ref.id] = {
+              ..._ref,
+              value: [match.id, match.id, match.id]
+            }
             return refs
           }
           const match = _.sample(

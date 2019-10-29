@@ -162,7 +162,8 @@
     "testPathIgnorePatterns": [
       "/bin/",
       "/dist/",
-      "/config/"
+      "/config/",
+      "/lib/"
     ]
   }
 }
