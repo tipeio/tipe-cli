@@ -1,3 +1,15 @@
+# [1.16.0](https://github.com/tipeio/tipe-cli/compare/v1.15.2...v1.16.0) (2019-10-29)
+
+
+### Bug Fixes
+
+* **documents:** Flatten result ([f119917](https://github.com/tipeio/tipe-cli/commit/f119917))
+
+
+### Features
+
+* **documents:** Add documents by array of template ids ([16c16b0](https://github.com/tipeio/tipe-cli/commit/16c16b0))
+
 ## [1.15.2](https://github.com/tipeio/tipe-cli/compare/v1.15.1...v1.15.2) (2019-10-27)
 
 
