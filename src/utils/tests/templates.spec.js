@@ -116,18 +116,8 @@ describe('Utils: Templates', () => {
         {
           id: '1234',
           fields: { name: 'test' },
-          refs: {
-            pets: { name: 'pets', id: 'pets', type: 'pet', value: 'abcde' }
-          }
+          refs: {}
         },
-        {
-          id: '56789',
-          fields: { name: 'test' },
-          refs: {
-            pets: { name: 'pets', id: 'pets', type: 'pet', value: 'abcde' }
-          }
-        },
-        { id: 'abcde', fields: { name: 'test', age: 55 }, refs: {} },
         {
           id: 'mo24edd',
           fields: { name: 'test', age: 55 },
@@ -136,12 +126,12 @@ describe('Utils: Templates', () => {
               name: 'author',
               id: 'author',
               type: 'person',
-              value: ['1234', '56789']
+              value: ['1234', '1234']
             }
           }
         }
       ]
-      const docToFormat = mockDocuments[3]
+      const docToFormat = mockDocuments[1]
       const result = populateRefs(mockDocuments, docToFormat, 3)
       expect(result).toBeTruthy()
       const refsToTest = result.refs.author.value
@@ -149,17 +139,9 @@ describe('Utils: Templates', () => {
       const firstDoc = refsToTest[0]
       expect(firstDoc.id).toBe(mockDocuments[0].id)
       expect(firstDoc.fields).toEqual(mockDocuments[0].fields)
-      expect(firstDoc.refs.pets.id).toBe(mockDocuments[0].refs.pets.id)
-      expect(firstDoc.refs.pets.name).toBe(mockDocuments[0].refs.pets.name)
-      expect(firstDoc.refs.pets.type).toBe(mockDocuments[0].refs.pets.type)
-      expect(firstDoc.refs.pets.value).toEqual(mockDocuments[2])
-      const secondDoc = refsToTest[1]
-      expect(secondDoc.id).toBe(mockDocuments[1].id)
-      expect(secondDoc.fields).toEqual(mockDocuments[1].fields)
-      expect(secondDoc.refs.pets.id).toBe(mockDocuments[1].refs.pets.id)
-      expect(secondDoc.refs.pets.name).toBe(mockDocuments[1].refs.pets.name)
-      expect(secondDoc.refs.pets.type).toBe(mockDocuments[1].refs.pets.type)
-      expect(secondDoc.refs.pets.value).toEqual(mockDocuments[2])
+      const secondDoc = refsToTest[0]
+      expect(secondDoc.id).toBe(mockDocuments[0].id)
+      expect(secondDoc.fields).toEqual(mockDocuments[0].fields)
     })
     it('should only populate 3 levels deep', () => {
       const mockDocuments = [
@@ -379,9 +361,9 @@ describe('Utils: Templates', () => {
       ]
       const result = createMockDocuments(templates)
       const homeDoc = _.sample(result.filter(_d => _d.template.id === 'home'))
-      expect(homeDoc.refs.features.length).toBeGreaterThan(0)
-      homeDoc.refs.features.forEach(_r => {
-        const featuresDoc = _.sample(result.filter(_d => _d.id === _r.value))
+      expect(homeDoc.refs.features.value.length).toBeGreaterThan(0)
+      homeDoc.refs.features.value.forEach(_r => {
+        const featuresDoc = _.sample(result.filter(_d => _d.id === _r))
         expect(featuresDoc).toBeTruthy()
       })
     })
@@ -692,6 +674,156 @@ describe('Utils: Templates', () => {
               type: 'feature',
               data: {},
               value: 'uCT6QdgIRUSI9UdqhVYtr'
+            }
+          }
+        },
+        {
+          id: 'uCT6QdgIRUSI9UdqhVYtr',
+          fields: {
+            header: {
+              name: 'feature header',
+              id: 'header',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            },
+            subHeader: {
+              name: 'feature subheader',
+              id: 'subHeader',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            }
+          },
+          template: {
+            id: 'feature',
+            name: 'Feature'
+          },
+          createdBy: {
+            firstName: 'Travis',
+            lastName: 'Newman',
+            email: 'luc@vi.io'
+          },
+          refs: {}
+        }
+      ]
+      const generatedDocs = [
+        {
+          id: 'FJOIWER390452OJD',
+          fields: {
+            signup: {
+              name: 'sign up button text',
+              id: 'signup',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            },
+            signin: {
+              name: 'sign in button text',
+              id: 'signin',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            }
+          },
+          template: {
+            id: 'home',
+            name: 'Home'
+          },
+          createdBy: {
+            firstName: 'Dean',
+            lastName: 'Thomas',
+            email: 'ti@ciam.lv'
+          },
+          refs: {
+            featureSet: {
+              name: 'features set',
+              id: 'featureSets',
+              type: 'feature',
+              list: true,
+              data: {},
+              value: [
+                'jODISJF009W32joCVN',
+                'jODISJF009W32joCVN',
+                'jODISJF009W32joCVN'
+              ]
+            }
+          }
+        },
+        {
+          id: 'jODISJF009W32joCVN',
+          fields: {
+            header: {
+              name: 'feature header',
+              id: 'header',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            },
+            subHeader: {
+              name: 'feature subheader',
+              id: 'subHeader',
+              type: 'text',
+              data: {},
+              value: 'this is some text here'
+            }
+          },
+          template: {
+            id: 'feature',
+            name: 'Feature'
+          },
+          createdBy: {
+            firstName: 'Travis',
+            lastName: 'Newman',
+            email: 'luc@vi.io'
+          },
+          refs: {}
+        }
+      ]
+      const result = mergeTipeDB(db, generatedDocs)
+      const homeDoc = result[0]
+      expect(homeDoc.refs.featureSet.value).toHaveLength(3)
+    })
+    it('should handle arrays', () => {
+      const db = [
+        {
+          id: 'JBH25tvUT3L7E5RqKBXvw',
+          fields: {
+            signup: {
+              name: 'sign up button text',
+              id: 'signup',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            },
+            signin: {
+              name: 'sign in button text',
+              id: 'signin',
+              type: 'button',
+              data: {},
+              value: 'click me'
+            }
+          },
+          template: {
+            id: 'home',
+            name: 'Home'
+          },
+          createdBy: {
+            firstName: 'Dean',
+            lastName: 'Thomas',
+            email: 'ti@ciam.lv'
+          },
+          refs: {
+            featureSet: {
+              name: 'features set',
+              id: 'featureSets',
+              type: 'feature',
+              data: {},
+              value: [
+                'uCT6QdgIRUSI9UdqhVYtr',
+                'uCT6QdgIRUSI9UdqhVYtr',
+                'uCT6QdgIRUSI9UdqhVYtr'
+              ]
             }
           }
         },
