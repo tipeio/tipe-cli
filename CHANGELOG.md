@@ -1,3 +1,11 @@
+## [1.16.1](https://github.com/tipeio/tipe-cli/compare/v1.16.0...v1.16.1) (2019-10-29)
+
+
+### Bug Fixes
+
+* **reload:** merge docs on reload. fixed refs in list to correct format ([976efa7](https://github.com/tipeio/tipe-cli/commit/976efa7))
+* **reload:** merges refs on reload and server starts ([0b8f23e](https://github.com/tipeio/tipe-cli/commit/0b8f23e))
+
 # [1.16.0](https://github.com/tipeio/tipe-cli/compare/v1.15.2...v1.16.0) (2019-10-29)
 
 
