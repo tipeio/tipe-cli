@@ -148,7 +148,7 @@ export const formatFields = (fields, renderField = getField) => {
       },
       mergeObj
     )
-    fields[field.id] = field.list ? final : final[0]
+    fields[field.id] = final
     return fields
   }, {})
 }
