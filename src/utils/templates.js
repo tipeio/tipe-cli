@@ -129,16 +129,24 @@ export const getField = field => {
 
 export const formatFields = (fields, renderField = getField) => {
   return fields.reduce((fields, field) => {
-    const final = _.times(field.list ? 3 : 1, () =>
-      _.merge(
-        {
-          name: field.name,
-          id: field.id,
-          type: field.type,
-          data: {}
-        },
-        renderField(field)
-      )
+    let mergeObj = {}
+    if (field.list) {
+      const value = _.times(3, () => {
+        const _field = renderField(field)
+        return _field.value
+      })
+      mergeObj.value = value
+    } else {
+      mergeObj = renderField(field)
+    }
+    const final = _.merge(
+      {
+        name: field.name,
+        id: field.id,
+        type: field.type,
+        data: {}
+      },
+      mergeObj
     )
     fields[field.id] = field.list ? final : final[0]
     return fields

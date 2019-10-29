@@ -170,6 +170,7 @@ const startServer = async (options, watcher, { logger }) => {
   try {
     SERVER = await createServer(options, { restart: true, logger })
   } catch (e) {
+    console.log(e)
     logger.error(logSymbols.error, 'Could not start server')
     logger.error(logSymbols.error, e)
   }
