@@ -21,13 +21,21 @@ let SERVER = null
 const DEFAULT_DB_PATH = '.tipe-offline-db.json'
 
 const documentsByProjectId = mockDocuments => (req, res) => {
+  let docs = mockDocuments
+
+  if (req.body.skuIds && req.body.skuIds.length) {
+    docs = docs.filter(doc =>
+      Boolean(req.body.skuIds.find(skuId => skuId === doc.skuId))
+    )
+  }
+
   const data = {
     pagination: {
-      totalDocs: mockDocuments.length,
+      totalDocs: docs.length,
       page: 1,
-      limit: mockDocuments.length
+      limit: docs.length
     },
-    data: populateRefs(mockDocuments, mockDocuments, req.body.depth)
+    data: populateRefs(docs, docs, req.body.depth)
   }
 
   res.json({ data })
@@ -74,7 +82,12 @@ const documentBySkuId = mockDocuments => (req, res) => {
 }
 
 const documentsByTemplate = mockDocuments => (req, res) => {
-  const docs = mockDocuments.filter(d => d.template.id === req.body.template)
+  let docs = mockDocuments.filter(d => d.template.id === req.body.template)
+  if (req.body.skuIds && req.body.skuIds.length) {
+    docs = docs.filter(doc =>
+      Boolean(req.body.skuIds.find(skuId => skuId === doc.skuId))
+    )
+  }
   const data = {
     pagination: {
       totalDocs: mockDocuments.length,
