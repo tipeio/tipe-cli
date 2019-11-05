@@ -171,6 +171,7 @@ export const getField = field => {
 
 export const formatFields = (fields, renderField = getField) => {
   return fields.reduce((fields, field) => {
+    // handle select field here
     let mergeObj = {}
     if (field.list) {
       const value = _.times(3, () => {
@@ -196,20 +197,26 @@ export const formatFields = (fields, renderField = getField) => {
 }
 
 export const createDocsForTemplate = template =>
-  _.times(template.multi === false ? 1 : docsPerTemplate, () => ({
-    id: nano(),
-    fields: formatFields(template.fields),
-    template: {
-      id: template.id,
-      name: template.name
-    },
-    createdBy: {
-      firstName: chance.first(),
-      lastName: chance.last(),
-      email: chance.email()
-    },
-    refs: _.size(template.refs) ? formatFields(template.refs, () => false) : {}
-  }))
+  _.times(template.multi === false ? 1 : docsPerTemplate, () => {
+    const skuId = (template.skuIds || []).pop()
+    return {
+      id: nano(),
+      fields: formatFields(template.fields),
+      skuId,
+      template: {
+        id: template.id,
+        name: template.name
+      },
+      createdBy: {
+        firstName: chance.first(),
+        lastName: chance.last(),
+        email: chance.email()
+      },
+      refs: _.size(template.refs)
+        ? formatFields(template.refs, () => false)
+        : {}
+    }
+  })
 
 export const createMockDocuments = templates => {
   const allDocs = _.flatten(templates.map(createDocsForTemplate))

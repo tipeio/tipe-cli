@@ -60,6 +60,19 @@ const documentsByIds = mockDocuments => (req, res) => {
   })
 }
 
+const documentBySkuId = mockDocuments => (req, res) => {
+  // ensure mockDocuments contains skuIds
+  const document = mockDocuments.find(d => d.skuId === req.body.skuId)
+
+  if (!document) {
+    return res.sendStatus(401)
+  }
+
+  return res.json({
+    data: populateRefs(mockDocuments, document, req.body.depth)
+  })
+}
+
 const documentsByTemplate = mockDocuments => (req, res) => {
   const docs = mockDocuments.filter(d => d.template.id === req.body.template)
   const data = {
@@ -116,6 +129,7 @@ const createServer = (options, initConfig = {}) => {
 
       if (!db) {
         docs = createMockDocuments(mapTemplatesForAPI(config.templates))
+
         setDB(DBPath, docs)
         db = [...docs]
       }
@@ -140,6 +154,7 @@ const createServer = (options, initConfig = {}) => {
 
     app.post('/api/:project/documentsByProjectId', documentsByProjectId(docs))
     app.post('/api/:project/documentById', documentById(docs))
+    app.post('/api/:project/documentBySkuId', documentBySkuId(docs))
     app.post('/api/:project/documentsByIds', documentsByIds(docs))
     app.post('/api/:project/documentsByTemplate', documentsByTemplate(docs))
 
