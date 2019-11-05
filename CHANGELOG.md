@@ -1,3 +1,17 @@
+# [1.17.0](https://github.com/tipeio/tipe-cli/compare/v1.16.1...v1.17.0) (2019-11-05)
+
+
+### Bug Fixes
+
+* **field:** return correct field formatted ([801366b](https://github.com/tipeio/tipe-cli/commit/801366b))
+
+
+### Features
+
+* **docs:** field list ([351b931](https://github.com/tipeio/tipe-cli/commit/351b931))
+* **skuId:** handled documents by sku id ([cb7cdad](https://github.com/tipeio/tipe-cli/commit/cb7cdad))
+* **skuIds:** sku ids included in schema ([825b8fb](https://github.com/tipeio/tipe-cli/commit/825b8fb))
+
 ## [1.16.1](https://github.com/tipeio/tipe-cli/compare/v1.16.0...v1.16.1) (2019-10-29)
 
 
