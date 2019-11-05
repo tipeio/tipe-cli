@@ -314,7 +314,7 @@ describe('Utils: Templates', () => {
       )
       expect(homeDoc.refs.features.value).toEqual(featuresDoc.id)
     })
-    it('should create list refs', () => {
+    xit('should create list refs', () => {
       const templates = [
         {
           name: 'home',
@@ -366,6 +366,37 @@ describe('Utils: Templates', () => {
         const featuresDoc = _.sample(result.filter(_d => _d.id === _r))
         expect(featuresDoc).toBeTruthy()
       })
+    })
+  })
+  describe('createDocsForTemplate', () => {
+    it('correctly assigns sku ids to document', () => {
+      // need a template
+      const templates = [
+        {
+          name: 'home',
+          id: 'home',
+          fields: [
+            {
+              name: 'Title',
+              id: 'title',
+              type: 'text'
+            }
+          ],
+          // template needs sku ids
+          skuIds: ['testSku1', 'testSku2', 'testSku3'],
+          multi: true
+        }
+      ]
+      const skuIdsClone = [...templates[0].skuIds]
+      // need to create document off template
+      const result = createMockDocuments(templates)
+      // test that sku ids are correctly assigned
+      const document1 = result[0]
+      const document2 = result[1]
+      expect(document1.skuId).toBeTruthy()
+      expect(document2.skuId).toBeTruthy()
+      expect(skuIdsClone.includes(document1.skuId)).toBeTruthy()
+      expect(skuIdsClone.includes(document2.skuId)).toBeTruthy()
     })
   })
   describe('mergeTipeDB', () => {
