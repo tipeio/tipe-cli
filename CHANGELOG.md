@@ -1,3 +1,10 @@
+## [1.17.1](https://github.com/tipeio/tipe-cli/compare/v1.17.0...v1.17.1) (2019-11-05)
+
+
+### Bug Fixes
+
+* **pkg.json:** updated schema ([a0e144f](https://github.com/tipeio/tipe-cli/commit/a0e144f))
+
 # [1.17.0](https://github.com/tipeio/tipe-cli/compare/v1.16.1...v1.17.0) (2019-11-05)
 
 
