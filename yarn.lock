@@ -1146,10 +1146,10 @@
     cross-fetch "^3.0.4"
     fast-json-stable-stringify "^2.0.0"
 
-"@tipe/schema@^3.1.0":
-  version "3.1.0"
-  resolved "https://registry.npmjs.org/@tipe/schema/-/schema-3.1.0.tgz#06eefe81f95a65cba1d9b4fd61965a5abe3aac08"
-  integrity sha512-ixVNT0pC71cRZeVHUJHEXxuyVSRxweBDqKT0cX020BfIh7pR+5yDZ52XkmAUHXyx9uSQ0+UuD1ybqbShzfUdiA==
+"@tipe/schema@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.npmjs.org/@tipe/schema/-/schema-3.2.0.tgz#921ac18bb971218125c0718f085f0aee4fc116c0"
+  integrity sha512-dRDQVzphI6gOTTpqmBEOBEIASY2/euWcCbT+w3ipzL2IGjpgATEDf2tqIOvjVVBltYT/kMmSQs4g2jJfFLRy5g==
   dependencies:
     fastest-validator "^0.6.18"
     global "^4.4.0"
