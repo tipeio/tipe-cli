@@ -1138,10 +1138,10 @@
   resolved "https://registry.npmjs.org/@tipe/eslint-config-tipe/-/eslint-config-tipe-2.1.0.tgz#138a55e2b26e477cef7fca2944e19fb340018f38"
   integrity sha512-fgp8HHBL0gPkq1Bi0Ht6KAwSg/jMeMjN+Xwm4ypCGbb/ovCvfZPJ6mAoN5ozJVc1m8JKXYP0tIUeW3KhMigZTw==
 
-"@tipe/js@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.npmjs.org/@tipe/js/-/js-2.1.1.tgz#f52c40a150d336838b59eca189beb104d52c2d5b"
-  integrity sha512-GUJQFzRcB+3tqXSdme+rf4FzqvmMEr05rj3KmdVCCNO0A438cGMofAPENE7/U/1tHkfZOIRJZ44cm++7j4Q2Kw==
+"@tipe/js@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.npmjs.org/@tipe/js/-/js-2.5.0.tgz#82d5280289a3c20f50319d52cf0f56f1b593f629"
+  integrity sha512-NlLY3sCCGVsuXYahchsfy5wCeENq2Gf8OovBYdD0JmK4iz+LGggiMQfLn2o8oGhK6z1oD/Dxdr0LNIa/cNqMdA==
   dependencies:
     cross-fetch "^3.0.4"
     fast-json-stable-stringify "^2.0.0"
