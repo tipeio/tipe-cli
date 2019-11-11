@@ -225,35 +225,31 @@ describe('Utils: Templates', () => {
         {
           name: 'home',
           id: 'home',
-          fields: [
-            {
+          fields: {
+            title: {
               name: 'Title',
-              id: 'title',
               type: 'text'
             },
-            {
+            banner: {
               name: 'Banner Image',
-              id: 'banner',
               type: 'image'
             },
-            {
+            content: {
               name: 'Documentation',
-              id: 'content',
               type: 'markdown'
             }
-          ],
+          },
           multi: true
         },
         {
           name: 'features',
           id: 'features',
-          fields: [
-            {
+          fields: {
+            title: {
               name: 'Title',
-              id: 'title',
               type: 'text'
             }
-          ],
+          },
           multi: false
         }
       ]
@@ -268,42 +264,40 @@ describe('Utils: Templates', () => {
         {
           name: 'home',
           id: 'home',
-          fields: [
-            {
+          fields: {
+            title: {
               name: 'Title',
               id: 'title',
               type: 'text'
             },
-            {
+            banner: {
               name: 'Banner Image',
               id: 'banner',
               type: 'image'
             },
-            {
+            content: {
               name: 'Documentation',
               id: 'content',
               type: 'markdown'
             }
-          ],
-          refs: [
-            {
-              type: 'features',
-              id: 'features',
-              name: 'feature1'
+          },
+          refs: {
+            features: {
+              name: 'feature1',
+              type: 'features'
             }
-          ],
+          },
           multi: false
         },
         {
           name: 'features',
           id: 'features',
-          fields: [
-            {
+          fields: {
+            title: {
               name: 'Title',
-              id: 'title',
               type: 'text'
             }
-          ],
+          },
           multi: false
         }
       ]
@@ -314,48 +308,43 @@ describe('Utils: Templates', () => {
       )
       expect(homeDoc.refs.features.value).toEqual(featuresDoc.id)
     })
-    xit('should create list refs', () => {
+    it('should create list refs', () => {
       const templates = [
         {
           name: 'home',
           id: 'home',
-          fields: [
-            {
+          fields: {
+            title: {
               name: 'Title',
-              id: 'title',
               type: 'text'
             },
-            {
+            banner: {
               name: 'Banner Image',
-              id: 'banner',
               type: 'image'
             },
-            {
+            content: {
               name: 'Documentation',
-              id: 'content',
               type: 'markdown'
             }
-          ],
-          refs: [
-            {
+          },
+          refs: {
+            features: {
               type: 'features',
-              id: 'features',
               name: 'feature1',
               list: true
             }
-          ],
+          },
           multi: true
         },
         {
           name: 'features',
           id: 'features',
-          fields: [
-            {
+          fields: {
+            title: {
               name: 'Title',
-              id: 'title',
               type: 'text'
             }
-          ],
+          },
           multi: true
         }
       ]
@@ -370,33 +359,85 @@ describe('Utils: Templates', () => {
   })
   describe('createDocsForTemplate', () => {
     it('correctly assigns sku ids to document', () => {
-      // need a template
       const templates = [
         {
-          name: 'home',
-          id: 'home',
-          fields: [
-            {
+          name: 'Guide',
+          id: 'guide',
+          fields: {
+            links: {
+              name: 'Links',
+              list: true,
+              type: 'html'
+            }
+          }
+        },
+        {
+          name: 'Sku',
+          id: 'sku',
+          fields: {
+            title: {
               name: 'Title',
-              id: 'title',
+              type: 'text'
+            },
+            access: {
+              name: 'Access',
+              type: 'text'
+            },
+            hosting: {
+              name: 'Hosting',
               type: 'text'
             }
-          ],
-          // template needs sku ids
-          skuIds: ['testSku1', 'testSku2', 'testSku3'],
+          }
+        },
+        {
+          name: 'Protocol',
+          id: 'protocol',
+          fields: {
+            image: {
+              name: 'Image',
+              type: 'image'
+            },
+            description: {
+              name: 'Description',
+              type: 'text'
+            }
+          },
+          refs: {
+            skus: {
+              name: 'Skus',
+              id: 'skus',
+              list: true,
+              type: 'sku'
+            }
+          },
+          skuIds: ['robot', 'suku']
+        }
+      ]
+
+      const skuIdsClone = [...templates[2].skuIds]
+      const result = createMockDocuments(templates)
+      const docToTest = result[4]
+      expect(docToTest.skuId).toBeTruthy()
+      expect(skuIdsClone).toContain(docToTest.skuId)
+    })
+    it('correctly assigns sku ids to document with no matchers', () => {
+      const templates = [
+        {
+          name: 'Protocol',
+          id: 'protocol',
+          fields: {
+            image: {
+              name: 'Image',
+              type: 'image'
+            }
+          },
+          skuIds: ['robot', 'suku', 'pickles', 'sandwich'],
           multi: true
         }
       ]
-      const skuIdsClone = [...templates[0].skuIds]
-      // need to create document off template
+
       const result = createMockDocuments(templates)
-      // test that sku ids are correctly assigned
-      const document1 = result[0]
-      const document2 = result[1]
-      expect(document1.skuId).toBeTruthy()
-      expect(document2.skuId).toBeTruthy()
-      expect(skuIdsClone.includes(document1.skuId)).toBeTruthy()
-      expect(skuIdsClone.includes(document2.skuId)).toBeTruthy()
+      expect(result[0].skuId).not.toEqual(result[1].skuId)
     })
   })
   describe('mergeTipeDB', () => {

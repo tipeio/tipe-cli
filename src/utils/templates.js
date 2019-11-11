@@ -170,30 +170,38 @@ export const getField = field => {
 }
 
 export const formatFields = (fields, renderField = getField) => {
-  return fields.reduce((fields, field) => {
-    // handle select field here
-    let mergeObj = {}
-    if (field.list) {
-      const value = _.times(3, () => {
-        const _field = renderField(field)
-        return _field.value
-      })
-      mergeObj.value = value
-    } else {
-      mergeObj = renderField(field)
-    }
-    const final = _.merge(
-      {
-        name: field.name,
-        id: field.id,
-        type: field.type,
-        data: {}
-      },
-      mergeObj
-    )
-    fields[field.id] = final
-    return fields
-  }, {})
+  if (Array.isArray(fields)) {
+    throw new Error('Fields must be an Object')
+  }
+  return _.reduce(
+    fields,
+    (result, field, key) => {
+      // handle select field here
+      let mergeObj = {}
+      if (field.list) {
+        const value = _.times(3, () => {
+          const _field = renderField(field)
+          return _field.value
+        })
+        mergeObj.value = value
+      } else {
+        mergeObj = renderField(field)
+      }
+      const final = _.merge(
+        {
+          name: field.name,
+          id: key,
+          type: field.type,
+          list: field.list || false,
+          data: {}
+        },
+        mergeObj
+      )
+      result[key] = final
+      return result
+    },
+    {}
+  )
 }
 
 export const createDocsForTemplate = template =>
@@ -226,13 +234,12 @@ export const createMockDocuments = templates => {
       doc.refs = _.reduce(
         doc.refs,
         (refs, ref) => {
-          if (Array.isArray(ref)) {
-            const _ref = ref[0]
+          if (Array.isArray(ref.value)) {
             const match = _.sample(
-              allDocs.filter(d => d.template.id === _ref.type)
+              allDocs.filter(d => d.template.id === ref.type)
             )
-            refs[_ref.id] = {
-              ..._ref,
+            refs[ref.id] = {
+              ...ref,
               value: [match.id, match.id, match.id]
             }
             return refs
