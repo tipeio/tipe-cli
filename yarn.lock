@@ -1146,12 +1146,12 @@
     cross-fetch "^3.0.4"
     fast-json-stable-stringify "^2.0.0"
 
-"@tipe/schema@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.npmjs.org/@tipe/schema/-/schema-3.2.0.tgz#921ac18bb971218125c0718f085f0aee4fc116c0"
-  integrity sha512-dRDQVzphI6gOTTpqmBEOBEIASY2/euWcCbT+w3ipzL2IGjpgATEDf2tqIOvjVVBltYT/kMmSQs4g2jJfFLRy5g==
+"@tipe/schema@^3.3.1":
+  version "3.3.1"
+  resolved "https://registry.npmjs.org/@tipe/schema/-/schema-3.3.1.tgz#473e9b474d2a48e5d8bdc8b4fa206dd95c947524"
+  integrity sha512-HwV+8Dpz2cioASC7YS91npe1ly71kVcgXw174GMliVFri4QCKWwjZu2R0R+p2oYTQ2EVZmp+A6Nvfo5vte1ohg==
   dependencies:
-    fastest-validator "^0.6.18"
+    fastest-validator "^0.6.19"
     global "^4.4.0"
     lodash.flatten "^4.4.0"
     lodash.map "^4.6.0"
@@ -3866,10 +3866,10 @@ fast-levenshtein@^2.0.6, fast-levenshtein@~2.0.4:
   resolved "https://registry.npmjs.org/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
 
-fastest-validator@^0.6.18:
-  version "0.6.18"
-  resolved "https://registry.npmjs.org/fastest-validator/-/fastest-validator-0.6.18.tgz#56d3258e6ebabfca3580b4e96f1fd0c7d121462e"
-  integrity sha512-nvAcY5WcmrRPn+yH2z9qMDjrFDwAtzEVSZaOyK1Q4hY3T0ZAlX2BLkqWhGbWRl/hoLNHB17a/G+t2rmCiQuBpg==
+fastest-validator@^0.6.19:
+  version "0.6.19"
+  resolved "https://registry.npmjs.org/fastest-validator/-/fastest-validator-0.6.19.tgz#5522cf29a13090df71862c7df4b29d1f49165a91"
+  integrity sha512-U+hjn/Au+sgGfrwb26t26hywrItCdkpQ7VEJPY7Ey0FU2mnH/L4xhcs0R9Bd+y57aUKlasC3W4J6t8fOyXji6Q==
 
 fastq@^1.6.0:
   version "1.6.0"
