@@ -358,6 +358,49 @@ describe('Utils: Templates', () => {
     })
   })
   describe('createDocsForTemplate', () => {
+    it('correctly creates docs', () => {
+      const templates = [
+        {
+          name: 'Guide',
+          id: 'guide',
+          fields: {
+            links: {
+              name: 'Links',
+              list: true,
+              type: 'html'
+            }
+          },
+          multi: false
+        },
+        {
+          name: 'Sku',
+          id: 'sku',
+          fields: {
+            title: {
+              name: 'Title',
+              type: 'text'
+            },
+            access: {
+              name: 'Access',
+              type: 'text'
+            },
+            hosting: {
+              name: 'Hosting',
+              type: 'text'
+            }
+          },
+          multi: false
+        }
+      ]
+
+      const result = createMockDocuments(templates)
+      const guideDoc = result[0]
+      const skuDoc = result[1]
+      expect(guideDoc.fields.links.list).toBeTruthy()
+      expect(skuDoc.fields.title.list).toBeFalsy()
+      expect(Array.isArray(guideDoc.fields.links.value)).toBeTruthy()
+      expect(guideDoc.fields.links.value).toHaveLength(3)
+    })
     it('correctly assigns sku ids to document', () => {
       const templates = [
         {
