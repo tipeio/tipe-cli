@@ -1,3 +1,10 @@
+## [1.17.2](https://github.com/tipeio/tipe-cli/compare/v1.17.1...v1.17.2) (2019-11-11)
+
+
+### Bug Fixes
+
+* **templates:** fixed format of templates. Fixed tests. ([8b32bef](https://github.com/tipeio/tipe-cli/commit/8b32bef))
+
 ## [1.17.1](https://github.com/tipeio/tipe-cli/compare/v1.17.0...v1.17.1) (2019-11-05)
 
 
