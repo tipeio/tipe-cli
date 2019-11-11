@@ -39,7 +39,8 @@ module.exports = {
           name: 'icon',
           type: 'image'
         }
-      }
+      },
+      skuIds: ['skuu', 'robot123']
     },
     author: {
       name: 'Author',
