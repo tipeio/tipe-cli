@@ -1,3 +1,10 @@
+# [1.18.0](https://github.com/tipeio/tipe-cli/compare/v1.17.2...v1.18.0) (2019-11-13)
+
+
+### Features
+
+* **templates:** new select block type. updated createMockDocuments to create number of docs based on skuIds. tests. updated schema to new version. minor code cleanup. ([6cd8ca9](https://github.com/tipeio/tipe-cli/commit/6cd8ca9))
+
 ## [1.17.2](https://github.com/tipeio/tipe-cli/compare/v1.17.1...v1.17.2) (2019-11-11)
 
 
