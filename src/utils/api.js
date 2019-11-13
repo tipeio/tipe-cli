@@ -33,6 +33,7 @@ const push = (
       }
     )
     .then(r => r.data)
+  // .catch(e => console.log(e))
 }
 
 module.exports = { push }
