@@ -359,6 +359,7 @@ describe('Utils: Templates', () => {
   })
   describe('createDocsForTemplate', () => {
     it('correctly creates docs', () => {
+      const selectValues = ['Business', 'Enterprise', 'Free']
       const templates = [
         {
           name: 'Guide',
@@ -390,16 +391,37 @@ describe('Utils: Templates', () => {
             }
           },
           multi: false
+        },
+        {
+          name: 'Home',
+          id: 'home',
+          fields: {
+            type: {
+              name: 'Type',
+              type: 'select',
+              values: selectValues
+            },
+            locations: {
+              name: 'Locations',
+              type: 'select',
+              values: selectValues,
+              list: true
+            }
+          },
+          multi: false
         }
       ]
 
       const result = createMockDocuments(templates)
       const guideDoc = result[0]
       const skuDoc = result[1]
+      const homeDoc = result[2]
       expect(guideDoc.fields.links.list).toBeTruthy()
       expect(skuDoc.fields.title.list).toBeFalsy()
       expect(Array.isArray(guideDoc.fields.links.value)).toBeTruthy()
       expect(guideDoc.fields.links.value).toHaveLength(3)
+      expect(selectValues).toContain(homeDoc.fields.type.value)
+      expect(homeDoc.fields.locations.value).toHaveLength(3)
     })
     it('correctly assigns sku ids to document', () => {
       const templates = [
@@ -480,7 +502,13 @@ describe('Utils: Templates', () => {
       ]
 
       const result = createMockDocuments(templates)
-      expect(result[0].skuId).not.toEqual(result[1].skuId)
+      expect(result).toHaveLength(4)
+      expect(result[0].skuId).not.toBe(result[1].skuId)
+      expect(result[0].skuId).not.toBe(result[2].skuId)
+      expect(result[0].skuId).not.toBe(result[3].skuId)
+      expect(result[1].skuId).not.toBe(result[2].skuId)
+      expect(result[1].skuId).not.toBe(result[3].skuId)
+      expect(result[2].skuId).not.toBe(result[3].skuId)
     })
   })
   describe('mergeTipeDB', () => {

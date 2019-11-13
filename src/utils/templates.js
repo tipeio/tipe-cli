@@ -14,15 +14,6 @@ const mapObjectToList = (o, keyField) =>
 
 export const mapTemplatesForAPI = templates =>
   mapObjectToList(templates, 'id').map(template => {
-    // template.fields = mapObjectToList(template.fields, 'id').map(f => {
-    //   const { mock, ...all } = f
-    //   return all
-    // })
-
-    // if (_.size(template.refs)) {
-    //   template.refs = mapObjectToList(template.refs, 'id')
-    // }
-
     return template
   })
 
@@ -164,6 +155,8 @@ export const getField = field => {
       return mocks.html(field)
     case 'boolean':
       return mocks.boolean(field)
+    case 'select':
+      return { value: _.sample(field.values) }
     default:
       return mocks.text(field)
   }
@@ -204,8 +197,16 @@ export const formatFields = (fields, renderField = getField) => {
   )
 }
 
-export const createDocsForTemplate = template =>
-  _.times(template.multi === false ? 1 : docsPerTemplate, () => {
+export const createDocsForTemplate = template => {
+  let numberOfDocs = template.multi === false ? 1 : docsPerTemplate
+  if (
+    template.skuIds &&
+    template.skuIds.length !== numberOfDocs &&
+    template.multi !== false
+  ) {
+    numberOfDocs = template.skuIds.length
+  }
+  return _.times(numberOfDocs, () => {
     const skuId = (template.skuIds || []).pop()
     return {
       id: nano(),
@@ -225,6 +226,7 @@ export const createDocsForTemplate = template =>
         : {}
     }
   })
+}
 
 export const createMockDocuments = templates => {
   const allDocs = _.flatten(templates.map(createDocsForTemplate))
